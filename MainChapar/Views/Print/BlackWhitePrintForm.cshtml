@@ -1,0 +1,39 @@
+﻿@model MainChapar.ViewModel.Print.BlackWhitePrintRequestViewModel
+
+@{
+    ViewData["Title"] = "فرم درخواست چاپ سیاه و سفید";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="PaperType">نوع کاغذ</label>
+        @Html.DropDownListFor(m => m.PaperType, new SelectList(Model.PaperTypes), new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="PaperSize">اندازه کاغذ</label>
+        @Html.DropDownListFor(m => m.PaperSize, new SelectList(Model.PaperSizes), new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="PrintSide">چاپ یک رو یا دو رو</label>
+        @Html.DropDownListFor(m => m.PrintSide, new SelectList(Model.PrintSides), "انتخاب نوع چاپ", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="CopyCount">تعداد کپی</label>
+        @Html.TextBoxFor(m => m.CopyCount, new { @class = "form-control", type = "number", min = "1" })
+    </div>
+
+    <div class="form-group">
+        <label for="Files">فایل‌های مورد نظر</label>
+        <input asp-for="Files" type="file" multiple class="form-control" />
+
+    </div>
+
+    <button type="submit" class="btn btn-primary">ارسال درخواست</button>
+</form>

@@ -1,0 +1,53 @@
+﻿@model MainChapar.Models.DTOs.UserDTO
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post" asp-action="Register">
+
+    <table>
+        <tr>
+            <td>  <label asp-for="FirstName"></label></td>
+            <td>
+                <input asp-for="FirstName" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>  <label asp-for="LastName"></label></td>
+            <td>
+                <input asp-for="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>  <label asp-for="Email"></label></td>
+            <td>
+                <input asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>  <label asp-for="Username"></label></td>
+            <td>
+                <input asp-for="Username" />
+                <span asp-validation-for="Username"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>  <label asp-for="Password"></label></td>
+            <td>
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>  <label asp-for="ConfPassword"></label></td>
+            <td>
+                <input asp-for="ConfPassword" />
+                <span asp-validation-for="ConfPassword"></span>
+            </td>
+        </tr>
+
+    </table>
+    <button type="submit"> submit </button>
+</form>
+

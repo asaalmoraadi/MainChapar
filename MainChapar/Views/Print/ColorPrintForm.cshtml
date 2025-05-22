@@ -1,0 +1,44 @@
+﻿@model MainChapar.ViewModel.Print.ColorPrintRequestViewModel
+
+@{
+    ViewData["Title"] = "فرم درخواست چاپ رنگی";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label for="PaperType">نوع کاغذ</label>
+        @Html.DropDownListFor(m => m.PaperType, new SelectList(Model.PaperTypes), " نوع کاغذ", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="PaperSize">اندازه کاغذ</label>
+        @Html.DropDownListFor(m => m.PaperSize, new SelectList(Model.PaperSizes), " اندازه کاغذ", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="PrintSide">چاپ یک رو یا دو رو</label>
+        @Html.DropDownListFor(m => m.PrintSide, new SelectList(Model.PrintSides), "انتخاب نوع چاپ", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="CopyCount">تعداد کپی</label>
+        @Html.TextBoxFor(m => m.CopyCount, new { @class = "form-control", type = "number", min = "1" })
+    </div>
+
+    <div class="form-group">
+        <label for="Files">فایل‌های مورد نظر</label>
+        <input type="file" name="Files" multiple class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">ارسال درخواست</button>
+</form>
+
+@section Scripts {
+    <script>
+        // اگر نیاز به اعتبارسنجی خاص یا رفتار ویژه برای این فرم دارید، اینجا اضافه کنید
+    </script>
+}

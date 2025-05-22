@@ -1,0 +1,24 @@
+﻿@model MainChapar.Models.DTO.LoginDTO
+
+<form method="post" asp-controller="User" asp-action="Login">
+
+    <a href="@Url.Action("Register", "User")" class="btn-add">هنوز ثبت نام نکردید؟</a>
+    <table>
+        <tr>
+            <td>  <label asp-for="UserName"></label></td>
+            <td>
+                <input asp-for="UserName" />
+                <span asp-validation-for="UserName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>  <label asp-for="Password"></label></td>
+            <td>
+                <input asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </td>
+        </tr>
+    </table>
+    <button type="submit"> login </button>
+
+</form>

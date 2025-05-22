@@ -1,0 +1,229 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <title>Home</title>
+
+</head>
+<body>
+
+    <header>
+        <div id="logo"><h1>CHAPAR</h1></div>
+        <div id="searchbar">
+            <input id="search-input" type="text" value="جستجو">
+        </div>
+    </header>
+    <nav>
+        <div class="menu">
+            <a href="#">صفحه اصلی</a>
+            <a href="#">خدمات چاپ</a>
+            <a href="#">کتاب ها</a>
+            <a href="#">درباره ما</a>
+            <a href="#">تماس با ما</a>
+        </div>
+        <div class="user">
+            <img src="~/assets/img/files/user-icon.png" alt="">
+        </div>
+    </nav>
+
+    <!--banner 1-->
+    <div class="banner"></div>
+
+    <!-- categories-->
+    <div class="container">
+
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="row2">
+            <div class="box3"></div>
+            <div class="box4"></div>
+        </div>
+    </div>
+
+    <p id="info">
+        چاپار سامانه آنلاین سفارش خدمات انتشاراتی ویژه دانشگاه ها است . از ثبت سفارش جزوه تا چاپ و تحویل همه چیز را سریع ، دقیق و بدون نیاز به مراجعه حضوری انجام دهید . همراه با بهترین قیمت و پشتیبانی و تضمین کیفیت !
+    </p>
+    <!--samane ha-->
+    <div class="systems">
+        <p id="systems-title">انجام امور دانشجویی به صورت کاملا آنلاین</p>
+        <p id="systems-des">تنها با آپلود اسکن مدارک خواسته شده با توجه به سامانه مورد نظر ثبت نام شما انجام خواهد شد</p>
+    </div>
+    <!-- vizhegi ha -->
+    <div class="features">
+        <div id="feature"><img src="~/assets/img/files/inclusion.png"> <h2>تضمین انجام سفارش</h2></div>
+        <div id="feature"><img src="~/assets/img/files/online.png"><h2>سفارش آنلاین</h2></div>
+        <div id="feature"><img src="~/assets/img/files/price.png"><h2>قیمت دانشجویی</h2></div>
+        <div id="feature"><img src="~/assets/img/files/support.png"><h2>پشتیبانی</h2></div>
+
+    </div>
+
+
+
+    <h2 id="slider-h2">اسلایدر کارت‌ها</h2>
+
+    <div class="slider-container">
+
+        <button class="arrow-btn arrow-left" onclick="scrollSlider('left')">&#10095;</button>
+        <button class="arrow-btn arrow-right" onclick="scrollSlider('right')">&#10094;</button>
+
+
+        <div class="slider" id="slider">
+
+            <!-- sakhtar har card -->
+            <div class="card">
+
+                <img id="card-photo" src="~/assets/img/files/1.png" alt="">
+                <div id="shop">
+                    <p>افزودن به سبد خرید</p>
+                    <img src="~/assets/img/files/button.png" alt="">
+                </div>
+            </div>
+
+            <div class="card">
+
+                <img id="card-photo" src="~/assets/img/files/2.png" alt="">
+                <div id="shop">
+                    <p>افزودن به سبد خرید</p>
+                    <img src="~/assets/img/files/button.png" alt="">
+                </div>
+            </div>
+            <!-- -------------------------------------------------- -->
+
+            <div class="card">
+
+                <img id="card-photo" src="~/assets/img/files/3.png" alt="">
+                <div id="shop">
+                    <p>افزودن به سبد خرید</p>
+                    <img src="files/button.png" alt="">
+                </div>
+            </div>
+
+            <div class="card">
+
+                <img id="card-photo" src="~/assets/img/files/1.png" alt="">
+                <div id="shop">
+                    <p>افزودن به سبد خرید</p>
+                    <img src="~/assets/img/files/button.png" alt="">
+                </div>
+            </div>
+
+            <div class="card">
+
+                <img id="card-photo" src="~/assets/img/files/2.png" alt="">
+                <div id="shop">
+                    <p>افزودن به سبد خرید</p>
+                    <img src="~/assets/img/files/button.png" alt="">
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="part">
+        <p>به زودی تکمیل خواهد شد !</p>
+    </div>
+
+    <!--lavaem tahrir -->
+
+    <div class="lavazem">
+        <h2>دنیای لوازم التحریر</h2>
+        <div class="lavazem-boxs">
+            <div class="boxs" id="box1">
+
+                <img src="~/assets/img/files/stationery.png">
+                <p>نوشت افزار</p>
+
+            </div>
+            <div class="boxs" id="box2">
+
+                <img src="~/assets/img/files/paper.png">
+                <p>کاغذ و دفتر</p>
+            </div>
+            <div class="boxs" id="box3">
+
+                <img src="~/assets/img/files/paper-pin.png">
+                <p>لوازم بایگانی</p>
+            </div>
+            <div class="boxs" id="box4">
+
+                <img src="~/assets/img/files/tape.png">
+                <p>لوازم کمکی</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- --------------------------------------------------- -->
+
+
+    <footer>
+        <div class="sections" id="sec1">
+
+            <h1>CHAPAR</h1>
+            <p>خدمات چاپ و فروش لوازم التحریر و جزوات</p>
+
+        </div>
+
+
+        <div class="sections" id="sec2">
+
+            <h3>لینک های مفید</h3>
+            <a href="">خدمات چاپ</a>
+            <a href="">جزوات</a>
+            <a href="">درباره ما</a>
+            <a href="">تماس با ما</a>
+
+        </div>
+
+
+        <div class="sections" id="sec3">
+            <h3>راه های ارتباطی</h3>
+            <p>شماره تماس :</p>
+            <p>021-25858000</p>
+            <p>ادرس :</p>
+            <p>تهران - صادقیه</p>
+            <div class="social">
+                <img src="~/assets/img/files/instagram.png" alt="">
+                <img src="~/assets/img/files/telegram.png" alt="">
+                <img src="~/assets/img/files/whatsapp.png" alt="">
+            </div>
+        </div>
+
+
+
+        <div class="sections" id="sec4">
+            <h3>نماد های سایت</h3>
+            <img src="~/assets/img/files/namad.png">
+        </div>
+
+
+    </footer>
+
+
+    <!-- java script -->
+    <script>
+        function scrollRight() {
+            const slider = document.getElementById('slider');
+            const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
+            slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        }
+
+        function scrollLeft() {
+            const slider = document.getElementById('slider');
+            const cardWidth = 210 + 16;
+            slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+    </script>
+
+
+
+</body>
+</html>

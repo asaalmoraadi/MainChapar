@@ -1,0 +1,20 @@
+﻿@model MainChapar.Models.DTO.RoleDTO
+
+<h2>Create New Role</h2>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+
+</form>
+<div>
+    <a href="/Admin/Role" class="btn btn-secondary mt-2">Back To List</a>
+</div>
+

@@ -1,0 +1,77 @@
+﻿@model MainChapar.Models.Product
+
+@{
+    ViewData["Title"] = Model.Title;
+    var comments = ViewBag.Comments as List<MainChapar.Models.Comment>;
+}
+
+<h2>@Model.Title</h2>
+
+<!-- عکس اصلی -->
+<div>
+    <img src="~/assets/img/product/@Model.ImageName" alt="@Model.Title" style="max-width:400px;" />
+</div>
+
+<!-- گالری تصاویر -->
+@if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+{
+    <div style="margin-top:10px;">
+        @foreach (var galleryImage in Model.ProductGalleries)
+        {
+            <img src="~/assets/img/product/@galleryImage.ImageName" alt="Gallery image" style="max-width:100px; margin-right:5px;" />
+        }
+    </div>
+}
+
+<!-- مشخصات محصول -->
+<div style="margin-top:20px;">
+    <p><strong>توضیحات:</strong> @Model.Description</p>
+    <p><strong>توضیح کامل:</strong> @Model.FullDesc</p>
+    <p><strong>قیمت:</strong> @Model.Price تومان</p>
+    <p><strong>تخفیف:</strong> @(Model.Discount ?? 0) %</p>
+    <p><strong>تعداد موجود:</strong> @(Model.Qty ?? 0)</p>
+    <p><strong>برچسب‌ها:</strong> @Model.Tags</p>
+</div>
+
+<hr />
+
+<!-- نمایش کامنت‌ها -->
+<h3>نظرات کاربران</h3>
+@if (comments != null && comments.Any())
+{
+    <ul>
+        @foreach (var comment in comments)
+        {
+            <li>
+                <strong>@comment.User?.UserName ?? "کاربر ناشناس":</strong>
+                <p>@comment.Text</p>
+                <small><i>تاریخ: @comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</i></small>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>هیچ نظری ثبت نشده است.</p>
+}
+
+<hr />
+
+<!-- فرم ثبت نظر -->
+@if (User.Identity.IsAuthenticated)
+{
+    <h4>ثبت نظر جدید</h4>
+    <form asp-action="AddComment" method="post">
+        <input type="hidden" name="ProductId" value="@Model.Id" />
+        <div class="form-group">
+            <label for="Text">نظر شما</label>
+            <textarea class="form-control" id="Text" name="Text" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">ارسال نظر</button>
+    </form>
+}
+else
+{
+    <p>برای ثبت نظر لطفا <a href="/Identity/Account/Login">وارد شوید</a>.</p>
+}
+

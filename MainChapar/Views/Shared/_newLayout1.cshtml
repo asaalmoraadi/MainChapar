@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/css/styles.css">
+    
+    <title>Home</title>
+
+</head>
+<body>
+
+    <header>
+        <div id="logo"><h1>CHAPAR</h1></div>
+        <div id="searchbar">
+            <input id="search-input" type="text" value="جستجو">
+        </div>
+    </header>
+    <nav>
+        <div class="menu">
+            <a href="#">صفحه اصلی</a>
+            <a href="#">خدمات چاپ</a>
+            <a href="#">کتاب ها</a>
+            <a href="#">درباره ما</a>
+            <a href="#">تماس با ما</a>
+        </div>
+        <div class="user">
+            <img src="~/assets/img/files/user-icon.png" alt="">
+        </div>
+    </nav>
+
+    @RenderBody()
+    <!-- --------------------------------------------------- -->
+
+
+    <footer>
+        <div class="sections" id="sec1">
+
+            <h1>CHAPAR</h1>
+            <p>خدمات چاپ و فروش لوازم التحریر و جزوات</p>
+
+        </div>
+
+
+        <div class="sections" id="sec2">
+
+            <h3>لینک های مفید</h3>
+            <a href="">خدمات چاپ</a>
+            <a href="">جزوات</a>
+            <a href="">درباره ما</a>
+            <a href="">تماس با ما</a>
+
+        </div>
+
+
+        <div class="sections" id="sec3">
+            <h3>راه های ارتباطی</h3>
+            <p>شماره تماس :</p>
+            <p>021-25858000</p>
+            <p>ادرس :</p>
+            <p>تهران - صادقیه</p>
+            <div class="social">
+                <img src="~/assets/img/files/instagram.png" alt="">
+                <img src="~/assets/img/files/telegram.png" alt="">
+                <img src="~/assets/img/files/whatsapp.png" alt="">
+            </div>
+        </div>
+
+
+
+        <div class="sections" id="sec4">
+            <h3>نماد های سایت</h3>
+            <img src="~/assets/img/files/namad.png">
+        </div>
+
+
+    </footer>
+
+
+    <!-- java script -->
+    <script>
+        function scrollRight() {
+            const slider = document.getElementById('slider');
+            const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
+            slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        }
+
+        function scrollLeft() {
+            const slider = document.getElementById('slider');
+            const cardWidth = 210 + 16;
+            slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+    </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿@model MainChapar.ViewModel.Print.BWPrintSummaryViewModel
+
+<h2>تایید سفارش چاپ سیاه و سفید</h2>
+
+<div>
+    <p><strong>نوع کاغذ:</strong> @Model.PaperType</p>
+    <p><strong>اندازه کاغذ:</strong> @Model.PaperSize</p>
+    <p><strong>چاپ یک رو / دو رو:</strong> @Model.PrintSide</p>
+    <p><strong>تعداد کپی‌ها:</strong> @Model.CopyCount</p>
+
+
+    <p><strong>قیمت کل:</strong> @Model.TotalPrice.ToString("N0") تومان</p>
+</div>
+
+<form method="post" asp-action="FinalizeBlackWhitePrint">
+    <button type="submit">تایید و ثبت سفارش</button>
+    <a asp-action="BlackWhitePrint">بازگشت به صفحه قبل</a>
+</form>
