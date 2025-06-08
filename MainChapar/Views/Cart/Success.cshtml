@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "ثبت موفق";
+}
+
+<h2>سفارش شما با موفقیت ثبت شد</h2>
+
+<p>کد پیگیری شما: <strong>@ViewBag.RequestId</strong></p>
+
+<h3>کد QR برای دریافت حضوری:</h3>
+
+<style>
+    svg {
+        width: 200px;
+        height: 200px;
+        display: block;
+        margin: 20px auto;
+    }
+
+    .qr-actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+        .qr-actions button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+            .qr-actions button:hover {
+                background-color: #2980b9;
+            }
+</style>
+
+<!-- نمایش کد QR -->
+<div id="qr-container">
+    @Html.Raw(ViewBag.QrCode)
+</div>
+
+<!-- دکمه دانلود -->
+<div class="qr-actions">
+    <button onclick="downloadQR()">دانلود کد QR</button>
+</div>
+<p style="text-align:center;">لطفاً این کد را هنگام مراجعه حضوری ارائه دهید.</p>
+
+<script>
+    function downloadQR() {
+        const svgElement = document.querySelector('#qr-container svg');
+        const svgData = new XMLSerializer().serializeToString(svgElement);
+        const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = "QRCode.svg";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
+</script>

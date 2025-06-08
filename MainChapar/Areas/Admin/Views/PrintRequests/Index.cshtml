@@ -1,0 +1,95 @@
+﻿@model IEnumerable<MainChapar.Models.PrintRequest>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>درخواست‌های چاپ</h1>
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>کاربر</th>
+                            <th>نوع سرویس</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ</th>
+                            <th>تغییرات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                      
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.User?.UserName</td>
+                                <td>@item.ServiceType</td>
+                                <td>
+                                    <span class="badge
+                                         @(item.Status == "Approved" ? "bg-success" :
+                                         item.Status == "Rejected" ? "bg-danger" :
+                                         item.Status == "Processing" ? "bg-warning text-dark" :
+                                         item.Status == "Completed" ? "bg-primary" :
+                                          "bg-secondary")">
+                                        @item.Status
+                                    </span>
+                                </td>
+                                <td>@item.CreatedAt.ToShortDateString()</td>
+                                <td class="actions">
+                                    <a asp-action="Details" asp-route-id="@item.Id" ><button class="edit-btn">جزئیات</button></a>
+
+                                    @if (item.Status == "Submitted")
+                                    {
+                                        <form asp-action="UpdateStatus" method="post" asp-route-id="@item.Id" >
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="status" value="Approved" />
+                                            <button type="submit" class="info-btn">تایید</button>
+                                        </form>
+
+                                        <form asp-action="UpdateStatus" method="post" asp-route-id="@item.Id">
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="status" value="Rejected" />
+                                            <button type="submit" class="delete-btn">رد</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>

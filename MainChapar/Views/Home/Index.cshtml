@@ -1,26 +1,42 @@
 ﻿@{
     Layout = "~/Views/Shared/_newLayout1.cshtml";
 }
-
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/css/styles.css">
+</head>
 
     <!--banner 1-->
-<div class="banner"> <img src="~/assets/img/banner/image 2.png" /></div>
+    <div class="banner">
+        <img src="~/assets/img/files/home-header.jpg" alt="">
+    </div>
 
     <!-- categories-->
     <div class="container">
 
-     @* amodi - samt chap  *@
-    <div class="box1"></div>
-   @*  ofoghi - samt rast - deraze *@
-        <div class="box2">  </div>
-   @*  radif 2 *@
+        <div class="box1">
+            <a asp-controller="Product" asp-action="Index">
+                <img src="~/assets/img/files/home---box1.jpg" alt="">
+            </a>
+        </div>
+        <div class="box2">
+            <img id="img1" src="~/assets/img/files/box22.jpg" alt="">
+            <a asp-controller="Print" asp-action="Plan">
+                <img id="img2" src="~/assets/img/files/arrow1.png">
+            </a>
+        </div>
         <div class="row2">
-
-        <div class="box3"> 
-            <a asp-controller="Print" asp-action="BlackWhitePrintForm">چاپ سیاه سفید</a>
-        </div>@* samt rast - radif 2 - chap *@
-        <div class="box4"></div>@* samt rast - radif 2 - rast *@
+            <div class="box3">
+                <a asp-controller="Print" asp-action="BlackWhitePrintForm">
+                    <img src="~/assets/img/files/box3.jpg" alt="">
+                </a>
+            </div>
+            <div class="box4">
+                <a asp-controller="Print" asp-action="ColorPrintForm">
+                    <img src="~/assets/img/files/box4.jpg" alt="">
+                </a>
+            </div>
         </div>
     </div>
 
@@ -65,7 +81,7 @@
 
             <div class="card">
 
-                <img id="card-photo" src="~/assets/img/files/2.png" alt="">
+                <img id="card-photo" src="files/2.png" alt="">
                 <div id="shop">
                     <p>افزودن به سبد خرید</p>
                     <img src="~/assets/img/files/button.png" alt="">
@@ -78,7 +94,7 @@
                 <img id="card-photo" src="~/assets/img/files/3.png" alt="">
                 <div id="shop">
                     <p>افزودن به سبد خرید</p>
-                    <img src="files/button.png" alt="">
+                    <img src="~/assets/img/files/button.png" alt="">
                 </div>
             </div>
 
@@ -138,4 +154,23 @@
         </div>
 
     </div>
-    
+
+    <!-- --------------------------------------------------- -->
+
+    <!-- java script -->
+    <script>
+        function scrollRight() {
+            const slider = document.getElementById('slider');
+            const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
+            slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        }
+
+        function scrollLeft() {
+            const slider = document.getElementById('slider');
+            const cardWidth = 210 + 16;
+            slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+    </script>
+
+
+   

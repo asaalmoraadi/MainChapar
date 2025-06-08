@@ -1,0 +1,98 @@
+﻿@model MainChapar.ViewModel.UserOrdersViewModel
+
+@{
+    ViewData["Title"] = "وضعیت سفارشات من";
+}
+
+<h1>وضعیت سفارشات من</h1>
+
+@* نمایش سفارش‌های خدمات چاپی *@
+@foreach (var printRequest in Model.PrintRequests)
+{
+    <div class="order">
+        <div class="order-header">
+            <strong>
+                @{
+                    switch (printRequest.ServiceType)
+                    {
+                        case "Color":
+                            @:درخواست چاپ رنگی
+                            break;
+                        case "BlackWhite":
+                            @:درخواست چاپ سیاه و سفید
+                            break;
+                        case "Plan":
+                            @:درخواست چاپ پلان
+                            break;
+                        default:
+                            @:درخواست چاپ
+                            break;
+                    }
+                }
+            </strong>
+
+            <span class="status @(printRequest.Status == "Submitted" ? "pending" :
+                               printRequest.Status == "Completed" ? "approved" :
+                               printRequest.Status == "Rejected" ? "rejected" : "")">
+                @{
+                    switch (printRequest.Status)
+                    {
+                        case "Submitted":
+                            @:در انتظار تایید
+                            break;
+                        case "Completed":
+                            @:تایید شده
+                            break;
+                        case "Rejected":
+                            @:رد شده
+                            break;
+                        default:
+                            @:در حال پردازش
+                            break;
+                    }
+                }
+            </span>
+        </div>
+        <div>
+            @* نمایش جزئیات بر اساس نوع خدمات چاپی *@
+            @if (printRequest.ServiceType == "BlackWhite" && printRequest.BlackWhitePrintDetail != null)
+            {
+                <p>تعداد صفحات: @printRequest.BlackWhitePrintDetail.CopyCount</p>
+                <p>نوع کاغذ: @printRequest.BlackWhitePrintDetail.PaperType</p>
+            }
+            else if (printRequest.ServiceType == "Color" && printRequest.ColorPrintDetail != null)
+            {
+                <p>تعداد صفحات: @printRequest.ColorPrintDetail.CopyCount</p>
+                <p>نوع کاغذ: @printRequest.ColorPrintDetail.PaperType</p>
+            }
+            else if (printRequest.ServiceType == "Plan" && printRequest.PlanPrintDetail != null)
+            {
+                
+                <p>نوع کاغذ: @printRequest.PlanPrintDetail.PaperType</p>
+            }
+            <p>تاریخ ثبت: @printRequest.CreatedAt.ToString("yyyy/MM/dd")</p>
+        </div>
+    </div>
+}
+
+@* نمایش سفارش‌های محصولات *@
+@foreach (var order in Model.ProductOrders)
+{
+    <div class="order">
+        <div class="order-header">
+            <strong>سفارش محصول: @order.OrderDetails.FirstOrDefault()?.Product.Title</strong>
+            <span class="status @(order.IsConfirmed ? "approved" : "pending")">
+                @(order.IsConfirmed ? "تایید شده" : "در انتظار تایید")
+            </span>
+        </div>
+        <div>
+            <p>تعداد: @order.OrderDetails.Sum(od => od.Quantity) عدد</p>
+            <p>قیمت کل: @order.TotalPrice.ToString("N0") تومان</p>
+            <p>تاریخ سفارش: @order.CreatedAt.ToString("yyyy/MM/dd")</p>
+        </div>
+        <div class="qr">
+            <p>کد QR برای تحویل:</p>
+            <img src="@Url.Action("GenerateQr", "UserOrder", new { pickupCode = order.PickupCode })" alt="QR Code" />
+        </div>
+    </div>
+}

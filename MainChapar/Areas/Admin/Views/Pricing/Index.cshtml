@@ -1,0 +1,80 @@
+﻿@model IEnumerable<MainChapar.Models.PrintPricing>
+
+@{
+    ViewData["Title"] = "لیست قیمت‌ها";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>دسته بندی محصولات</h1>   
+                <a asp-action="CreatePricing"><button id="addTaskButton">ایجاد قیمت جدید</button></a>
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نوع چاپ</th>
+                            <th>نوع کاغذ</th>
+                            <th>سایز کاغذ</th>
+                            <th>دو رو</th>
+                            <th>قیمت هر صفحه</th>
+                            <th>فعال؟</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.PrintType == "BlackWhite" ? "سیاه و سفید" : "رنگی")</td>
+                                <td>@item.PaperType</td>
+                                <td>@item.PaperSize</td>
+                                <td>@(item.IsDoubleSided ? "بله" : "خیر")</td>
+                                <td>@item.PricePerPage تومان</td>
+                                <td>@(item.IsAvailable ? "بله" : "خیر")</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><button class="edit-btn">ویرایش</button></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('آیا مطمئنید؟')"><button class="delete-btn">حذف</button></a>
+                                </td>
+                            </tr>
+                        }
+            
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+

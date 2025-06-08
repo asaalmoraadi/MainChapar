@@ -1,78 +1,82 @@
 ﻿@model MainChapar.Models.Product
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "ایجاد محصول جدید";
 }
 
-<h1>Create</h1>
+<h2>@ViewData["Title"]</h2>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" asp-controller="Products" asp-area="Admin" enctype="multipart/form-data" method="post">
-            >
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullDesc" class="control-label"></label>
-                @* <input asp-for="FullDesc" class="form-control" /> *@
-                <textarea asp-for="FullDesc" class="form-control" rows="4"></textarea>
-                <span asp-validation-for="FullDesc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
-                <span asp-validation-for="Discount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageName" class="control-label"></label>
-                <input type="file" name="MainImage" class="form-control" />
-                <span asp-validation-for="ImageName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Gallery</label>
-                <input type="file" name="GalleryImage" multiple class="form-control" />
-
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Qty" class="control-label"></label>
-                <input asp-for="Qty" class="form-control" />
-                <span asp-validation-for="Qty" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IsAvailable" class="control-label"></label>
-                <input asp-for="IsAvailable" class="form-check-input" type="checkbox" />
-                <span asp-validation-for="IsAvailable" class="text-danger"></span>
-            </div>
-       
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Create" method="post" asp-area="Admin" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FullDesc"></label>
+        <textarea asp-for="FullDesc" class="form-control"></textarea>
+        <span asp-validation-for="FullDesc" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label">تصویر اصلی</label>
+        <input type="file" name="MainImage" class="form-control" />
+        <span asp-validation-for="ImageName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">>گالری تصاویر</label>
+        <input type="file" name="GalleryImage" multiple class="form-control" />
+
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Discount"></label>
+        <input asp-for="Discount" class="form-control" />
+        <span asp-validation-for="Discount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Qty"></label>
+        <input asp-for="Qty" class="form-control" />
+        <span asp-validation-for="Qty" class="text-danger"></span>
+    </div>
+    <select asp-for="CategoryId">
+        @foreach (var category in ViewBag.categories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+
+    <div class="form-group">
+        <label asp-for="Tags"></label>
+        <input asp-for="Tags" class="form-control" />
+        <span asp-validation-for="Tags" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="IsAvailable" class="form-check-input" />
+        <label asp-for="IsAvailable" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">ایجاد محصول</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

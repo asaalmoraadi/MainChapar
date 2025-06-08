@@ -1,0 +1,138 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Home</title>
+    
+</head>
+
+    <div class="container">
+    <section class="product-page">
+      <div class="image-section">
+        <img src="~/assets/img/files/1.png" class="main-img" id="mainImg" >
+        <div class="thumbnail-list">
+          <img src="~/assets/img/files/1.png">
+          <img src="~/assets/img/files/1.png">
+          <img src="~/assets/img/files/1.png">
+        </div>
+      </div>
+      <div class="details-section">
+        <div class="product-title">عنوان محصول</div>
+        <div class="label">برچسب : نمونه</div>
+        <div class="short-desc">
+          اینجا یک توضیح کوتاه از محصول قرار می‌گیرد تا مشتری در یک نگاه متوجه کیفیت و کاربرد آن شود.
+          اینجا یک توضیح کوتاه از محصول قرار می‌گیرد تا مشتری در یک نگاه متوجه کیفیت و کاربرد آن شود.
+          اینجا یک توضیح کوتاه از محصول قرار می‌گیرد تا مشتری در یک نگاه متوجه کیفیت و کاربرد آن شود.
+          اینجا یک توضیح کوتاه از محصول قرار می‌گیرد تا مشتری در یک نگاه متوجه کیفیت و کاربرد آن شود.
+        </div>
+        <div class="pricing">
+          <span class="old-price">120000 تومان</span>
+          <span class="new-price">95000 تومان</span>
+        </div>
+        <div class="stock">موجودی: ۱۵ عدد</div>
+        <div class="quantity-control">
+          <button onclick="changeQty(1)">+</button>
+          <input type="number" id="qty" value="1" min="1">
+          <button onclick="changeQty(-1)">−</button>
+          
+        </div>
+        <button class="add-to-cart">افزودن به سبد خرید</button>
+      </div>
+    </section>
+
+    <!-- تب‌ها -->
+    <section class="tabs">
+      <div class="tab-buttons">
+        <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
+        <button onclick="showTab(1)">مشخصات فنی</button>
+        <button onclick="showTab(2)">نظرات کاربران</button>
+      </div>
+      <div class="tab-content active">
+        <p>
+          این بخش شامل توضیحات کامل‌تر درباره محصول، موارد مصرف، ترکیبات و مزایا می‌باشد.
+        </p>
+      </div>
+      <div class="tab-content">
+        <p>
+          - وزن: ۵۰۰ گرم <br>
+          - ابعاد بسته‌بندی: ۲۰×۱۰×۵ <br>
+          - ساخت: ایران
+        </p>
+      </div>
+      <div class="tab-content">
+        <p>هنوز نظری ثبت نشده است. شما اولین باشید!</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- mahsolat moshabeh -->
+
+      <div class="mahsolat">
+        <h2>محصولات مشابه</h2>
+        <div class="mahsolat-boxs">
+          <div class="boxs" id="box1">
+
+            <img src="~/assets/img/files/print3.png">
+            <p>چاپ سیاه سفید</p>
+            
+          </div>
+          <div class="boxs" id="box2">
+
+            <img src="~/assets/img/files/print1.png">
+            <p>چاپ پلان</p>
+          </div>
+          <div class="boxs" id="box3">
+
+            <img src="~/assets/img/files/print2.png">
+            <p>چاپ ایکس</p>
+          </div>
+      
+          
+        </div>
+      
+      <!-- --------------------------------------------------- -->
+
+
+     
+
+      <!-- java script -->
+ <script>
+  function scrollRight() {
+    const slider = document.getElementById('slider');
+    const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
+    slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+  }
+
+  function scrollLeft() {
+    const slider = document.getElementById('slider');
+    const cardWidth = 210 + 16;
+    slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+
+
+
+  }
+
+    function changeQty(delta) {
+      const qty = document.getElementById("qty");
+      let current = parseInt(qty.value);
+      if (isNaN(current)) current = 1;
+      current += delta;
+      if (current < 1) current = 1;
+      qty.value = current;
+    }
+
+    function changeMainImg(src) {
+      document.getElementById("mainImg").src = src;
+    }
+
+    function showTab(index) {
+      const tabs = document.querySelectorAll('.tab-content');
+      const buttons = document.querySelectorAll('.tab-buttons button');
+      tabs.forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
+        buttons[i].classList.toggle('active', i === index);
+      });
+    }
+  
+</script>

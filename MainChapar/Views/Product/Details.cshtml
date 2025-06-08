@@ -1,77 +1,206 @@
 ﻿@model MainChapar.Models.Product
-
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 @{
     ViewData["Title"] = Model.Title;
     var comments = ViewBag.Comments as List<MainChapar.Models.Comment>;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/product/styles.css">
+</head>
+<body>
+    <div class="container">
+        <section class="product-page">
+            <div class="image-section">
+                <img src="~/assets/img/product/@Model.ImageName" alt="@Model.Title" class="main-img" id="mainImg" />
+                <div class="thumbnail-list">
+                    <!-- گالری تصاویر -->
+                    @if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+                    {
+                            @foreach (var galleryImage in Model.ProductGalleries)
+                            {
+                                <img src="~/assets/img/product/@galleryImage.ImageName"
+                                     onclick="changeMainImg(this.src)"
+                                     alt="Gallery image" />
+                            }
+                    }
+                </div>
+            </div>
+            <div class="details-section">
+                <div class="product-title">@Model.Title</div>
+                <div class="label"> <strong>برچسب‌:</strong> @Model.Tags</div>
+                <div class="short-desc">
+                    <p><strong>توضیحات:</strong> @Model.Description</p>
+                </div>
+                @* <p><strong>تخفیف:</strong> @(Model.Discount ?? 0) %</p> *@
+                <div class="pricing">
+                    @* <span class="old-price">120000 تومان</span>
+                    <span class="new-price">95000 تومان</span> *@
+                    <span> @Model.Price تومان</span>
+                </div>
+                <div class="stock">موجودی: @Model.Qty</div>
+                <div class="quantity-control">
+                    <button onclick="changeQty(1)">+</button>
+                    <input type="number" id="qty" value="1" min="1">
+                    <button onclick="changeQty(-1)">−</button>
+                <button class="add-to-cart">افزودن به سبد خرید</button>
+                </div>
+            </div>
+        </section>
 
-<h2>@Model.Title</h2>
-
-<!-- عکس اصلی -->
-<div>
-    <img src="~/assets/img/product/@Model.ImageName" alt="@Model.Title" style="max-width:400px;" />
-</div>
-
-<!-- گالری تصاویر -->
-@if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
-{
-    <div style="margin-top:10px;">
-        @foreach (var galleryImage in Model.ProductGalleries)
-        {
-            <img src="~/assets/img/product/@galleryImage.ImageName" alt="Gallery image" style="max-width:100px; margin-right:5px;" />
-        }
+        <!-- تب‌ها -->
+        <section class="tabs">
+            <div class="tab-buttons">
+                <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
+                <button onclick="showTab(1)">مشخصات فنی</button>
+                <button onclick="showTab(2)">نظرات کاربران</button>
+            </div>
+            <div class="tab-content active">
+                <p>
+                    این بخش شامل توضیحات کامل‌تر درباره محصول، موارد مصرف، ترکیبات و مزایا می‌باشد.
+                </p>
+            </div>
+            <div class="tab-content">
+                <p>
+                    - وزن: ۵۰۰ گرم <br>
+                    - ابعاد بسته‌بندی: ۲۰×۱۰×۵ <br>
+                    - ساخت: ایران
+                </p>
+            </div>
+            <div class="tab-content">
+                <p>هنوز نظری ثبت نشده است. شما اولین باشید!</p>
+            </div>
+        </section>
     </div>
-}
+  
 
-<!-- مشخصات محصول -->
-<div style="margin-top:20px;">
-    <p><strong>توضیحات:</strong> @Model.Description</p>
-    <p><strong>توضیح کامل:</strong> @Model.FullDesc</p>
-    <p><strong>قیمت:</strong> @Model.Price تومان</p>
-    <p><strong>تخفیف:</strong> @(Model.Discount ?? 0) %</p>
-    <p><strong>تعداد موجود:</strong> @(Model.Qty ?? 0)</p>
-    <p><strong>برچسب‌ها:</strong> @Model.Tags</p>
-</div>
+      @*   <!-- تب‌ها -->
+        <section class="tabs">
+            <div class="tab-buttons">
+                <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
+                <button onclick="showTab(1)">مشخصات فنی</button>
+                <button onclick="showTab(2)">نظرات کاربران</button>
+            </div>
+            <div class="tab-content active">
+                <p>
+                    این بخش شامل توضیحات کامل‌تر درباره محصول، موارد مصرف، ترکیبات و مزایا می‌باشد.
+                </p>
+            </div>
+            <div class="tab-content">
+                <p>
+                    - وزن: ۵۰۰ گرم <br>
+                    - ابعاد بسته‌بندی: ۲۰×۱۰×۵ <br>
+                    - ساخت: ایران
+                </p>
+            </div>
+            <div class="tab-content">
 
-<hr />
+                <!-- نمایش کامنت‌ها -->
+                <h3>نظرات کاربران</h3>
+                @if (comments != null && comments.Any())
+                {
+                    <ul>
+                        @foreach (var comment in comments)
+                        {
+                            <li>
+                                <strong>@comment.User?.UserName ?? "کاربر ناشناس":</strong>
+                                <p>@comment.Text</p>
+                                <small><i>تاریخ: @comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</i></small>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>هیچ نظری ثبت نشده است.</p>
+                }
+                <hr />
+                <!-- فرم ثبت نظر -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <h4>ثبت نظر جدید</h4>
+                    <form asp-action="AddComment" method="post">
+                        <input type="hidden" name="ProductId" value="@Model.Id" />
+                        <div class="form-group">
+                            <label for="Text">نظر شما</label>
+                            <textarea class="form-control" id="Text" name="Text" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">ارسال نظر</button>
+                    </form>
+                }
+                else
+                {
+                    <p>برای ثبت نظر لطفا <a href="/Identity/Account/Login">وارد شوید</a>.</p>
+                }
+            </div>
+        </section>
+    </div>
+ *@
+    <!-- mahsolat moshabeh -->
+    <div class="mahsolat">
+        <h2>محصولات مشابه</h2>
+        <div class="mahsolat-boxs">
+            <div class="boxs" id="box1">
 
-<!-- نمایش کامنت‌ها -->
-<h3>نظرات کاربران</h3>
-@if (comments != null && comments.Any())
-{
-    <ul>
-        @foreach (var comment in comments)
-        {
-            <li>
-                <strong>@comment.User?.UserName ?? "کاربر ناشناس":</strong>
-                <p>@comment.Text</p>
-                <small><i>تاریخ: @comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</i></small>
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>هیچ نظری ثبت نشده است.</p>
-}
+                <img src="~/assets/img/files/print3.png">
+                <p>چاپ سیاه سفید</p>
 
-<hr />
+            </div>
+            <div class="boxs" id="box2">
 
-<!-- فرم ثبت نظر -->
-@if (User.Identity.IsAuthenticated)
-{
-    <h4>ثبت نظر جدید</h4>
-    <form asp-action="AddComment" method="post">
-        <input type="hidden" name="ProductId" value="@Model.Id" />
-        <div class="form-group">
-            <label for="Text">نظر شما</label>
-            <textarea class="form-control" id="Text" name="Text" rows="3" required></textarea>
+                <img src="~/assets/img/files/print1.png">
+                <p>چاپ پلان</p>
+            </div>
+            <div class="boxs" id="box3">
+
+                <img src="~/assets/img/files/print2.png">
+                <p>چاپ ایکس</p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-2">ارسال نظر</button>
-    </form>
-}
-else
-{
-    <p>برای ثبت نظر لطفا <a href="/Identity/Account/Login">وارد شوید</a>.</p>
-}
+        <!-- java script -->
+        <script>
+            function scrollRight() {
+                const slider = document.getElementById('slider');
+                const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
+                slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            }
+
+            function scrollLeft() {
+                const slider = document.getElementById('slider');
+                const cardWidth = 210 + 16;
+                slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            }
+
+            function changeQty(delta) {
+                const qty = document.getElementById("qty");
+                let current = parseInt(qty.value);
+                if (isNaN(current)) current = 1;
+                current += delta;
+                if (current < 1) current = 1;
+                qty.value = current;
+            }
+
+            function changeMainImg(src) {
+                document.getElementById("mainImg").src = src;
+            }
+
+            function showTab(index) {
+                const tabs = document.querySelectorAll('.tab-content');
+                const buttons = document.querySelectorAll('.tab-buttons button');
+                tabs.forEach((tab, i) => {
+                    tab.classList.toggle('active', i === index);
+                    buttons[i].classList.toggle('active', i === index);
+                });
+            }
+        </script>
+
+</body>
+
+</html>
+
 

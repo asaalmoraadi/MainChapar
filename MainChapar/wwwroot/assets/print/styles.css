@@ -1,0 +1,437 @@
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/print/fonts/iransans.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Far_Yekan';
+    src: url('/assets/print/fonts/Far_Yekan.ttf') format('ttf');
+}
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/print/fonts/Rokh-Bold.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/print/fonts/Rokh-UltraBold.woff2');
+}
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/print/fonts/Pinar-Medium.woff2');
+}
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/print/fonts/Pinar-SemiBold.woff2');
+}
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/print/fonts/Pinar-DS4-Black.woff2');
+}
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/print/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/print/fonts/Yekan.ttf');
+}
+
+body {
+    background-color: #FFFBF7;
+    margin: 0;
+    padding: 0;
+    
+    
+}
+
+header {
+    width: 100%;
+    height: 5rem;
+    /* display flex baray shive gharar giri */
+    display: flex;
+    align-items: center;
+    justify-content: right  ; 
+    flex-direction: row-reverse;
+}
+
+#logo {
+    margin-right: 10px;
+    margin-top: 1rem;
+    font-family: 'Rokhbold';
+    font-size: 18px;
+    width: 10%;
+}
+#searchbar{
+    width: 80%;
+    margin-right: 5rem;
+}
+
+#search-input {
+    height: 50px;
+    width: 100%;
+    padding-left: 40px;
+    background: url('/assets/print/files/search-icon.png') no-repeat 10px center;
+    background-color: #ffffff;
+    background-size: 30px 30px;
+    font-size: 18px;
+    border-radius: 13px;
+    direction: rtl;
+    text-align: right;
+    padding-right: 15px;
+    border: 0;
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
+}
+
+/*nav => menu + user icon */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: row-reverse;
+    height: 4rem;
+}
+.menu{
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Pinar-medium';
+    font-size: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 3rem;
+}
+.user{
+    width: 30%;
+    padding-top: 10px;
+}
+
+/* --------------------------------------*/
+/* style baray matn masir karbar*/
+.path_txt{
+    font-size: 14px;
+    text-align: center;
+    opacity: 80%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-family: 'Pinar-medium';
+}
+
+/* order*/
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fef6f0;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 900px;
+  margin: auto;
+  direction: rtl;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  flex: 1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* inja labeli select mishe ke zir majmoee ye form-groupe (yani hamoon 4 ta field ) */
+.form-group label {
+  margin-bottom: 6px;
+  font-family: 'Pinar-semibold';
+  font-size: 14px;
+
+}
+
+.form-group select {
+  padding: 10px;
+  height: 40px;
+  width: 250px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  font-family: 'Pinar-medium';
+  font-weight: 300;
+  border: 0;
+}
+#tiraj{
+  padding-right: 5px;
+  height: 37px;
+  width: 245px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  font-family: 'Pinar-medium';
+  font-weight: 300;
+  border: 0;
+
+}
+.image-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 3rem;
+  margin-top: 3rem;
+}
+
+.image-box img {
+  width: 120px;
+  margin-bottom: 10px;
+}
+
+.image-box p {
+font-size: 18px;
+  font-family: 'RokhBold';
+  text-align: center;
+  margin-right: 2rem;
+}
+
+/*style baraye ghesmat upload */
+.upload-centered {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.upload-centered label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #000000;
+  margin-left: 16rem;
+}
+
+/* style baraye icon upload */
+.upload-centered input[type="file"] {
+  width: 231px;
+  padding: 8px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  margin-left: 5rem;
+}
+
+/* hover yani vaghti mouse bere roosh */
+/* agar active bood yani bayad karbar roosh click kone ta stylesh taghir kone */
+
+.upload-centered input[type="file"]:hover {
+  border-color: #888;
+  
+}
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+select {
+    background-color: white;
+    appearance: none; /* icon defaultesho hazf mikone ta icon jadid bezaram */
+    background-image: url(/assets/print/files/arrow.png);
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 14px;
+}
+
+
+.add-item {
+    background-color: #FFDCCC;
+    height: 40px;
+    width: 150px;
+    border-radius: 10px;
+    border: 0;
+    font-family: 'Pinar-medium';
+    font-weight: 600;
+    font-size: 13px;
+    color: #000000;
+    
+}
+.form-button button:hover{
+  background-color: #ffb5b5;
+
+}
+.form-button button:active{
+  background-color: #f06161;
+  color: #ffffff;
+
+}
+.form-button{
+  margin-top: 2rem;
+  margin-bottom : 2rem;
+  display: flex;
+  justify-content: center;
+
+}
+
+/* payan ghesmat sefaresh */
+
+.khadamat{
+    margin-top: 4rem;
+    height: 15rem;
+    align-items: center;
+    padding-bottom: 5rem;
+}
+  
+.khadamat h2{
+  font-family: 'Rokh-ultra';
+  font-weight: 800;
+  font-size: 26px;
+  text-align: center;
+  color: #000000;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.khadamat-boxs{
+  height: 11rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  align-items: center;
+  padding-bottom:2rem ;
+}
+
+.khadamat-boxs .boxs{
+  height: 11rem;
+  width: 11rem;
+  margin-right: 2rem;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.khadamat-boxs .boxs img{
+  margin-top: 1rem;
+  height: 9rem;
+  width: 9rem;
+}
+.khadamat-boxs .boxs p{
+  font-size: 16px;
+  font-family: 'Rokh-ultra';
+  font-weight: bold;
+}
+
+#box1{background-color: #EDDFE0;}
+#box2{background-color: #EEF1DA;}
+#box3{background-color: #F5EBE0;}
+#box4{background-color: #FFDCCC;}
+
+/* hover */
+
+#box1:hover{background-color: rgb(177, 166, 167);}
+#box2:hover{background-color: #d2d4bf;}
+#box3:hover{background-color: #d4ccc2;}
+#box4:hover{background-color: #dabcae;}
+
+/* active */
+
+#box1:active{background-color: rgb(87, 73, 74); color: #ffffff;}
+#box2:active{background-color: #666855;color: #ffffff;}
+#box3:active{background-color: #49443c;color: #ffffff;}
+#box4:active{background-color: #4d3f39;color: #ffffff;}
+
+
+
+/*        footer         */
+
+footer{
+  background-color: rgb(255, 255, 255);
+  height: 15rem;
+  display: flex;
+  direction: rtl;
+  border-radius: 10px 10px 0 0;
+  font-family: 'B-yekan';
+}
+.sections{
+  margin: 0rem;
+  width: 25%;
+  border-radius: 15px;
+  align-items: center;
+  text-align: center;
+}
+#sec1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#sec1 h1{
+    font-size: 32px;
+}
+#sec1 p{
+  font-size: 16px;
+  font-family: 'Pinar-medium';
+  font-weight: 600;
+}
+#sec2{
+  display: flex;
+  flex-direction: column;
+}
+#sec2 h3 , #sec3 h3 , #sec4 h3{
+  font-family: 'Pinar-medium';
+  font-size: 26px;
+  font-weight: 500;
+}
+#sec2 a , #sec3 p{
+  font-size: 16px;
+  font-family: 'Pinar-medium';
+  font-weight: 500;
+  color: #000000;
+  text-decoration: none;
+  margin: 0.4rem;
+
+}
+#sec2 a:hover{
+  color: #967f74;
+}
+.social{
+  margin: 1rem;
+
+}
+.social img{
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+#shop{
+  display: flex;
+  align-items: center;
+  
+}
+#shop p {
+  font-family: 'RokhBold';
+  font-size: 12px;
+  margin-right: 0.5rem;
+  color: #000000;
+  
+}
+#shop img{
+  height: 3rem;
+  width: 3rem;
+  margin: 1rem;
+}
+    #shop img:hover {
+        content: url('/assets/print/files/button_hover.png');
+    }
+    

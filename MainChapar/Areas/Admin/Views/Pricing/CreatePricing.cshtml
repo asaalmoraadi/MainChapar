@@ -1,0 +1,61 @@
+﻿@model MainChapar.ViewModel.Admin.PrintPricingCreateViewModel
+
+@{
+    ViewData["Title"] = "افزودن قیمت چاپ";
+}
+
+<h2 class="mb-4">@ViewData["Title"]</h2>
+
+<form asp-action="CreatePricing" method="post" asp-area="Admin" novalidate>
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="PrintType" class="form-label fw-bold">نوع چاپ</label>
+        <select asp-for="PrintType" class="form-select form-select-lg">
+            <option value="">انتخاب نوع چاپ</option>
+            <option value="BlackWhite">سیاه و سفید</option>
+            <option value="Color">رنگی</option>
+        </select>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.PrintType)</span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PaperType" class="form-label fw-bold">نوع کاغذ</label>
+        <select asp-for="PaperType" class="form-select form-select-lg">
+            <option value="">انتخاب نوع کاغذ</option>
+            <option value="ساده">ساده</option>
+            <option value="گلاسه سبک">گلاسه سبک</option>
+            <option value="گلاسه سنگین">گلاسه سنگین</option>
+        </select>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.PaperType)</span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PaperSize" class="form-label fw-bold">سایز کاغذ</label>
+        <select asp-for="PaperSize" class="form-select form-select-lg">
+            <option value="">انتخاب سایز کاغذ</option>
+            <option value="A3">A3</option>
+            <option value="A4">A4</option>
+            <option value="A5">A5</option>
+        </select>
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.PaperSize)</span>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+        <input asp-for="IsDoubleSided" class="form-check-input" type="checkbox" id="IsDoubleSided" />
+        <label class="form-check-label fw-bold" for="IsDoubleSided">چاپ پشت و رو</label>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PricePerPage" class="form-label fw-bold">قیمت به ازای هر صفحه (تومان)</label>
+        <input asp-for="PricePerPage" class="form-control form-control-lg" type="number" step="0.01" min="0" />
+        <span class="text-danger">@Html.ValidationMessageFor(m => m.PricePerPage)</span>
+    </div>
+
+    <div class="form-check form-switch mb-4">
+        <input asp-for="IsAvailable" class="form-check-input" type="checkbox" id="IsAvailable" />
+        <label class="form-check-label fw-bold" for="IsAvailable">فعال</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-lg w-100">ذخیره</button>
+</form>

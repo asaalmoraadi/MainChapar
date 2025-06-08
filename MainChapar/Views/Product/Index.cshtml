@@ -3,9 +3,11 @@
 @{
     ViewData["Title"] = "محصولات";
 }
-aaaaaa
 <div class="container mt-4">
     <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="page_amount">
+            <p><span>@Model.Count()</span> Products Found</p>
+        </div>
         @foreach (var item in Model)
         {
             <div class="col">
@@ -30,7 +32,8 @@ aaaaaa
                         <!-- مشخصات محصول -->
                         <h5 class="card-title">@item.Title</h5>
                         <p class="card-text text-muted" style="font-size: 0.9rem;">
-                            قیمت: <strong>@item.Price?.ToString("N0") تومان</strong><br />
+                            قیمت: <strong>@item.Price.ToString("N0") تومان</strong>
+                            <br />
                             تخفیف: @item.Discount ٪<br />
                             موجودی: @item.Qty عدد<br />
                             برچسب‌ها: @item.Tags
@@ -51,3 +54,6 @@ aaaaaa
         }
     </div>
 </div>
+
+
+

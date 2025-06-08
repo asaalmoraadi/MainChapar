@@ -21,10 +21,16 @@ namespace MainChapar.Controllers
         public async Task<IActionResult> Index()
         {
             var products = await _context.Products
-             .Where(p => p.IsAvailable==true && p.Qty > 0)
+             .Where(p => p.IsAvailable == true && p.Qty > 0)
              .ToListAsync();
             return View(products);
         }
+
+        //public async Task<IActionResult> Index()
+        //{
+        //    var products = await _context.Products.OrderByDescending(x => x.Id).ToListAsync();
+        //    return View(products);
+        //}
 
         public async Task<IActionResult> Details(int id)
         {

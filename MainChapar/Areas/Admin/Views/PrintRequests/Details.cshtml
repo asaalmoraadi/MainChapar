@@ -1,0 +1,139 @@
+﻿@model MainChapar.Models.PrintRequest
+@using MainChapar.Models
+
+@{
+    ViewData["Title"] = "جزئیات درخواست چاپ";
+}
+
+@* <h2>جزئیات درخواست چاپ</h2>
+
+<p><strong>نام کاربر:</strong> @Model.User.Id</p>
+<p><strong>تاریخ:</strong> @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
+<p><strong>نوع خدمت:</strong> @Model.ServiceType</p>
+<p><strong>قیمت کل:</strong> @Model.TotalPrice تومان</p>
+<p><strong>وضعیت فعلی:</strong> @Model.Status</p>
+
+<h4>فایل‌ها:</h4>
+<ul>
+    @foreach (var file in Model.Files)
+    {
+        <li>@file.FileName</li>
+    }
+</ul>
+
+<hr />
+
+<h4>تغییر وضعیت درخواست</h4>
+<form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="status">وضعیت جدید:</label>
+        <select class="form-control" name="status">
+            <option value="@PrintRequestStatus.Approved" selected="@((Model.Status == PrintRequestStatus.Approved).ToString().ToLower())">تایید شده</option>
+            <option value="@PrintRequestStatus.Processing" selected="@((Model.Status == PrintRequestStatus.Processing).ToString().ToLower())">در حال انجام</option>
+            <option value="@PrintRequestStatus.Completed" selected="@((Model.Status == PrintRequestStatus.Completed).ToString().ToLower())">اتمام یافته</option>
+            <option value="@PrintRequestStatus.Rejected" selected="@((Model.Status == PrintRequestStatus.Rejected).ToString().ToLower())">رد شده</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success mt-2">ذخیره تغییر وضعیت</button>
+</form> *@
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>جزئیات درخواست چاپ</h1>
+            </div>
+
+            <div id="taskList">
+                <table>
+                   
+                    <tbody id="taskItems">
+
+                        <tr>
+                            <td>نام کاربر</td>
+                            <td>@Model.User.UserName</td>
+                        </tr>
+                        <tr>
+                            <td> تاریخ</td>
+                            <td>@Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
+                        </tr>
+                        <tr>
+                            <td>نوع خدمت</td>
+                            <td>@Model.ServiceType</td>
+                        </tr>
+                        <tr>
+                            <td>قیمت کل</td>
+                            <td> @Model.TotalPrice تومان</td>
+                        </tr>
+                        <tr>
+                            <td>وضعیت فعلی</td>
+                            <td>@Model.Status</td>
+                        </tr>
+                        <tr>
+                            <td>فایل‌ها</td>
+                            <td>
+                                <ul>
+                                    @foreach (var file in Model.Files)
+                                    {
+                                        <li>@file.FileName</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><h4>تغییر وضعیت درخواست</h4></td>
+                            <td>
+                                <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        <label for="status">وضعیت جدید:</label>
+                                        <select class="form-control" name="status">
+                                            <option value="@PrintRequestStatus.Approved" selected="@((Model.Status == PrintRequestStatus.Approved).ToString().ToLower())">تایید شده</option>
+                                            <option value="@PrintRequestStatus.Processing" selected="@((Model.Status == PrintRequestStatus.Processing).ToString().ToLower())">در حال انجام</option>
+                                            <option value="@PrintRequestStatus.Completed" selected="@((Model.Status == PrintRequestStatus.Completed).ToString().ToLower())">اتمام یافته</option>
+                                            <option value="@PrintRequestStatus.Rejected" selected="@((Model.Status == PrintRequestStatus.Rejected).ToString().ToLower())">رد شده</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="info-btn">ذخیره تغییر وضعیت</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+
+

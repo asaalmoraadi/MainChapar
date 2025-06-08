@@ -1,0 +1,49 @@
+﻿@model MainChapar.Models.Order
+
+@{
+    ViewData["Title"] = "جزئیات سفارش شماره " + Model.Id;
+}
+
+<h2>جزئیات سفارش شماره @Model.Id</h2>
+
+<p>تاریخ ثبت: @Model.CreatedAt.ToString("yyyy/MM/dd")</p>
+<p>وضعیت تأیید: @(Model.IsConfirmed ? "تأیید شده" : "در انتظار تأیید")</p>
+<p>وضعیت تحویل: @(Model.IsCollected ? "تحویل شده" : "در انتظار تحویل")</p>
+
+<h3>محصولات سفارش داده شده</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>نام محصول</th>
+            <th>تعداد</th>
+            <th>قیمت واحد</th>
+            <th>جمع</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>@item.Product?.Title</td>
+                <td>@item.Quantity</td>
+                <td>@String.Format("{0:N0}", item.Product.Price)</td>
+                <td>@String.Format("{0:N0}", item.Product.Price * item.Quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <strong>مجموع کل:</strong>
+    @String.Format("{0:N0}", Model.OrderDetails.Sum(od => od.Product.Price * od.Quantity))
+</p>
+
+@if (!string.IsNullOrEmpty(Model.PickupCode))
+{
+    <h3>کد پیگیری (QR Code)</h3>
+    <img src="@Url.Action("GenerateQr", "UserOrder", new { code = Model.PickupCode })" alt="QR Code" />
+}
+else
+{
+    <p><em>کد پیگیری برای این سفارش موجود نیست.</em></p>
+}

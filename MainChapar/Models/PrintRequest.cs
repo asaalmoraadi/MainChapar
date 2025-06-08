@@ -15,12 +15,12 @@ namespace MainChapar.Models
         public string Status { get; set; } = "Submitted"; // Submitted, Processing, Completed, Rejected
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public decimal TotalPrice { get; set; }
-
+        public decimal? TotalPrice { get; set; }
         public ColorPrintDetail ColorPrintDetail { get; set; }
         public BlackWhitePrintDetail BlackWhitePrintDetail { get; set; }
         public PlanPrintDetail PlanPrintDetail { get; set; }
 
         public ICollection<PrintFile> Files { get; set; }
+        public ICollection<PickupPrintItem> PickupPrintItems { get; set; } = new List<PickupPrintItem>();
     }
 }

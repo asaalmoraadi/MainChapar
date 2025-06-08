@@ -1,0 +1,71 @@
+﻿@model MainChapar.Models.PickupRequest
+
+<h2>جزئیات سفارش شماره @Model.Id</h2>
+
+<p>
+    تاریخ ثبت: @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm") <br />
+    وضعیت: <strong>@Model.Status</strong> <br />
+    کد QR برای تحویل: @Model.QrCodeToken
+</p>
+
+<h3>محصولات</h3>
+@if (Model.ProductItems != null && Model.ProductItems.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>نام محصول</th>
+                <th>تعداد</th>
+                <th>قیمت واحد</th>
+                <th>قیمت کل</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ProductItems)
+            {
+                <tr>
+                    <td>@item.Product?.Title</td>
+                    <td>@item.Quantity</td>
+                    <td>@string.Format("{0:N0}", item.Product?.Price ?? 0) تومان</td>
+                    <td>@string.Format("{0:N0}", item.TotalPrice) تومان</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>محصولی در این سفارش وجود ندارد.</p>
+}
+
+<h3>سفارشات چاپ</h3>
+@if (Model.PickupPrintItems != null && Model.PickupPrintItems.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>شناسه سفارش چاپ</th>
+                <th>قیمت کل</th>
+                <th>وضعیت سفارش چاپ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var printItem in Model.PickupPrintItems)
+            {
+                <tr>
+                    <td>@printItem.PrintRequestId</td>
+                    <td>@string.Format("{0:N0}", printItem.TotalPrice) تومان</td>
+                    <td>@printItem.PrintRequest?.Status ?? "نامشخص"</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>سفارشی برای چاپ در این سفارش وجود ندارد.</p>
+}
+
+<p>
+    <a asp-action="MyOrders" class="btn btn-secondary">بازگشت به لیست سفارش‌ها</a>
+</p>

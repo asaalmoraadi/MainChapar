@@ -1,0 +1,137 @@
+
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('fonts/iransans.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Far_Yekan';
+    src: url('fonts\Far_Yekan.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'RokhBold';
+    src: url('fonts/Rokh-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rokh-ultra';
+  src: url('fonts/Rokh-UltraBold.woff2');
+}
+@font-face {
+  font-family: 'Pinar-medium';
+  src: url('fonts/Pinar-Medium.woff2');
+}
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('fonts/Pinar-SemiBold.woff2');
+}
+@font-face {
+  font-family: 'Pinar-ds4-black';
+  src: url('fonts/Pinar-DS4-Black.woff2');
+}
+@font-face {
+  font-family: 'Pinar-DS3-ExtraBold';
+  src: url('fonts/Pinar-DS3-ExtraBold.woff2');
+}
+@font-face {
+  font-family: 'B-yekan';
+  src: url('fonts/Yekan.ttf');
+}
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pinar-medium';
+    }
+
+    body {
+      background-color: #F3C5C5; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 850px;
+      height: 500px;
+      background-color: white;
+      border-radius: 35px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    .left {
+      width: 50%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      direction: rtl;
+      align-items: center;
+    }
+
+    .left h2 {
+      font-size: 21px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+
+    .input-group {
+      margin-bottom: 6px;
+    }
+    .left p{
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .input-group input {
+      width: 18rem;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      direction: rtl;
+    }
+
+    .btn-signup {
+      background-color: #F3C5C5;
+      color: rgb(0, 0, 0);
+      padding: 12px;
+      width: 18rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-signup:hover {
+      background-color: #fd6f6f;
+      color: #ffffff;
+    }
+
+.right {
+  width: 50%;
+  padding: 1rem; /* فاصله 2rem از همه طرف */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 25px;
+  
+}
+
+.right img {
+  width: 100%;
+  height: 100%;
+
+   /* اختیاری، برای زیبایی گوشه‌ها */
+   border-radius: 20px;
+   margin: 1rem 0 1rem 0;
+}
+
+    

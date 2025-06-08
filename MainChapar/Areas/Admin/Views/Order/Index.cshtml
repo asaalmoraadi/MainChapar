@@ -1,0 +1,43 @@
+﻿@model List<MainChapar.Models.Order>
+
+<h2>لیست سفارش‌ها</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>شماره سفارش</th>
+            <th>نام کاربر</th>
+            <th>تاریخ ثبت</th>
+            <th>تأیید شده</th>
+            <th>تحویل شده</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.User?.UserName</td>  @* فرض کردم User فیلد FullName دارد *@
+                <td>@order.CreatedAt.ToString("yyyy/MM/dd")</td>
+                <td>@(order.IsConfirmed ? "بله" : "خیر")</td>
+                <td>@(order.IsCollected ? "بله" : "خیر")</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary btn-sm">جزئیات</a>
+                    @if (!order.IsConfirmed)
+                    {
+                        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id="@order.Id" style="display:inline">
+                            <button type="submit" class="btn btn-success btn-sm">تأیید</button>
+                        </form>
+                    }
+                    @if (order.IsConfirmed && !order.IsCollected)
+                    {
+                        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="MarkAsCollected" asp-route-id="@order.Id" style="display:inline">
+                            <button type="submit" class="btn btn-warning btn-sm">علامت‌گذاری تحویل شده</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

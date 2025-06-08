@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MainChapar.Models.PickupRequest>
+
+<h2>سفارش‌های من</h2>
+
+@if (!Model.Any())
+{
+    <p>سفارشی یافت نشد.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>کد سفارش</th>
+                <th>تاریخ ثبت</th>
+                <th>وضعیت</th>
+                <th>تعداد محصولات</th>
+                <th>تعداد سفارشات چاپ</th>
+                <th>جزئیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
+                    <td>@order.Status</td>
+                    <td>@order.ProductItems.Sum(p => p.Quantity)</td>
+                    <td>@order.PickupPrintItems.Count()</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-primary">جزئیات</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

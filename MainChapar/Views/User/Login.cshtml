@@ -1,24 +1,43 @@
 ﻿@model MainChapar.Models.DTO.LoginDTO
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/assets/login/styles.css">
+    <title>ورود</title>
 
-<form method="post" asp-controller="User" asp-action="Login">
+</head>
+<body>
+    <div class="container">
 
-    <a href="@Url.Action("Register", "User")" class="btn-add">هنوز ثبت نام نکردید؟</a>
-    <table>
-        <tr>
-            <td>  <label asp-for="UserName"></label></td>
-            <td>
-                <input asp-for="UserName" />
-                <span asp-validation-for="UserName"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>  <label asp-for="Password"></label></td>
-            <td>
-                <input asp-for="Password" />
-                <span asp-validation-for="Password"></span>
-            </td>
-        </tr>
-    </table>
-    <button type="submit"> login </button>
+        <div class="left">
+            <h2>به چاپار خوش آمدید</h2>
 
-</form>
+            <p>اطلاعات خود را وارد کنید</p>
+            <form method="post" asp-controller="User" asp-action="Login">
+                <a href="@Url.Action("Register", "User")" class="btn-add">هنوز ثبت نام نکردید؟</a>
+                
+                <div class="input-group">
+                    <input asp-for="UserName" type="text" placeholder="نام کاربری" />
+                    <span asp-validation-for="UserName"></span>
+                </div>
+                <div class="input-group">
+                    <input asp-for="Password" type="password" placeholder="رمز عبور" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <button type="submit" class="btn-signup">ورود</button>
+            </form>
+
+        </div>
+
+        <!-- سمت راست: تصویر هنری -->
+        <div class="right">
+            <img src="~/assets/login/files/image (1).jpg" alt="">
+        </div>
+    </div>
+</body>
+</html>

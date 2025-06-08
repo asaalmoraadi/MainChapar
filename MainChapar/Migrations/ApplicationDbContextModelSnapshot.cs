@@ -58,12 +58,19 @@ namespace MainChapar.Migrations
                     b.Property<int>("PrintRequestId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ContentType")
+                    b.Property<string>("BindingType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CopyCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilesJson")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaperSize")
                         .IsRequired()
@@ -76,6 +83,9 @@ namespace MainChapar.Migrations
                     b.Property<string>("PrintSide")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPages")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -85,13 +95,40 @@ namespace MainChapar.Migrations
                     b.ToTable("BlackWhitePrintDetails");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categories");
+                });
+
             modelBuilder.Entity("MainChapar.Models.ColorPrintDetail", b =>
                 {
                     b.Property<int>("PrintRequestId")
                         .HasColumnType("int");
 
+                    b.Property<string>("AdditionalDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BindingType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CopyCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("FilesJson")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PaperSize")
                         .IsRequired()
@@ -104,6 +141,9 @@ namespace MainChapar.Migrations
                     b.Property<string>("PrintSide")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPages")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -167,17 +207,178 @@ namespace MainChapar.Migrations
                     b.ToTable("Menus");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCollected")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PickupCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("orders");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.OrderDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ordersDetail");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupPrintItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PickupRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrintRequestId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PickupRequestId");
+
+                    b.HasIndex("PrintRequestId");
+
+                    b.ToTable("pickupPrintItems");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupProductItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PickupRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PickupRequestId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("pickupProducts");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDelivered")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("QrCodeToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("pickupRequests");
+                });
+
             modelBuilder.Entity("MainChapar.Models.PlanPrintDetail", b =>
                 {
                     b.Property<int>("PrintRequestId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("AdditionalDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BindingType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("CopyCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilesJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaperType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SizeOrScaleDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("printType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PrintRequestId");
 
@@ -266,7 +467,7 @@ namespace MainChapar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalPrice")
+                    b.Property<decimal?>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UserId")
@@ -288,6 +489,9 @@ namespace MainChapar.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -303,19 +507,22 @@ namespace MainChapar.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("Qty")
+                    b.Property<int>("Qty")
                         .HasColumnType("int");
 
                     b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -588,6 +795,85 @@ namespace MainChapar.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.Order", b =>
+                {
+                    b.HasOne("MainChapar.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.OrderDetail", b =>
+                {
+                    b.HasOne("MainChapar.Models.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainChapar.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupPrintItem", b =>
+                {
+                    b.HasOne("MainChapar.Models.PickupRequest", "PickupRequest")
+                        .WithMany("PickupPrintItems")
+                        .HasForeignKey("PickupRequestId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MainChapar.Models.PrintRequest", "PrintRequest")
+                        .WithMany("PickupPrintItems")
+                        .HasForeignKey("PrintRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PickupRequest");
+
+                    b.Navigation("PrintRequest");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupProductItem", b =>
+                {
+                    b.HasOne("MainChapar.Models.PickupRequest", "PickupRequest")
+                        .WithMany("ProductItems")
+                        .HasForeignKey("PickupRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainChapar.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PickupRequest");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupRequest", b =>
+                {
+                    b.HasOne("MainChapar.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MainChapar.Models.PlanPrintDetail", b =>
                 {
                     b.HasOne("MainChapar.Models.PrintRequest", "PrintRequest")
@@ -619,6 +905,17 @@ namespace MainChapar.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.Product", b =>
+                {
+                    b.HasOne("MainChapar.Models.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("MainChapar.Models.ProductGallery", b =>
@@ -683,6 +980,23 @@ namespace MainChapar.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("MainChapar.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.PickupRequest", b =>
+                {
+                    b.Navigation("PickupPrintItems");
+
+                    b.Navigation("ProductItems");
+                });
+
             modelBuilder.Entity("MainChapar.Models.PrintRequest", b =>
                 {
                     b.Navigation("BlackWhitePrintDetail")
@@ -692,6 +1006,8 @@ namespace MainChapar.Migrations
                         .IsRequired();
 
                     b.Navigation("Files");
+
+                    b.Navigation("PickupPrintItems");
 
                     b.Navigation("PlanPrintDetail")
                         .IsRequired();

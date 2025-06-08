@@ -4,45 +4,51 @@
     font-family: 'IranSans';
     src: url('/assets/fonts/iransans.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'Far_Yekan';
-    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+    src: url('/assets/fonts\Far_Yekan.ttf') format('ttf');
 }
+
 @font-face {
     font-family: 'RokhBold';
     src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'Rokh-ultra';
     src: url('/assets/fonts/Rokh-UltraBold.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-medium';
     src: url('/assets/fonts/Pinar-Medium.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-semibold';
     src: url('/assets/fonts/Pinar-SemiBold.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-ds4-black';
     src: url('/assets/fonts/Pinar-DS4-Black.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-DS3-ExtraBold';
     src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
 }
+
 @font-face {
     font-family: 'B-yekan';
-    src: url('/fonts/Yekan.ttf');
+    src: url('/assets/fonts/Yekan.ttf');
 }
 
 body {
     background-color: #FFFBF7;
     margin: 0;
     padding: 0;
-    
-    
 }
 
 header {
@@ -51,7 +57,7 @@ header {
     /* display flex baray shive gharar giri */
     display: flex;
     align-items: center;
-    justify-content: right  ; 
+    justify-content: right;
     flex-direction: row-reverse;
 }
 
@@ -62,7 +68,8 @@ header {
     font-size: 18px;
     width: 10%;
 }
-#searchbar{
+
+#searchbar {
     width: 80%;
     margin-right: 5rem;
 }
@@ -71,7 +78,7 @@ header {
     height: 50px;
     width: 100%;
     padding-left: 40px;
-    background: url('/assets/img/files/search-icon.png') no-repeat 10px center;
+    background: url('/assets/files/search-icon.png') no-repeat 10px center;
     background-color: #ffffff;
     background-size: 30px 30px;
     font-size: 18px;
@@ -81,21 +88,22 @@ header {
     padding-right: 15px;
     border: 0;
 }
-#search-input:focus{
-     border: 1px solid rgb(197, 197, 197);
-     outline: none;
-}
+
+    #search-input:focus {
+        border: 1px solid rgb(197, 197, 197);
+        outline: none;
+    }
 
 /*nav => menu + user icon */
 nav {
     width: 100%;
     display: flex;
     justify-content: center;
-    
     flex-direction: row-reverse;
     height: 4rem;
 }
-.menu{
+
+.menu {
     width: 60%;
     display: flex;
     flex-direction: row-reverse;
@@ -111,20 +119,27 @@ nav a {
     position: relative;
     padding-left: 3rem;
 }
-.user{
+
+.user {
     width: 30%;
     padding-top: 10px;
 }
 
 
 
-  
+
 .banner {
-    background: #e9e9e9;
-    height: 250px;
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    overflow: hidden;
     border-radius: 10px;
 }
+
+    .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
 
 .container {
@@ -135,52 +150,71 @@ nav a {
     column-gap: 10px;
     height: 70vh;
     background-color: #fdfdfd;
-    margin-right : 2rem;
-    margin-left: 2rem;
-
-    
+    margin: 2rem;
 }
-
-
-  /* amodi - samt chap */
+/* amodi - samt chap */
 
 .box1 {
-    background-color: #EEF1DA;
     grid-row: 1 / span 2;
-    border-radius: 10px;
-
 }
-  /* ofoghi - samt rast - deraze */
+
+    .box1 img, .box2 img, .box3 img, .box4 img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+/* ofoghi - samt rast - deraze */
 
 .box2 {
     background-color: #FFDCCC;
     border-radius: 10px;
+    position: relative;
+    overflow: hidden;
 }
+
+    .box2 #img1 {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+    }
+
+#img2 {
+    height: 10rem;
+    width: 10rem;
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    padding-left: 2rem;
+}
+
+
 /* radif 2 */
 .row2 {
     display: flex;
     gap: 10px;
 }
-  /* samt rast - radif 2 - chap */
+/* samt rast - radif 2 - chap */
 .box3 {
-    background-color:#EDDFE0;
+    background-color: #EDDFE0;
     border-radius: 10px;
 }
-  /* samt rast - radif 2 - rast */
+/* samt rast - radif 2 - rast */
 
 .box4 {
-    background-color:#F5EBE0;
+    background-color: #F5EBE0;
     border-radius: 10px;
 }
- 
-  
+
+
 .box3, .box4 {
     flex: 1;
     height: 100%;
 }
 
 
-#info{
+#info {
     margin: 3rem;
     display: flex;
     justify-content: center;
@@ -192,68 +226,74 @@ nav a {
     direction: rtl;
 }
 /* style baraye vizhegi ha */
-.systems{
+.systems {
     height: 20rem;
     margin: 2rem;
     background-color: #F5EBE0;
     border-radius: 10px;
 }
 
-#systems-title{
+#systems-title {
     padding-top: 1rem;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     font-family: 'Pinar-ds4-black';
     font-style: normal;
     font-weight: 600;
     font-size: 26px;
     color: #000000;
 }
-#systems-des{
-  font-family: 'Pinar-medium';
-  font-size: 18px;
-  text-align: center;
+
+#systems-des {
+    font-family: 'Pinar-medium';
+    font-size: 18px;
+    text-align: center;
 }
-.features{
+
+.features {
     display: flex;
     justify-content: center;
     flex-direction: row-reverse;
     gap: 5rem;
 }
-#feature{
+
+#feature {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: center;    
+    align-items: center;
     width: 12rem;
     height: 12rem;
 }
-#feature h2{
-font-family: 'Rokhbold';
-font-size: 22px;
-  
+
+    #feature h2 {
+        font-family: 'Rokhbold';
+        font-size: 22px;
+    }
+
+#slider-h2 {
+    text-align: center;
+    font-family: 'Rokhbold';
 }
 
-#slider-h2{
-  text-align:center;
-  font-family: 'Rokhbold';
-}
 .slider-container {
     position: relative;
     max-width: 1200px;
     margin: auto;
 }
- .slider {
+
+.slider {
     display: flex;
     overflow-x: auto;
     direction: rtl;
     gap: 16px;
     scroll-behavior: smooth;
-    padding: 8px 40px; 
+    padding: 8px 40px;
 }
 
-  .card {
+
+.card {
     flex: 0 0 210px;
     background-color: rgb(255, 255, 255);
     border-radius: 12px;
@@ -263,46 +303,68 @@ font-size: 22px;
     text-align: center;
     align-items: center;
     margin: 2rem;
-    
-  }
+}
 
-  /* haver yani vaghti mouse bere roosh */
-  .card:hover{
-    background-color: #ffffff00;
-  }
+    /* haver yani vaghti mouse bere roosh */
+    .card:hover {
+        background-color: #ffffff00;
+    }
 
-  .card #card-photo {
-    background-color: #F5EBE0 ;
-    width: 80%;
-    height: 15rem;
-    margin: 1rem;
-    border-radius: 10px;
-  }
+    .card #card-photo {
+        background-color: #F5EBE0;
+        width: 80%;
+        height: 15rem;
+        margin: 1rem;
+        border-radius: 10px;
+    }
 
-  .card h3 {
-    font-size: 16px;
-    margin: 12px 0 4px;
-  }
+    .card h3 {
+        font-size: 16px;
+        margin: 12px 0 4px;
+    }
 
-  .card p {
-    font-size: 13px;
-    color: #666;
-    padding: 0 12px;
-  }
+    .card p {
+        font-size: 13px;
+        color: #666;
+        padding: 0 12px;
+    }
 
-  .card button {
-    margin: 12px;
-    padding: 6px 14px;
-    border: none;
-    border-radius: 6px;
-    background-color: #F5EBE0;
-    color: rgb(0, 0, 0);
-    font-size: 14px;
-    cursor: pointer;
-  }
+    .card button {
+        margin: 12px;
+        padding: 6px 14px;
+        border: none;
+        border-radius: 6px;
+        background-color: #F5EBE0;
+        color: rgb(0, 0, 0);
+        font-size: 14px;
+        cursor: pointer;
+    }
 
-  /* slider buttons  */
-  .arrow-btn {
+#shop {
+    display: flex;
+    align-items: center;
+}
+
+    #shop p {
+        font-family: 'RokhBold';
+        font-size: 12px;
+        margin-right: 0.5rem;
+        color: #000000;
+    }
+
+    #shop img {
+        height: 3rem;
+        width: 3rem;
+        margin: 1rem;
+    }
+
+        #shop img:hover {
+            content: url('/assets/files/button_hover.png');
+        }
+
+
+/* slider buttons  */
+.arrow-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -315,184 +377,214 @@ font-size: 22px;
     cursor: pointer;
     box-shadow: 0 0 6px rgba(0,0,0,0.2);
     z-index: 10;
-  }
+}
 
-  .arrow-left {
+.arrow-left {
     right: 0;
-  }
+}
 
-  .arrow-right {
+.arrow-right {
     left: 0;
-  }
+}
 
-  .slider::-webkit-scrollbar {
+.slider::-webkit-scrollbar {
     height: 6px;
-  }
+}
 
-  .slider::-webkit-scrollbar-thumb {
+.slider::-webkit-scrollbar-thumb {
     background-color: #ccc;
     border-radius: 3px;
-  }
+}
 
-  .part{
+.part {
     height: 6rem;
     width: 100%;
     align-items: center;
     background-color: #FFDCCC;
     margin-top: 2rem;
     margin-bottom: 2rem;
-    
-  }
-  .part p {
-    font-size: 18px;
-    font-weight: 700;
-    text-align: center;
-    padding-top: 2.5rem;
-    font-family: 'Pinar-VF';
-    font-size: 14px;
-  }
+}
+
+    .part p {
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        padding-top: 2.5rem;
+        font-family: 'Pinar-VF';
+        font-size: 14px;
+    }
 
 
-.lavazem{
+.lavazem {
     height: 15rem;
     margin: 2rem;
     align-items: center;
     padding-bottom: 5rem;
 }
-  
-.lavazem h2{
-  font-family: 'Rokh-ultra';
-  font-weight: 800;
-  font-size: 36px;
-  text-align: center;
-  color: #000000;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+
+    .lavazem h2 {
+        font-family: 'Rokh-ultra';
+        font-weight: 800;
+        font-size: 36px;
+        text-align: center;
+        color: #000000;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+.lavazem-boxs {
+    height: 11rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding-bottom: 2rem;
 }
 
-.lavazem-boxs{
-  height: 11rem;
-  display: flex;
-  justify-content: center;
-  flex-direction: row-reverse;
-  align-items: center;
-  padding-bottom:2rem ;
+    .lavazem-boxs .boxs {
+        height: 11rem;
+        width: 11rem;
+        margin-right: 2rem;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+        .lavazem-boxs .boxs img {
+            margin-top: 1rem;
+            height: 4.7rem;
+            width: 4.7rem;
+        }
+
+        .lavazem-boxs .boxs p {
+            font-size: 21px;
+            font-family: 'Rokh-ultra';
+            font-weight: bold;
+        }
+
+#box1 {
+    background-color: #EDDFE0;
 }
 
-.lavazem-boxs .boxs{
-  height: 11rem;
-  width: 11rem;
-  margin-right: 2rem;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+#box2 {
+    background-color: #EEF1DA;
 }
 
-.lavazem-boxs .boxs img{
-  margin-top: 1rem;
-  height: 4.7rem;
-  width: 4.7rem;
-}
-.lavazem-boxs .boxs p{
-  font-size: 21px;
-  font-family: 'Rokh-ultra';
-  font-weight: bold;
+#box3 {
+    background-color: #F5EBE0;
 }
 
-#box1{background-color: #EDDFE0;}
-#box2{background-color: #EEF1DA;}
-#box3{background-color: #F5EBE0;}
-#box4{background-color: #FFDCCC;}
+#box4 {
+    background-color: #FFDCCC;
+}
 
 /* hover */
 
-#box1:hover{background-color: rgb(177, 166, 167);}
-#box2:hover{background-color: #d2d4bf;}
-#box3:hover{background-color: #d4ccc2;}
-#box4:hover{background-color: #dabcae;}
+#box1:hover {
+    background-color: rgb(177, 166, 167);
+}
+
+#box2:hover {
+    background-color: #d2d4bf;
+}
+
+#box3:hover {
+    background-color: #d4ccc2;
+}
+
+#box4:hover {
+    background-color: #dabcae;
+}
+
+/* active */
+
+#box1:active {
+    background-color: rgb(87, 73, 74);
+    color: #ffffff;
+}
+
+#box2:active {
+    background-color: #666855;
+    color: #ffffff;
+}
+
+#box3:active {
+    background-color: #49443c;
+    color: #ffffff;
+}
+
+#box4:active {
+    background-color: #4d3f39;
+    color: #ffffff;
+}
 
 
 /*        footer         */
 
-footer{
-  background-color: rgb(255, 255, 255);
-  height: 15rem;
-  display: flex;
-  direction: rtl;
-  border-radius: 10px 10px 0 0;
-  font-family: 'B-yekan';
+footer {
+    background-color: rgb(255, 255, 255);
+    height: 15rem;
+    display: flex;
+    direction: rtl;
+    border-radius: 10px 10px 0 0;
+    font-family: 'B-yekan';
 }
-.sections{
-  margin: 0rem;
-  width: 25%;
-  border-radius: 15px;
-  align-items: center;
-  text-align: center;
-}
-#sec1{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-#sec1 h1{
-    font-size: 32px;
-}
-#sec1 p{
-  font-size: 16px;
-  font-family: 'Pinar-medium';
-  font-weight: 600;
-}
-#sec2{
-  display: flex;
-  flex-direction: column;
-}
-#sec2 h3 , #sec3 h3 , #sec4 h3{
-  font-family: 'Pinar-medium';
-  font-size: 26px;
-  font-weight: 500;
-}
-#sec2 a , #sec3 p{
-  font-size: 16px;
-  font-family: 'Pinar-medium';
-  font-weight: 500;
-  color: #000000;
-  text-decoration: none;
-  margin: 0.4rem;
 
+.sections {
+    margin: 0rem;
+    width: 25%;
+    border-radius: 15px;
+    align-items: center;
+    text-align: center;
 }
-#sec2 a:hover{
-  color: #967f74;
-}
-.social{
-  margin: 1rem;
 
+#sec1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
-.social img{
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
-}
-#shop{
-  display: flex;
-  align-items: center;
-  
-}
-#shop p {
-  font-family: 'RokhBold';
-  font-size: 12px;
-  margin-right: 0.5rem;
-  color: #000000;
-  
-}
-#shop img{
-  height: 3rem;
-  width: 3rem;
-  margin: 1rem;
-}
-    #shop img:hover {
-        content: url('/assets/img/files/utton_hover.png');
+
+    #sec1 h1 {
+        font-size: 32px;
     }
 
+    #sec1 p {
+        font-size: 16px;
+        font-family: 'Pinar-medium';
+        font-weight: 600;
+    }
 
+#sec2 {
+    display: flex;
+    flex-direction: column;
+}
 
+    #sec2 h3, #sec3 h3, #sec4 h3 {
+        font-family: 'Pinar-medium';
+        font-size: 26px;
+        font-weight: 500;
+    }
+
+    #sec2 a, #sec3 p {
+        font-size: 16px;
+        font-family: 'Pinar-medium';
+        font-weight: 500;
+        color: #000000;
+        text-decoration: none;
+        margin: 0.4rem;
+    }
+
+        #sec2 a:hover {
+            color: #967f74;
+        }
+
+.social {
+    margin: 1rem;
+}
+
+    .social img {
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+    }

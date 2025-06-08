@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MainChapar.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>دسته بندی محصولات</h1>
+                <a asp-action="create"><button id="addTaskButton">افزودن</button></a>
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+
+                            <th>نام</th>
+                            <th>تغییرات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="actions">
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><button class="edit-btn">ویرایش</button></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id"><button class="info-btn">جزئیات</button></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><button class="delete-btn">حذف</button></a>
+                                </td>
+                            </tr>
+                        }
+            
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+

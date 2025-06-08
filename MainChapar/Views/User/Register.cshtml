@@ -1,53 +1,61 @@
 ﻿@model MainChapar.Models.DTOs.UserDTO
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 
 <div asp-validation-summary="All" class="text-danger"></div>
-<form method="post" asp-action="Register">
 
-    <table>
-        <tr>
-            <td>  <label asp-for="FirstName"></label></td>
-            <td>
-                <input asp-for="FirstName" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>  <label asp-for="LastName"></label></td>
-            <td>
-                <input asp-for="LastName" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>  <label asp-for="Email"></label></td>
-            <td>
-                <input asp-for="Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>  <label asp-for="Username"></label></td>
-            <td>
-                <input asp-for="Username" />
-                <span asp-validation-for="Username"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>  <label asp-for="Password"></label></td>
-            <td>
-                <input asp-for="Password" />
-                <span asp-validation-for="Password"></span>
-            </td>
-        </tr>
-        <tr>
-            <td>  <label asp-for="ConfPassword"></label></td>
-            <td>
-                <input asp-for="ConfPassword" />
-                <span asp-validation-for="ConfPassword"></span>
-            </td>
-        </tr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/assets/register/styles.css">
+    <title>ثبت نام</title>
 
-    </table>
-    <button type="submit"> submit </button>
-</form>
+</head>
+<body>
+    <div class="container">
+
+        <div class="left">
+            <h2>به چاپار خوش آمدید</h2>
+
+            <p>اطلاعات خود را وارد کنید</p>
+            <form method="post" asp-action="Register">
+                <div class="input-group">
+                    <input asp-for="FirstName" type="text" placeholder="نام" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="input-group">
+                    <input asp-for="LastName" type="text" placeholder="نام خانوادگی" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="input-group">
+                    <input asp-for="Email" type="email" placeholder="ایمیل" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="input-group">
+                    <input asp-for="Username" type="text" placeholder="نام کاربری" />
+                    <span asp-validation-for="Username"></span>
+                </div>
+                <div class="input-group">
+                    <input asp-for="Password" type="password" placeholder="رمز عبور" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+                <div class="input-group">
+                    <input asp-for="ConfPassword" type="password" placeholder="تکرار رمز عبور" />
+                    <span asp-validation-for="ConfPassword"></span>
+                </div>
+              
+                <button class="btn-signup">ثبت نام</button>
+            </form>
+        </div>
+
+        <!-- سمت راست: تصویر هنری -->
+        <div class="right">
+            <img src="~/assets/register/files/image (1).jpg" alt="">
+        </div>
+    </div>
+</body>
+</html>
 

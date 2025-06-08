@@ -1,0 +1,62 @@
+﻿@model MainChapar.Models.Order
+
+<h2>جزئیات سفارش شماره @Model.Id</h2>
+
+<div>
+    <h4>اطلاعات کاربر</h4>
+    <p><strong>نام کامل:</strong> @Model.User?.UserName</p>
+    <p><strong>ایمیل:</strong> @Model.User?.Email</p>
+    <p><strong>تاریخ ثبت سفارش:</strong> @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
+    <p><strong>وضعیت تأیید:</strong> @(Model.IsConfirmed ? "تأیید شده" : "تأیید نشده")</p>
+    <p><strong>وضعیت تحویل:</strong> @(Model.IsCollected ? "تحویل شده" : "تحویل نشده")</p>
+</div>
+
+<hr />
+
+<div>
+    <h4>محصولات سفارش داده شده</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>نام محصول</th>
+                <th>تعداد</th>
+                <th>قیمت واحد</th>
+                <th>قیمت کل</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@detail.Product?.Title</td>
+                    <td>@detail.Quantity</td>
+                    <td>@String.Format("{0:N0} تومان", detail.UnitPrice)</td>
+                    <td>@String.Format("{0:N0} تومان", detail.UnitPrice * detail.Quantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5 class="text-right">
+        مجموع کل: @String.Format("{0:N0} تومان", Model.OrderDetails.Sum(od => od.UnitPrice * od.Quantity))
+    </h5>
+</div>
+
+<hr />
+
+<div>
+    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-secondary">بازگشت به لیست سفارش‌ها</a>
+
+    @if (!Model.IsConfirmed)
+    {
+        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id="@Model.Id" style="display:inline">
+            <button type="submit" class="btn btn-success">تأیید سفارش</button>
+        </form>
+    }
+    @if (Model.IsConfirmed && !Model.IsCollected)
+    {
+        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="MarkAsCollected" asp-route-id="@Model.Id" style="display:inline">
+            <button type="submit" class="btn btn-warning">علامت‌گذاری تحویل شده</button>
+        </form>
+    }
+</div>
