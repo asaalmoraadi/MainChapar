@@ -1,42 +1,10 @@
-﻿@model MainChapar.Models.PrintRequest
+﻿
+@model MainChapar.Models.PrintRequest
 @using MainChapar.Models
-
+@using System.Globalization
 @{
     ViewData["Title"] = "جزئیات درخواست چاپ";
 }
-
-@* <h2>جزئیات درخواست چاپ</h2>
-
-<p><strong>نام کاربر:</strong> @Model.User.Id</p>
-<p><strong>تاریخ:</strong> @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
-<p><strong>نوع خدمت:</strong> @Model.ServiceType</p>
-<p><strong>قیمت کل:</strong> @Model.TotalPrice تومان</p>
-<p><strong>وضعیت فعلی:</strong> @Model.Status</p>
-
-<h4>فایل‌ها:</h4>
-<ul>
-    @foreach (var file in Model.Files)
-    {
-        <li>@file.FileName</li>
-    }
-</ul>
-
-<hr />
-
-<h4>تغییر وضعیت درخواست</h4>
-<form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <label for="status">وضعیت جدید:</label>
-        <select class="form-control" name="status">
-            <option value="@PrintRequestStatus.Approved" selected="@((Model.Status == PrintRequestStatus.Approved).ToString().ToLower())">تایید شده</option>
-            <option value="@PrintRequestStatus.Processing" selected="@((Model.Status == PrintRequestStatus.Processing).ToString().ToLower())">در حال انجام</option>
-            <option value="@PrintRequestStatus.Completed" selected="@((Model.Status == PrintRequestStatus.Completed).ToString().ToLower())">اتمام یافته</option>
-            <option value="@PrintRequestStatus.Rejected" selected="@((Model.Status == PrintRequestStatus.Rejected).ToString().ToLower())">رد شده</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success mt-2">ذخیره تغییر وضعیت</button>
-</form> *@
 
 
 <!DOCTYPE html>
@@ -45,7 +13,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>داشبورد اصلی</title>
-    <link rel="stylesheet" href="/assets/category/styles.css">
+    <link rel="stylesheet" href="/assets/category/styles - printReq.css">
 </head>
 <body>
 
@@ -57,7 +25,11 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-action="Index">بازگشت به فهرست</button></a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیریت سفارشات</a></li>
                 </ul>
             </nav>
         </aside>
@@ -71,61 +43,192 @@
 
             <div id="taskList">
                 <table>
-                   
-                    <tbody id="taskItems">
+                    <thead>
+                        <tr>
+                            <th>نام کاربر</th>
+                            <th> تاریخ</th>
+                            <th>نوع خدمت</th>
+                            <th>قیمت کل</th>
+                            <th>وضعیت فعلی</td>
+                            <th>فایل‌ها</th>
+                            <th>وضعیت جدید</th>
+                            <th>عملیات</th>
 
+
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                   
                         <tr>
-                            <td>نام کاربر</td>
+                           
                             <td>@Model.User.UserName</td>
-                        </tr>
-                        <tr>
-                            <td> تاریخ</td>
-                            <td>@Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
-                        </tr>
-                        <tr>
-                            <td>نوع خدمت</td>
+                        
+                            <td>@Model.CreatedAt.ToString("yyyy/MM/dd  HH:mm")</td>
+                        
                             <td>@Model.ServiceType</td>
-                        </tr>
-                        <tr>
-                            <td>قیمت کل</td>
+                        
                             <td> @Model.TotalPrice تومان</td>
-                        </tr>
-                        <tr>
-                            <td>وضعیت فعلی</td>
+                     
                             <td>@Model.Status</td>
-                        </tr>
-                        <tr>
-                            <td>فایل‌ها</td>
+                        
                             <td>
-                                <ul>
-                                    @foreach (var file in Model.Files)
-                                    {
-                                        <li>@file.FileName</li>
-                                    }
-                                </ul>
+                                @if (Model.Files == null || !Model.Files.Any())
+                                {
+                                    <p>فایلی موجود نیست.</p>
+                                }
+                                else
+                                {
+                                    <ul>
+                                        @foreach (var file in Model.Files)
+                                        {
+                                            <li>
+                                                @file.FileName
+                                                <a class="btn btn-sm btn-success" href="@Url.Action("DownloadFile", "PrintRequest", new { area = "Admin", fileId = file.Id })">
+                                                    دانلود
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
                             </td>
-                        </tr>
-                        <tr>
-                            <td><h4>تغییر وضعیت درخواست</h4></td>
-                            <td>
+                     
                                 <form asp-action="UpdateStatus" asp-route-id="@Model.Id" method="post">
-                                    @Html.AntiForgeryToken()
-                                    <div class="form-group">
-                                        <label for="status">وضعیت جدید:</label>
-                                        <select class="form-control" name="status">
-                                            <option value="@PrintRequestStatus.Approved" selected="@((Model.Status == PrintRequestStatus.Approved).ToString().ToLower())">تایید شده</option>
-                                            <option value="@PrintRequestStatus.Processing" selected="@((Model.Status == PrintRequestStatus.Processing).ToString().ToLower())">در حال انجام</option>
-                                            <option value="@PrintRequestStatus.Completed" selected="@((Model.Status == PrintRequestStatus.Completed).ToString().ToLower())">اتمام یافته</option>
-                                            <option value="@PrintRequestStatus.Rejected" selected="@((Model.Status == PrintRequestStatus.Rejected).ToString().ToLower())">رد شده</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="info-btn">ذخیره تغییر وضعیت</button>
+                                @Html.AntiForgeryToken()
+                        <td>
+                            <div class="form-group">
+                                <select class="form-control" name="status">
+                                    <option value="@PrintRequestStatus.Approved" selected="@((Model.Status == PrintRequestStatus.Approved).ToString().ToLower())">تایید شده</option>
+                                    <option value="@PrintRequestStatus.Processing" selected="@((Model.Status == PrintRequestStatus.Processing).ToString().ToLower())">در حال انجام</option>
+                                    <option value="@PrintRequestStatus.Completed" selected="@((Model.Status == PrintRequestStatus.Completed).ToString().ToLower())">اتمام یافته</option>
+                                    <option value="@PrintRequestStatus.Rejected" selected="@((Model.Status == PrintRequestStatus.Rejected).ToString().ToLower())">رد شده</option>
+                                </select>
+                            </div>
+                        </td>
+                            <td class="actions">
+                            <button type="submit" class="actions">ذخیره </button>
+                        </td>
                                 </form>
-                            </td>
+                                    
+                            
                         </tr>
                     </tbody>
                 </table>
+              
+            </div>
 
+            <div id="taskList">
+                @if (Model.ServiceType == "BlackWhite" && Model.BlackWhitePrintDetail != null)
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ابعاد </th>
+                                <th>وجه</th>
+                                <th>جنس</th>
+                                <th>تعداد نسخه</th>
+                                <th>نوع صحافی</th>
+                                <th>توضیحات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="taskItems">
+                            <tr>
+
+                                <td>@Model.BlackWhitePrintDetail.PaperSize</td>
+                                <td>@Model.BlackWhitePrintDetail.PaperType</td>
+                                <td>@Model.BlackWhitePrintDetail.PrintSide</td>
+                                <td>@Model.BlackWhitePrintDetail.CopyCount</td>
+                                <td>@Model.BlackWhitePrintDetail.BindingType</td>
+                                <td>@Model.BlackWhitePrintDetail.Description</td>
+                            </tr>
+                        </tbody>
+                    </table>  
+                }
+
+                @if (Model.ServiceType == "Color" && Model.ColorPrintDetail != null)
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ابعاد </th>
+                                <th>جنس</th>
+                                <th>وجه</th>
+                                <th>تعداد نسخه</th>
+                                <th>نوع صحافی</th>
+                                <th>توضیحات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="taskItems">
+                            <tr>
+
+                                <td>@Model.ColorPrintDetail.PaperSize</td>
+                                <td>@Model.ColorPrintDetail.PaperType</td>
+                                <td>@Model.ColorPrintDetail.PrintSide</td>
+                                <td>@Model.ColorPrintDetail.CopyCount</td>
+                                <td>@Model.ColorPrintDetail.BindingType</td>
+                                <td>@Model.ColorPrintDetail.Description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+                @if (Model.ServiceType == "Plan" && Model.PlanPrintDetail != null)
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>جنس</th>
+                                <th>نوع چاپ</th>
+                                <th>تعداد نسخه</th>
+                                <th>نوع صحافی</th>
+                                <th>اندازه نقشه یا مقیاس</th>
+                                <th>توضیحات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="taskItems">
+                            <tr>
+
+                                <td>@Model.PlanPrintDetail.PaperType</td>
+                                <td>@Model.PlanPrintDetail.printType</td>
+                                <td>@Model.PlanPrintDetail.CopyCount</td>
+                                <td>@Model.PlanPrintDetail.BindingType</td>
+                                <td>@Model.PlanPrintDetail.Description</td>
+                                <td>@Model.PlanPrintDetail.AdditionalDescription</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                @if (Model.ServiceType == "Laminate" && Model.PlanPrintDetail != null)
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>جنس</td>
+                                <th>نوع چاپ</th>
+                                <th>تعداد نسخه</th>
+                                <th>جنس لمینیت</th>
+                                <th>نوع گوشه</th>
+                                <th>توضیحات</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="taskItems">
+                            <tr>
+
+                                <td>@Model.LaminateDetail.PaperType</td>
+                                <td>@Model.LaminateDetail.printType</td>
+                                <td>@Model.LaminateDetail.CopyCount</td>
+                                <td>@Model.LaminateDetail.LaminateType</td>
+                                <td>@Model.LaminateDetail.CornerType</td>
+                                <td>@Model.LaminateDetail.Description</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+
+               
             </div>
             
 

@@ -1,61 +1,61 @@
 ﻿@model MainChapar.Models.DTOs.UserDTO
 @{
-    Layout = "~/Views/Shared/_newLayout1.cshtml";
+    // Layout = "~/Views/Shared/_newLayout1.cshtml";
+
+    Layout = null;  // یعنی هیچ Layout استفاده نشه
 }
 
-<div asp-validation-summary="All" class="text-danger"></div>
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="~/assets/register/styles.css">
-    <title>ثبت نام</title>
+    <link rel="stylesheet" href="~/assets/login/styles.css">
+    <title>ورود</title>
 
 </head>
-<body>
-    <div class="container">
 
-        <div class="left">
-            <h2>به چاپار خوش آمدید</h2>
+<div class="container">
+    <div class="left">
+        <h2>به چاپار خوش آمدید</h2>
+        <p>اطلاعات خود را وارد کنید</p>
 
-            <p>اطلاعات خود را وارد کنید</p>
-            <form method="post" asp-action="Register">
-                <div class="input-group">
-                    <input asp-for="FirstName" type="text" placeholder="نام" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </div>
-                <div class="input-group">
-                    <input asp-for="LastName" type="text" placeholder="نام خانوادگی" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </div>
-                <div class="input-group">
-                    <input asp-for="Email" type="email" placeholder="ایمیل" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="input-group">
-                    <input asp-for="Username" type="text" placeholder="نام کاربری" />
-                    <span asp-validation-for="Username"></span>
-                </div>
-                <div class="input-group">
-                    <input asp-for="Password" type="password" placeholder="رمز عبور" />
-                    <span asp-validation-for="Password"></span>
-                </div>
-                <div class="input-group">
-                    <input asp-for="ConfPassword" type="password" placeholder="تکرار رمز عبور" />
-                    <span asp-validation-for="ConfPassword"></span>
-                </div>
-              
-                <button class="btn-signup">ثبت نام</button>
-            </form>
-        </div>
+        <form method="post" asp-action="Register">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger"></div>
 
-        <!-- سمت راست: تصویر هنری -->
-        <div class="right">
-            <img src="~/assets/register/files/image (1).jpg" alt="">
-        </div>
+            <div class="input-group">
+                <input asp-for="FirstName" type="text" placeholder="نام" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="LastName" type="text" placeholder="نام خانوادگی" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="PhoneNumber" type="text" placeholder="شماره تلفن (مثلاً 091222233444)" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="Email" type="email" placeholder="ایمیل" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="Username" type="text" placeholder="نام کاربری" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="Password" type="password" placeholder="رمز عبور" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="input-group">
+                <input asp-for="ConfPassword" type="password" placeholder="تکرار رمز عبور" />
+                <span asp-validation-for="ConfPassword" class="text-danger"></span>
+            </div>
+
+            <button class="btn-signup">ثبت نام</button>
+        </form>
     </div>
-</body>
-</html>
 
+    <div class="right">
+        <img src="~/assets/register/files/image (1).jpg" alt="">
+    </div>
+</div>

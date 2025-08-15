@@ -1,0 +1,22 @@
+﻿<h2>آمار فروش</h2>
+
+<h3>امروز</h3>
+<p>محصولات: @Model.TodayProductCount خرید، جمع مبلغ: @Model.TodayProductSales.ToString("N0")</p>
+<p>خدمات چاپ: @Model.TodayPrintCount درخواست، جمع مبلغ: @Model.TodayPrintSales.ToString("N0")</p>
+
+<h3>این ماه</h3>
+<p>محصولات: @Model.MonthProductCount خرید، جمع مبلغ: @Model.MonthProductSales.ToString("N0")</p>
+<p>خدمات چاپ: @Model.MonthPrintCount درخواست، جمع مبلغ: @Model.MonthPrintSales.ToString("N0")</p>
+
+<h3>آمار ماهانه</h3>
+<table>
+    <tr><th>ماه</th><th>فروش محصولات</th><th>خدمات چاپ</th></tr>
+    @foreach (var m in Model.MonthlySales)
+    {
+        <tr>
+            <td>@m.Month</td>
+            <td>@m.ProductSales.ToString("N0")</td>
+            <td>@m.PrintSales.ToString("N0")</td>
+        </tr>
+    }
+</table>

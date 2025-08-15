@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="~/assets/admin - Customer club/styles.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+
+                </ul>
+            </nav>
+        </aside>
+
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>باشگاه مشتریان</h1>
+                <img src="~/assets/admin - Customer club/files/customer.png" alt="">
+            </header>
+
+
+
+            <section class="management-section">
+
+                <div class="grid-container activity-management">
+                    <a href="/Admin/Services/index" class="dashboard-card">
+
+                        <h3>درخواست های دانشجویی</h3>
+                        <p>لیست درخواست های ثبت شده از طرف دانشجویان</p>
+                    </a>
+                    <a href="/Admin/Collaboration/index" class="dashboard-card">
+
+                        <h3>درخواست همکاری</h3>
+                        <p>لیست درخواست های همکاری </p>
+                    </a>
+                    <a href="/Admin/Contact/index" class="dashboard-card">
+
+                        <h3>پیام های تماس با ما</h3>
+                        <p>لیست از پیام های ثبت شده کاربران در بخش تماس با ما</p>
+                    </a>
+
+                </div>
+            </section>
+
+
+</body>
+</html>

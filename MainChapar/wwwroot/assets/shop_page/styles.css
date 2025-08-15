@@ -1,0 +1,650 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+    body {
+        background-color: #FFFBF7;
+        margin: 0;
+        padding: 0;
+        
+        
+    }
+    
+
+header {
+    width: 100%;
+    height: 5rem;
+    /* display flex baray shive gharar giri */
+    display: flex;
+    align-items: center;
+    justify-content: right  ; 
+    flex-direction: row-reverse;
+}
+
+#logo {
+    margin-right: 10px;
+    margin-top: 1rem;
+    font-family: 'Rokhbold';
+    font-size: 18px;
+    width: 10%;
+}
+#searchbar{
+    width: 80%;
+    margin-right: 5rem;
+}
+
+#search-input{
+    height: 50px;
+    width: 100%;
+    padding-left: 40px; 
+    background: url('files/search-icon.png') no-repeat 10px center;
+    background-color: #ffffff;
+    background-size:30px 30px; 
+    font-size: 18px;
+    border-radius: 13px;
+    direction: rtl;
+    text-align: right;
+    padding-right: 15px;
+    border: 0;
+
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
+}
+
+/*nav => menu + user icon + shop */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: row-reverse;
+    height: 4rem;
+}
+.menu{
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Pinar-medium';
+    font-size: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 3rem;
+}
+nav a:hover {
+    color: #f25d5d;
+}
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
+}
+
+
+
+    
+    .banner {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+
+.container {
+    display: grid;
+    grid-template-columns: 15rem auto; /*taghsim bandi soton ha*/
+    grid-template-rows: 1fr 1fr; /* taghsim bandi baray radif */
+    row-gap: 10px; /* fasele beyn box ha */
+    column-gap: 10px;
+    height: 70vh;
+    background-color: #fffbf7;
+    margin: 2rem;
+}
+    /* amodi - samt chap */
+
+    .box1 {
+        grid-row: 1 / span 2;
+
+    }
+    .box1 img , .box2 img , .box3 img , .box4 img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+    /* ofoghi - samt rast - deraze */
+
+    .box2 {
+        background-color: #FFDCCC;
+        border-radius: 10px;
+        position: relative; 
+        overflow: hidden; 
+    }
+    .box2 #img1 {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+    }
+
+    #img2 {
+        height: 10rem;
+        width: 10rem;
+        position: absolute;
+        top: 50%;
+        left: 20px; 
+        transform: translateY(-50%); 
+        padding-left: 2rem;
+        
+        
+    }
+
+
+    /* radif 2 */
+    .row2 {
+        display: flex;
+        gap: 10px;
+    }
+    /* samt rast - radif 2 - chap */
+    .box3 {
+        background-color:#EDDFE0;
+        border-radius: 10px;
+    }
+    /* samt rast - radif 2 - rast */
+
+    .box4 {
+        background-color:#F5EBE0;
+        border-radius: 10px;
+    }
+    
+    
+    .box3, .box4 {
+        flex: 1;
+        height: 100%;
+    }
+
+
+    #info{
+        margin: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Pinar-semibold';
+        font-weight: 600;
+        text-align: center;
+        color: #000000;
+        direction: rtl;
+    }
+
+
+
+
+
+
+
+    /* استایل کلی کانتینر */
+.special-offer-container {
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #D8EFF5;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 70rem;
+  overflow: hidden;
+  gap: 2rem;
+  
+}
+
+.special-offer-container .top-bar {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.special-offer {
+  font-size: 1.5rem;
+  font-family: 'Pinar-semibold';
+  color: #000000;
+}
+
+
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+}
+
+
+
+/* ----  کارت محصول ---- */
+
+.product-card {
+    /*height: 24rem;*/
+    flex: 0 0 210px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 0.5rem;
+
+}
+
+.product-card:hover {
+    transform: translateY(-8px); /* یکم کارت میاد بالا */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+}
+
+.product-image-wrapper {
+    width: 80%;
+    aspect-ratio: 0.7 / 1; /* تنظیم ابعاد */
+    overflow: hidden;
+    border-radius: 0.75rem; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    margin-top: 1rem;
+    
+}
+
+.product-image-wrapper img {
+    height: 100%; 
+    width: 100%; 
+    object-fit: contain; /* نسبت تصویر حفظ میشه */
+    object-position: center center;
+    display: block;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%;
+    text-align: center; 
+    justify-content: flex-end; 
+}
+
+.product-title {
+    font-size: 1rem;
+    font-family: 'Pinar-medium'; 
+    color: #333;
+    line-height: 1.4;
+    height: auto; 
+    overflow: hidden;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
+
+.product-price-info {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    font-family: 'Pinar-semibold';
+    margin-top: 0.5rem; 
+}
+
+.original-price-strikethrough {
+    font-size: 0.8rem; 
+    color: #999; 
+    text-decoration: line-through; 
+    margin-bottom: 0.2rem; 
+     direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+.current-price {
+    font-size: 1.1rem; 
+    color: #e60023; 
+    font-family: 'Pinar-DS3-ExtraBold'; 
+    font-weight: bold; 
+    direction: ltr;
+    unicode-bidi: plaintext; 
+    
+}
+
+.buy-btn{
+    background-color: #F3C5C5;
+      color: rgb(0, 0, 0);
+      padding: 12px;
+      width: 8rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-family: 'Pinar-semibold';
+      margin-bottom: 1rem;
+    }
+
+    
+.buy-btn:hover {
+      background-color: #fd6f6f;
+      color: #ffffff;
+    }
+
+
+ .single-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh; 
+    padding: 20px;
+    background-color: #f0f2f5; 
+} 
+
+
+
+
+
+.features{
+    display: flex;
+    justify-content: center;
+        flex-direction: row-reverse;
+    gap: 5rem;
+}
+#feature{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;    
+    width: 12rem;
+    height: 12rem;
+}
+#feature h2{
+font-family: 'Rokhbold';
+font-size: 22px;
+  
+}   
+
+.new-product-container {
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 1rem;
+  
+  max-width: 1200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.container-title {
+  font-size: 1.5rem;
+  font-family: 'Pinar-semibold';
+  color: #000000;
+}
+
+
+
+/*--------------------------------- کانتینر محصولات جدید ------------------------------------------------*/
+
+
+
+    /* استایل کلی کانتینر */
+.new-product-container {
+  margin: 2rem auto;
+  padding: 1rem;
+  
+  
+  
+  max-width: 70rem;
+  overflow: hidden;
+  gap: 2rem;
+  
+}
+.new-product-container .top-bar {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.new-product {
+  font-size: 1.5rem;
+  font-family: 'Pinar-semibold';
+  color: #000000;
+}
+
+
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  padding: 1rem 0;
+}
+
+
+
+/* ----  کارت محصول ---- */
+
+.product-card {
+    /*height: 24rem;*/
+    flex: 0 0 210px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 0.5rem;
+
+}
+
+.product-card:hover {
+    transform: translateY(-8px); /* یکم کارت میاد بالا */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+}
+
+.product-image-wrapper {
+    width: 80%;
+    aspect-ratio: 0.7 / 1; /* تنظیم ابعاد */
+    overflow: hidden;
+    border-radius: 0.75rem; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    margin-top: 1rem;
+    
+}
+
+.product-image-wrapper img {
+    height: 100%; 
+    width: 100%; 
+    object-fit: contain; /* نسبت تصویر حفظ میشه */
+    object-position: center center;
+    display: block;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%;
+    text-align: center; 
+    justify-content: flex-end; 
+}
+
+.product-title {
+    font-size: 1rem;
+    font-family: 'Pinar-medium'; 
+    color: #333;
+    line-height: 1.4;
+    height: auto; 
+    overflow: hidden;
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    -webkit-box-orient: vertical;
+}
+
+.product-price-info {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    font-family: 'Pinar-semibold';
+    margin-top: 0.5rem; 
+}
+
+.original-price-strikethrough {
+    font-size: 0.8rem; 
+    color: #999; 
+    text-decoration: line-through; 
+    margin-bottom: 0.2rem; 
+     direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+.current-price {
+    font-size: 1.1rem; 
+    color: #e60023; 
+    font-family: 'Pinar-DS3-ExtraBold'; 
+    font-weight: bold; 
+    direction: ltr;
+    unicode-bidi: plaintext; 
+    
+}
+
+.buy-btn{
+    background-color: #F3C5C5;
+      color: rgb(0, 0, 0);
+      padding: 12px;
+      width: 8rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-family: 'Pinar-semibold';
+      margin-bottom: 1rem;
+    }
+
+    
+.buy-btn:hover {
+      background-color: #fd6f6f;
+      color: #ffffff;
+    }
+
+
+ .single-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh; 
+    padding: 20px;
+    background-color: #f0f2f5; 
+} 
+
+    
+
+

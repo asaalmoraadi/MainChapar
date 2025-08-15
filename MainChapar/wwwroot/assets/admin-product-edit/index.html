@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        
+
+        <main class="main-content">
+        <div class="top-table">
+        <h1>ویرایش محصول</h1>
+        <div id="top-buttons">
+        <button id="editButton">ذخیره</button>
+        <button id="editButton">حذف</button>
+        <button id="editButton">بازگشت</button>
+        </div>
+        </div>
+
+    <div id="taskList">
+       
+    </div>
+
+
+<div class="admin-container">
+    
+    <form>
+      
+      
+
+      <!-- عنوان -->
+      <div>
+        <label for="Title">عنوان محصول</label>
+        <input type="text" id="Title"  />
+      </div>
+
+      <!-- قیمت -->
+      <div>
+        <label for="Price">قیمت (تومان)</label>
+        <input type="number" id="Price" name="Price" value="@Model.Price" min="0" step="100" required />
+      </div>
+
+      <!-- تخفیف -->
+      <div>
+        <label for="Discount">تخفیف</label>
+        <input type="number" id="Discount" name="Discount" value="@Model.Discount" min="0" max="100" />
+      </div>
+
+      <!-- موجودی -->
+      <div>
+        <label for="Quantity">تعداد</label>
+        <input type="number" id="Quantity"min="0" />
+      </div>
+
+      <!-- توضیح کوتاه -->
+      <div class="full-col">
+        <label for="ShortDescription">توضیح کوتاه</label>
+        <textarea id="ShortDescription" ></textarea>
+      </div>
+
+      <!-- توضیح تکمیلی  -->
+      <div class="full-col">
+        <label for="FullDescription">توضیح تکمیلی</label>
+        <textarea id="FullDescription" ></textarea>
+      </div>
+ <!--  نمایش عکس اصلی قبلی -->
+  <div class="form-section">
+    <label>عکس اصلی فعلی:</label>
+    <div>
+      <img src="files/1.png" alt="Main Image" style="max-width: 150px; border: 1px solid #ccc;">
+    </div>
+    <label for="mainImage">تغییر عکس اصلی:</label>
+    <input type="file" id="mainImage" name="MainImage">
+  </div>
+
+  <!-- نمایش گالری عکس‌های قبلی -->
+  <div class="form-section">
+    <label>گالری تصاویر فعلی:</label>
+    <div class="gallery-preview">
+      
+        <img src="files/1.png" alt="Gallery Image" class="gallery-thumb" />
+        <img src="files/1.png" alt="Gallery Image" class="gallery-thumb" />
+        <img src="files/1.png" alt="Gallery Image" class="gallery-thumb" />
+      
+    
+    </div>
+    <label for="galleryImages">افزودن تصاویر جدید به گالری:</label>
+    <input type="file" id="galleryImages" name="GalleryImages" multiple>
+  </div>
+
+      <!-- تگ‌ها -->
+      <div class="full-col">
+        <label for="Tags">تگ ها</label>
+        <input type="text" id="Tags"  />
+      </div>
+
+      <div class="box" id="available-box">
+        <input type="checkbox" id="available" name="fav_language" value="موچود">
+    <label for="available">موجود است ؟</label>
+      </div>
+
+      
+    </form>
+  </div>
+
+        
+    </main>
+        
+    </div>
+
+    </body>
+</html>

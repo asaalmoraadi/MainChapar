@@ -3,6 +3,7 @@ using MainChapar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MainChapar.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MainChapar.Controllers
 {
@@ -16,13 +17,62 @@ namespace MainChapar.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
-        public IActionResult Index()
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var users = _userManager.Users.ToList();
+            var userRolesDTOs = new List<UserWithRolesDTO>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                userRolesDTOs.Add(new UserWithRolesDTO
+                {
+                    Id = user.Id,
+                    Username = user.UserName,
+                    FirstName = user.Name,
+                    LastName = user.LName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    CurrentRole = roles.FirstOrDefault() ?? "user",
+                    AllRoles = new List<string> { "admin", "user" } // برای dropdown
+                });
+            }
+
+            return View(userRolesDTOs);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> ChangeRole(string userId, string newRole)
+        {
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(newRole))
+                return BadRequest();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+            var removeResult = await _userManager.RemoveFromRolesAsync(user, currentRoles);
+
+            if (!removeResult.Succeeded)
+            {
+                ModelState.AddModelError("", "خطا در حذف نقش‌های قبلی.");
+                return RedirectToAction("Index");
+            }
+
+            var addResult = await _userManager.AddToRoleAsync(user, newRole);
+            if (!addResult.Succeeded)
+            {
+                ModelState.AddModelError("", "خطا در افزودن نقش جدید.");
+            }
+
+            return RedirectToAction("Index");
         }
         public IActionResult Register()
         {
-            return View();
+            return View(new UserDTO());
         }
 
         [HttpPost]
@@ -40,6 +90,7 @@ namespace MainChapar.Controllers
                 Email = register.Email,
                 Name = register.FirstName,
                 LName = register.LastName,
+                PhoneNumber = register.PhoneNumber,
             };
 
             // ذخیره کاربر با استفاده از UserManager
@@ -107,7 +158,12 @@ namespace MainChapar.Controllers
 
             if (result.Succeeded)
             {
+         
+                var roles = _userManager.GetRolesAsync(user).Result;
+                System.Diagnostics.Debug.WriteLine("نقش‌های کاربر: " + string.Join(", ", roles));
+
                 return RedirectToAction("Index", "Home");
+              
             }
 
             ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است.");
@@ -129,9 +185,27 @@ namespace MainChapar.Controllers
                 p.Email,
                 p.LName,
                 p.UserName,
+                p.PhoneNumber
             });
             return View(users);
         }
-        
+
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            return View(user);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            //اگر کاربر با دسترسی اشتباهی وارد صفحه شود اخطار می دهد
+            return View(); 
+        }
     }
 }

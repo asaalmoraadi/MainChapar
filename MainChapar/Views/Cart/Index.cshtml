@@ -1,208 +1,227 @@
 ﻿@model MainChapar.ViewModel.CartViewModel
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 
-<!DOCTYPE html>
-<html lang="fa">
+@if (TempData["CartDebug"] != null)
+{
+    <div style="background-color:#eee;padding:10px;border:1px solid #ccc;margin:10px;">
+        @TempData["CartDebug"]
+    </div>
+}
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>سبد خرید من</title>
-<style>
-  body {
-    font-family: Vazir, Tahoma, sans-serif;
-    direction: rtl;
-    background: #f5f5f5;
-    margin: 0;
-    padding: 20px;
-  }
-  h1 {
-    color: #333;
-    margin-bottom: 20px;
-  }
-  .cart-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    padding: 20px;
-  }
-  .cart-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #eee;
-    padding: 12px 0;
-  }
-  .cart-item:last-child {
-    border-bottom: none;
-  }
-  .item-info {
-    flex: 2;
-  }
-  .item-name {
-    font-weight: 600;
-    font-size: 1.1em;
-    color: #222;
-  }
-  .item-details {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 4px;
-  }
-  .quantity-controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .quantity-controls button {
-    background: #008CFF;
-    border: none;
-    color: white;
-    font-weight: bold;
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .quantity-controls button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
-  .quantity-display {
-    min-width: 25px;
-    text-align: center;
-    font-weight: 600;
-  }
-  .item-price {
-    flex: 1;
-    text-align: left;
-    font-weight: 600;
-    color: #008CFF;
-  }
-  .cart-summary {
-    margin-top: 25px;
-    text-align: left;
-    font-size: 1.1em;
-    font-weight: 700;
-    color: #222;
-  }
-  .btn-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  .btn {
-    padding: 14px 20px;
-    border-radius: 6px;
-    font-size: 1.1em;
-    border: none;
-    cursor: pointer;
-    color: white;
-    transition: background-color 0.3s ease;
-    flex: 1;
-    margin: 0 5px;
-  }
-  .btn-primary {
-    background: #28a745;
-  }
-  .btn-primary:hover {
-    background: #218838;
-  }
-  .btn-secondary {
-    background: #007bff;
-  }
-  .btn-secondary:hover {
-    background: #0056b3;
-  }
-  /* Responsive */
-  media(max-width: 600px) {
-    .cart-item {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .item-price {
-      text-align: right;
-      margin-top: 10px;
-    }
-    .quantity-controls {
-      margin-top: 10px;
-    }
-    .btn-group {
-      flex-direction: column;
-    }
-    .btn {
-      margin: 5px 0;
-    }
-  }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/assets/shopping cart/styles2.css" />
+    <title>سبد خرید</title>
 </head>
-<body>
-  <h1>سبد خرید من</h1>
-  <div class="cart-container">
 
-    @* محصولات فیزیکی *@
-    @if (Model.Products != null && Model.Products.Any())
-    {
-        foreach (var item in Model.Products)
-        {
-            <div class="cart-item">
-                <div class="item-info">
-                    <div class="item-name">@item.Title</div>
-                    <div class="item-details">موجودی: @item.AvailableStock عدد</div>
-                </div>
-                <div class="quantity-controls">
-                    <button aria-label="کاهش تعداد" @(item.Quantity <= 1 ? "disabled" : "")>-</button>
-                    <div class="quantity-display">@item.Quantity</div>
-                    <button aria-label="افزایش تعداد">+</button>
-                </div>
-                <div class="item-price">@item.TotalPrice.ToString("N0") تومان</div>
-            </div>
-        }
-    }
-    else
-    {
-        <p>هیچ محصولی در سبد خرید وجود ندارد.</p>
-    }
+<h1>سبد خرید من</h1>
 
-    @* سفارش‌های چاپ *@
-    @if (Model.PrintRequests != null && Model.PrintRequests.Any())
-    {
-        foreach (var print in Model.PrintRequests)
+@if (TempData["Error"] != null)
+{
+    <div style="background-color: #fff4f4; border: 1px solid #e44d4d; padding: 12px 16px; border-radius: 10px; margin: 20px auto; color: #c0392b; max-width: 600px; font-size: 14px;">
+        <strong style="font-size: 15px;">⚠️ خطا:</strong>
+        <div style="margin-top: 8px;">
+            @TempData["Error"]
+        </div>
+    </div>
+}
+
+<div class="cart-container">
+    
+        @Html.AntiForgeryToken()
+
+
+        @* محصولات فیزیکی *@
+        @if (Model.Products != null && Model.Products.Any())
         {
-            <div class="cart-item">
-                <div class="item-info">
-                    <div class="item-name">درخواست چاپ @print.ServiceType</div>
-                    <div class="item-details">
-                        وضعیت: @print.Status
+            foreach (var item in Model.Products)
+            {
+                <div class="item" data-id="@item.Id">
+                    <div class="cart-item">
+                        <div class="item-details">
+                            <p class="product-name"><strong>@item.Title</strong></p>
+                                    <p>موجودی: <span class="product-stock"
+                                        data-id="@item.Id">@item.AvailableStock</span> عدد</p>
+                        </div>
+
+                        <div class="counter">
+                                    <p class="price" data-id="@item.Id" data-unit-price="@item.UnitPrice">
+                                        @item.TotalPrice.ToString("N0") تومان
+                                  </p>          
+                            <div class="quantity-controls">
+                                <button type="button" class="qty-btn plus" aria-label="افزایش تعداد" data-id="@item.Id">+</button>
+                                <div class="quantity-display" data-id="@item.Id">@item.Quantity</div>
+                                <button type="button" class="qty-btn minus" aria-label="کاهش تعداد"
+                                data-id="@item.Id" @(item.Quantity <= 1 ? "disabled" : "")>−</button>
+                            </div>
+                        </div>
+
+                        <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                             <input type="hidden" name="itemId" value="@item.ProductId" />
+                             <input type="hidden" name="itemType" value="Product" />
+                             <button type="submit" class="remove-btn">حذف</button>
+                        </form>
+                        @* <button type="button" class="remove-btn" data-id="@item.Id">حذف</button> *@
                     </div>
                 </div>
-                <div class="quantity-controls">
-                    <div class="quantity-display" style="min-width: 50px; text-align:center;">1</div>
-                </div>
-                <div class="item-price">@print.TotalPrice.ToString("N0") تومان</div>
+            }
+        }
+        else
+        {
+            <div class="item">
+                <p>هیچ محصولی در سبد خرید وجود ندارد.</p>
             </div>
         }
-    }
-    else
-    {
-        <p>هیچ سفارش چاپی در سبد خرید وجود ندارد.</p>
-    }
 
-    @* جمع کل کل سبد خرید *@
-    <div class="cart-summary">
-        جمع کل:
-        @{
-            var totalProducts = Model.Products?.Sum(p => p.TotalPrice) ?? 0;
-            var totalPrints = Model.PrintRequests?.Sum(p => p.TotalPrice) ?? 0;
-            var grandTotal = totalProducts + totalPrints;
+
+        @* سفارش‌های چاپ *@
+        @if (Model.PrintRequests != null && Model.PrintRequests.Any())
+        {
+            foreach (var print in Model.PrintRequests)
+            {
+                <div class="item" data-id="print-@print.Id">
+                    <div class="item-details">
+                        <p class="service-title"><strong>درخواست چاپ :</strong></p>
+                    @{
+                        switch (@print.ServiceType)
+                        {
+                            case "BlackWhite":
+                                <p>سیاه و سفید</p>
+                                break;
+                            case "Color":
+                                <p>رنگی</p>
+                                break;
+                            case "Plan":
+                                <p>پلان</p>
+                                break;
+                            case "Laminate":
+                                <p>لمینیت و پرس</p>
+                                break;
+                            default:
+                            break;
+                        }
+
+                        }
+                    
+                    </div>
+
+                    <div class="counter">
+                        <p class="price">@print.TotalPrice.ToString("N0") تومان</p>
+                    </div>
+
+                    <form asp-action="RemoveFromCart" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="itemId" value="@print.Id" />
+                        <input type="hidden" name="itemType" value="Print" />
+                        <button type="submit" class="remove-btn">حذف</button>
+                    </form>
+                   @*  <button type="button" class="remove-btn" data-id="print-@print.Id">حذف</button> *@
+                </div>
+            }
         }
-        @grandTotal.ToString("N0") تومان
-    </div>
+        else
+        {
+            <div class="item">
+                <p>هیچ سفارش چاپی در سبد خرید وجود ندارد.</p>
+            </div>
+        }
 
-    <div class="btn-group">
-      <button class="btn btn-secondary" onclick="location.href='/Products'">ادامه خرید</button>
-      <button class="btn btn-primary" type="submit">تأیید نهایی و ثبت سفارش</button>
-    </div>
-  </div>
-</body>
-</html>
+        @* جمع کل کل سبد خرید *@
+        <div class="total">
+            @{
+                var totalProducts = Model.Products?.Sum(p => p.TotalPrice) ?? 0;
+                var totalPrints = Model.PrintRequests?.Sum(p => p.TotalPrice) ?? 0;
+                var grandTotal = totalProducts + totalPrints;
+            }
+            جمع کل: <span id="total-price">@grandTotal.ToString("N0")</span> تومان
+        </div>
+
+    <form asp-action="Submit" method="post">
+            @Html.AntiForgeryToken()
+            <div class="buttons">
+                <button class="btn btn-confirm" type="submit">تایید نهایی و ثبت سفارش</button>
+                <button class="btn btn-continue" type="button" onclick="location.href='/Product'">ادامه خرید</button>
+            </div>
+        </form>
+        
+</div>
+
+@section Scripts {
+        <script>
+        // دکمه‌های افزایش تعداد
+        document.querySelectorAll('.qty-btn.plus').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const quantityDisplay = document.querySelector(`.quantity-display[data-id='${id}']`);
+                let quantity = parseInt(quantityDisplay.textContent);
+
+                const maxQty = parseInt(document.querySelector(`.product-stock[data-id='${id}']`)?.textContent || 1000); // fallback
+                if (quantity < maxQty) {
+                    quantity++;
+                    quantityDisplay.textContent = quantity;
+
+                    const minusBtn = document.querySelector(`.qty-btn.minus[data-id='${id}']`);
+                    if (quantity > 1) {
+                        minusBtn.removeAttribute('disabled');
+                    }
+
+                    updatePrice(id, quantity);
+                    updateTotal();
+                } else {
+                    alert("تعداد انتخاب‌شده بیشتر از موجودی انبار است.");
+                }
+            });
+        });
+
+        // دکمه‌های کاهش تعداد
+        document.querySelectorAll('.qty-btn.minus').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                const quantityDisplay = document.querySelector(`.quantity-display[data-id='${id}']`);
+                let quantity = parseInt(quantityDisplay.textContent);
+
+                if (quantity > 1) {
+                    quantity--;
+                    quantityDisplay.textContent = quantity;
+
+                    if (quantity <= 1) {
+                        this.setAttribute('disabled', 'disabled');
+                    }
+
+                    updatePrice(id, quantity);
+                    updateTotal();
+                }
+            });
+        });
+
+        // به‌روزرسانی قیمت هر محصول
+        function updatePrice(id, quantity) {
+            const priceElement = document.querySelector(`.price[data-id='${id}']`);
+            const unitPrice = parseInt(priceElement.getAttribute('data-unit-price'));
+
+            const total = unitPrice * quantity;
+            priceElement.textContent = total.toLocaleString() + " تومان";
+        }
+
+        // به‌روزرسانی جمع کل سبد خرید
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('.price').forEach(el => {
+                const text = el.textContent.replace(/[^\d]/g, "");
+                if (text) {
+                    total += parseInt(text);
+                }
+            });
+
+            const totalDisplay = document.getElementById("total-price");
+            if (totalDisplay) {
+                totalDisplay.textContent = total.toLocaleString();
+            }
+        }
+    </script>
+
+}

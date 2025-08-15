@@ -1,0 +1,291 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('fonts/iransans.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Far_Yekan';
+    src: url('fonts\Far_Yekan.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'RokhBold';
+    src: url('fonts/Rokh-Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Rokh-ultra';
+  src: url('fonts/Rokh-UltraBold.woff2');
+}
+@font-face {
+  font-family: 'Pinar-medium';
+  src: url('fonts/Pinar-Medium.woff2');
+}
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('fonts/Pinar-SemiBold.woff2');
+}
+@font-face {
+  font-family: 'Pinar-ds4-black';
+  src: url('fonts/Pinar-DS4-Black.woff2');
+}
+@font-face {
+  font-family: 'Pinar-DS3-ExtraBold';
+  src: url('fonts/Pinar-DS3-ExtraBold.woff2');
+}
+@font-face {
+  font-family: 'B-yekan';
+  src: url('fonts/Yekan.ttf');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background-color: #FCF8F5; 
+    color: #333;
+    direction: rtl; 
+    text-align: right; 
+    line-height: 1.6;
+    display: flex; 
+    
+}
+
+
+.category-container {
+    display: flex;
+    width: 100%;
+    direction: ltr;
+}
+
+
+.sidebar {
+    width: 250px; 
+    background-color: #BFF0DB; 
+    color: white;
+    padding: 20px;
+    border-radius: 0 25px 0 25px;
+    display: flex;
+    flex-direction: column; 
+    font-family: 'Pinar-medium';
+    height: 100vh; 
+    overflow: hidden; /* sabet bodan sidebar*/
+    position: sticky; /*chasbidan*/
+    top: 0; /*fasele az bala */
+    align-items: center;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+    color: #000000;
+}
+.sidebar-nav ul {
+    list-style: none; /* hazfe dayere list item */
+    direction: rtl;
+}
+
+.sidebar-nav ul li {
+    margin-bottom: 10px;
+    
+}
+
+.sidebar-nav ul li a {
+    
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    padding: 12px 15px;
+    display: flex;
+    
+    border-radius: 15px;
+    
+    
+    
+    transition: background-color 0.3s ease; 
+    
+}
+
+
+.sidebar-nav ul li a:hover,
+.sidebar-nav ul li a:active {
+     
+    color: #ffffff;
+    background-color: #f16c6c; 
+    background-color: #F3C5C5;
+    border-radius: 15px;
+
+}
+
+
+.main-content {
+    flex-grow: 1; /* nesbat fazayi ke mikhad ( age a=2 bashe va b = 1 => a 2barabar faza migire)*/
+    padding: 30px;
+    background-color: #FCF8F5;
+    font-family: 'Pinar-medium';
+    direction: rtl;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main-header {
+    margin-bottom: 30px;
+}
+
+.main-header h1 {
+    font-size: 2.2rem;
+    color: #333;
+    font-weight: 700;
+}
+
+
+h1 {
+    color: rgb(0, 0, 0);
+    font-size: 32px;
+    margin: 1rem;
+}
+.top-table{
+    display: flex;
+    align-items: center;
+}
+
+#taskList {
+    
+    margin: 20px auto;
+    
+    border-radius: 10px;
+    padding: 10px;
+
+    overflow-x: auto;
+}
+
+
+
+table {
+    margin-right: 0.7rem;
+    border-collapse: collapse;
+    text-align: right;
+    border-radius: 15px;
+    width: 66rem;
+    border-collapse: separate; /* مهم: از collapse به separate تغییر کن */
+    border-spacing: 0; /* فاصله بین سلول‌ها رو صفر کن */
+    overflow: hidden; /* تا گردی اعمال بشه */
+    
+}
+td{
+    width:30%;
+    text-align: center;
+}
+
+th, td {
+    padding: 10px;
+    align-items: center;
+    width: 10rem;
+    
+}
+
+th {
+    background-color: #F3C5C5; 
+    text-align: center;
+    color: white;
+    
+}
+
+tr{
+    background-color: #fff;
+}
+
+
+
+
+
+button {
+    
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    font-family: 'Pinar-medium';
+    font: weight 70px;
+    
+    
+}
+
+
+#addProductButton {
+    background-color: #BFF0DB;
+    color: rgb(0, 0, 0);
+    height:2rem;
+    width: 6rem;
+    
+    
+}
+#addProductButton:hover {
+    background-color: #74dcaf;
+    color: rgb(255, 255, 255);
+}
+
+
+
+
+.actions {
+    width: 15rem;
+    
+    display:flex ;
+    
+    
+}
+
+.actions button {
+    
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    width:60px;
+    height: 30px;
+    text-align: center;
+    margin-right: 1.5rem;
+    color: #000000;
+    
+}
+
+.edit-btn {
+    background-color: #D5D2FD;
+    color: white;
+    } 
+.delete-btn {
+     background-color: #ffd2a0;
+      color: white; 
+    } 
+.info-btn {
+     background-color: #BFF0DB;
+      color: white;
+    } 
+
+.edit-btn:hover {
+        background-color: #a19ecc;
+        color: white;
+        } 
+.delete-btn:hover {
+         background-color: #df9e53;
+          color: white; 
+        } 
+.info-btn:hover {
+         background-color: #99ccb6;
+          color: white;
+        } 
+
+

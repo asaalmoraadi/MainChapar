@@ -1,0 +1,343 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+
+body {
+    background-color: #FFFBF7;
+    margin: 0;
+    padding: 0;
+    
+    
+}
+
+header {
+    width: 100%;
+    height: 5rem;
+    /* display flex baray shive gharar giri */
+    display: flex;
+    align-items: center;
+    justify-content: right  ; 
+    flex-direction: row-reverse;
+}
+
+#logo {
+    margin-right: 10px;
+    margin-top: 1rem;
+    font-family: 'Rokhbold';
+    font-size: 18px;
+    width: 10%;
+}
+#searchbar{
+    width: 80%;
+    margin-right: 5rem;
+}
+
+#search-input{
+    height: 50px;
+    width: 100%;
+    padding-left: 40px; 
+    background: url('files/search-icon.png') no-repeat 10px center;
+    background-color: #ffffff;
+    background-size:30px 30px; 
+    font-size: 18px;
+    border-radius: 13px;
+    direction: rtl;
+    text-align: right;
+    padding-right: 15px;
+    border: 0;
+
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
+}
+
+/*nav => menu + user icon + shop */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: row-reverse;
+    height: 4rem;
+}
+.menu{
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Pinar-medium';
+    font-size: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 3rem;
+}
+nav a:hover {
+    color: #f25d5d;
+}
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
+}
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      font-family: 'Pinar-semibold';
+    }
+
+    .information {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Pinar-semibold';
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+  #title{
+    color: rgb(8, 203, 73);
+    margin-bottom: 1rem;
+  }
+  .tracking-code{
+    margin: 0 auto;
+    max-width: 200px;
+    direction: rtl;
+    display: flex;
+    font-family: 'Pinar-semibold';
+    font-size: 0.8rem;
+    justify-content: center;
+
+  }
+
+  .information p{
+    direction: rtl;
+  }
+  .information img{
+
+    height: 7rem;
+    width: 7rem;
+  }
+  #qr-btn{
+    text-decoration: none;
+    color: #000000;
+  }
+  .information button{
+    direction: rtl;
+    margin-top: 1rem;
+    height: 2.5rem;
+    width: 6.5rem;
+    background-color: #FFDCCC;
+
+    border: 0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-family: 'Pinar-semibold';
+  }
+
+  
+    .information button:hover {
+      background-color: #f87676;
+      color: white;
+    }
+
+    
+
+
+
+
+    
+/*        footer         */
+
+footer{
+  background-color: rgb(255, 255, 255);
+  height: 15rem;
+  display: flex;
+  direction: rtl;
+  border-radius: 10px 10px 0 0;
+  font-family: 'B-yekan';
+}
+.sections{
+  margin: 0rem;
+  width: 25%;
+  border-radius: 15px;
+  align-items: center;
+  text-align: center;
+}
+#sec1{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#sec1 h1{
+    font-size: 32px;
+}
+#sec1 p{
+  font-size: 16px;
+  font-family: 'Pinar-medium';
+  font-weight: 600;
+}
+#sec2{
+  display: flex;
+  flex-direction: column;
+}
+#sec2 h3 , #sec3 h3 , #sec4 h3{
+  font-family: 'Pinar-medium';
+  font-size: 26px;
+  font-weight: 500;
+}
+#sec2 a , #sec3 p{
+  font-size: 16px;
+  font-family: 'Pinar-medium';
+  font-weight: 500;
+  color: #000000;
+  text-decoration: none;
+  margin: 0.4rem;
+
+}
+#sec2 a:hover{
+  color: #967f74;
+}
+.social{
+  margin: 1rem;
+
+}
+.social img{
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+svg {
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: 20px auto;
+}
+
+.qr-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .qr-actions button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+        .qr-actions button:hover {
+            background-color: #2980b9;
+        }

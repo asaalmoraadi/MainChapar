@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>تماس با چاپار</title>
+    
+</head>
+<body>
+
+    <header>
+        <div id="logo"><h1>CHAPAR</h1></div>
+        <div id="searchbar">
+            <input id="search-input" type="text" placeholder="جستجو">
+        </div>
+    </header>
+    <nav>
+        <div class="menu">
+        <a href="#">صفحه اصلی</a>
+        <a href="#">فروشگاه</a>
+        
+        <a href="#">درباره ما</a>
+        <a href="#">تماس با ما</a>
+        </div>
+        <div class="user">
+  <div class="user-icon-wrapper">
+    <img id="user-img" src="files/user-icon.png" alt="">
+    <div class="user-menu" id="user-menu">
+      <a href="#">سفارش‌ها</a>
+      <a href="#">اطلاعات کاربری</a>
+      <a href="#">خروج</a>
+    </div>
+  </div>
+  <a href="#"><img id="shop-cart" src="files/shopping-cart.png" alt=""></a>
+</div>
+
+      </nav>
+
+      <section class="about-hero">
+      <h1>تماس با چاپار</h1>
+      <p>
+      اگر سوالی در مورد سفارش‌ها دارید یا نیاز به راهنمایی دارید، خوشحال می‌شویم با ما در ارتباط باشید.
+      </p>
+    </section>
+    
+<div class="container">
+  <section class="page-content">
+    <div class="box">
+    
+      <div class="info-group">
+        <p><strong>آدرس : </strong> دانشگاه ...، ساختمان انتشارات</p>
+        <p><strong>ایمیل : </strong> info@unipubsite.ir</p>
+        <p><strong>تلفن : </strong> ۰۲۱-۱۲۳۴۵۶۷۸</p>
+        <p><strong> ساعات پاسخگویی : </strong> شنبه الی چهارشنبه، ۸ صبح الی ۱۵</p>
+      </div>
+
+      <form class="contact-form" method="post" action="/Contact/SendMessage">
+        <div class="form-group">
+          <label for="name">نام شما</label>
+          <input type="text" id="name" name="Name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">ایمیل</label>
+          <input type="email" id="email" name="Email" required />
+        </div>
+
+        <div class="form-group">
+          <label for="message">پیام شما</label>
+          <textarea id="message" name="Message" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-button">ارسال پیام</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+      
+
+      <!-- --------------------------------------------------- -->
+
+
+      <footer>
+        <div class="sections" id="sec1">
+
+          <h1>CHAPAR</h1>
+          <p>خدمات چاپ و فروش لوازم التحریر و جزوات</p>
+
+        </div>
+
+
+        <div class="sections" id="sec2">
+
+          <h3>لینک های مفید</h3>
+          <a href="">خدمات چاپ</a>
+          <a href="">جزوات</a>
+          <a href="">درباره ما</a>
+          <a href="">تماس با ما</a>
+
+        </div>
+
+
+        <div class="sections" id="sec3">
+          <h3>راه های ارتباطی</h3>
+          <p>شماره تماس :</p>
+          <p>021-25858000</p>
+          <p>ادرس :</p>
+          <p>تهران - صادقیه</p>
+          <div class="social">
+          <img src="files/instagram.png" alt="">
+          <img src="files/telegram.png" alt="">
+          <img src="files/whatsapp.png" alt="">
+        </div>
+        </div>
+
+
+
+        <div class="sections" id="sec4">
+          <h3>نماد های سایت</h3>
+          <img src="files/namad.png">
+        </div>
+
+
+      </footer>
+
+
+      <!-- java script -->
+ <script>
+  const userImg = document.getElementById('user-img');
+  const userMenu = document.getElementById('user-menu');
+
+  userImg.addEventListener('click', () => {
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!userImg.contains(event.target) && !userMenu.contains(event.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
+</script>
+
+
+      
+</body>
+</html>

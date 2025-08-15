@@ -95,6 +95,64 @@ namespace MainChapar.Migrations
                     b.ToTable("BlackWhitePrintDetails");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.CartPrintItems", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AddedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PrintRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrintRequestId");
+
+                    b.ToTable("CartPrintItems");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.CartProductItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsFinalized")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartProductItems");
+                });
+
             modelBuilder.Entity("MainChapar.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -107,9 +165,60 @@ namespace MainChapar.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("categories");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.Collaboration", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("EntryYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Interest")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Major")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("collaborations");
                 });
 
             modelBuilder.Entity("MainChapar.Models.ColorPrintDetail", b =>
@@ -126,6 +235,10 @@ namespace MainChapar.Migrations
 
                     b.Property<int>("CopyCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilesJson")
                         .HasColumnType("nvarchar(max)");
@@ -183,6 +296,120 @@ namespace MainChapar.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("comments");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("contacts");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.LaminateDetail", b =>
+                {
+                    b.Property<int>("PrintRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CopyCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CornerType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilesJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LaminateType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaperSize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaperType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrintSide")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPages")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("printType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PrintRequestId");
+
+                    b.ToTable("laminateDetails");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.LaminatePrintPricing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LaminateType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaperSize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaperType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PricePerPage")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PrintSide")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrintType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("laminatePrintPricings");
                 });
 
             modelBuilder.Entity("MainChapar.Models.Menu", b =>
@@ -331,11 +558,11 @@ namespace MainChapar.Migrations
                     b.Property<bool>("IsDelivered")
                         .HasColumnType("bit");
 
-                    b.Property<string>("QrCodeToken")
+                    b.Property<string>("PickupCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("QrCodeToken")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -364,6 +591,10 @@ namespace MainChapar.Migrations
 
                     b.Property<int>("CopyCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilesJson")
                         .HasColumnType("nvarchar(max)");
@@ -425,9 +656,6 @@ namespace MainChapar.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsDoubleSided")
-                        .HasColumnType("bit");
-
                     b.Property<string>("PaperSize")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -438,6 +666,10 @@ namespace MainChapar.Migrations
 
                     b.Property<decimal>("PricePerPage")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("PrintSide")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PrintType")
                         .IsRequired()
@@ -458,6 +690,9 @@ namespace MainChapar.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsFinalized")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ServiceType")
                         .IsRequired()
@@ -491,6 +726,9 @@ namespace MainChapar.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -546,6 +784,138 @@ namespace MainChapar.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductGallerys");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.ServiceRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Family")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UploadedFilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServiceRequests");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.UploadedFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CollaborationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollaborationId");
+
+                    b.ToTable("UploadedFile");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.UsedBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Author")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UsedBook");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.UsedBookImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsedBookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UsedBookId");
+
+                    b.ToTable("UsedBookImage");
                 });
 
             modelBuilder.Entity("MainChapar.Models.User", b =>
@@ -765,6 +1135,36 @@ namespace MainChapar.Migrations
                     b.Navigation("PrintRequest");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.CartPrintItems", b =>
+                {
+                    b.HasOne("MainChapar.Models.PrintRequest", "PrintRequest")
+                        .WithMany()
+                        .HasForeignKey("PrintRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrintRequest");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.CartProductItem", b =>
+                {
+                    b.HasOne("MainChapar.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MainChapar.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MainChapar.Models.ColorPrintDetail", b =>
                 {
                     b.HasOne("MainChapar.Models.PrintRequest", "PrintRequest")
@@ -793,6 +1193,17 @@ namespace MainChapar.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.LaminateDetail", b =>
+                {
+                    b.HasOne("MainChapar.Models.PrintRequest", "PrintRequest")
+                        .WithOne("LaminateDetail")
+                        .HasForeignKey("MainChapar.Models.LaminateDetail", "PrintRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrintRequest");
                 });
 
             modelBuilder.Entity("MainChapar.Models.Order", b =>
@@ -929,6 +1340,39 @@ namespace MainChapar.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.UploadedFile", b =>
+                {
+                    b.HasOne("MainChapar.Models.Collaboration", "Collaboration")
+                        .WithMany("UploadedFiles")
+                        .HasForeignKey("CollaborationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collaboration");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.UsedBook", b =>
+                {
+                    b.HasOne("MainChapar.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.UsedBookImage", b =>
+                {
+                    b.HasOne("MainChapar.Models.UsedBook", "UsedBook")
+                        .WithMany("Images")
+                        .HasForeignKey("UsedBookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UsedBook");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -985,6 +1429,11 @@ namespace MainChapar.Migrations
                     b.Navigation("Products");
                 });
 
+            modelBuilder.Entity("MainChapar.Models.Collaboration", b =>
+                {
+                    b.Navigation("UploadedFiles");
+                });
+
             modelBuilder.Entity("MainChapar.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
@@ -1007,6 +1456,9 @@ namespace MainChapar.Migrations
 
                     b.Navigation("Files");
 
+                    b.Navigation("LaminateDetail")
+                        .IsRequired();
+
                     b.Navigation("PickupPrintItems");
 
                     b.Navigation("PlanPrintDetail")
@@ -1016,6 +1468,11 @@ namespace MainChapar.Migrations
             modelBuilder.Entity("MainChapar.Models.Product", b =>
                 {
                     b.Navigation("ProductGalleries");
+                });
+
+            modelBuilder.Entity("MainChapar.Models.UsedBook", b =>
+                {
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("MainChapar.Models.User", b =>

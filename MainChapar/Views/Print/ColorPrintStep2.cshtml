@@ -11,94 +11,94 @@
     </div>
 }
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/assets/final_print/styles.css">
     <title>BWprintform</title>
 </head>
-<body>
+<!-- start container khadamat chap -->
+<h2>جمع بندی نهایی سفارش</h2>
+<div class="form-container">
 
-    <!-- start container khadamat chap -->
-    <h2>جمع بندی نهایی سفارش</h2>
-    <div class="form-container">
-
-        <div class="form-grid">
-            <div class="items">
-                <p>جنس کاغذ :</p>
-                <p>@Model.PaperType</p>
-            </div>
-            <div class="items">
-                <p>اندازه کاغذ :</p>
-                <p>@Model.PaperSize</p>
-            </div>
-            <div class="items">
-                <p>وجه :</p>
-                <p> @Model.PrintSide</p>
-            </div>
-            <div class="items">
-                <p>تعداد :</p>
-                <p>@Model.CopyCount</p>
-            </div>
-            <div class="items">
-                <p>صحافی :</p>
-                <p>@Model.BindingType</p>
-            </div>
-
+    <div class="form-grid">
+        <div class="items">
+            <p>جنس کاغذ :</p>
+            <p>@Model.PaperType</p>
         </div>
         <div class="items">
-            <p>توضیحات  :</p>
-            <p>@Model.Description</p>
+            <p>اندازه کاغذ :</p>
+            <p>@Model.PaperSize</p>
+        </div>
+        <div class="items">
+            <p>وجه :</p>
+            <p> @Model.PrintSide</p>
+        </div>
+        <div class="items">
+            <p>تعداد :</p>
+            <p>@Model.CopyCount</p>
+        </div>
+        <div class="items">
+            <p>مجموع صفحات:</p>
+            <p>@Model.TotalPages</p>
+        </div>
+        <div class="items">
+            <p>صحافی :</p>
+            <p>@Model.BindingType</p>
         </div>
 
-        <div class="items" id="price">
-            <p>قیمت نهایی  :</p>
-            <p>@Model.TotalPrice.ToString("N0") تومان</p>
-        </div>
+    </div>
+    <div class="items">
+        <p>توضیحات  :</p>
+        <p>@Model.Description</p>
+    </div>
 
-        <div class="form-button">
+    <div class="items" id="price">
+        <p>قیمت نهایی  :</p>
+        <p>@Model.TotalPrice.ToString("N0") تومان</p>
+    </div>
 
-
-            <form asp-action="AddToCartColorFromPrint" method="post">
-                <button class="add-item" type="submit">تایید و ثبت سفارش</button>
-                <a asp-action="ColorPrintForm"><button class="back">بازگشت</button></a>
-            </form>
-
-        </div>
+    <div class="form-button">
 
 
-        <!--end container -->
+        <form asp-action="AddToCartColorFromPrint" method="post">
+            <button class="add-item" type="submit">تایید و ثبت سفارش</button>
+            <a asp-action="ColorPrintForm"><button class="back">بازگشت</button></a>
+        </form>
+
     </div>
 
 
+    <!--end container -->
+</div>
 
 
-    <!-- khadamat -->
 
-    <div class="khadamat">
-        <h2>خدمات مشابه</h2>
-        <div class="khadamat-boxs">
-            <div class="boxs" id="box1">
 
-                <img src="files/print3.png">
-                <p>چاپ سیاه سفید</p>
+<!-- khadamat -->
 
-            </div>
-            <div class="boxs" id="box2">
+<div class="khadamat">
+    <h2>خدمات مشابه</h2>
+    <div class="khadamat-boxs">
+        <div class="boxs" id="box1">
 
-                <img src="files/print1.png">
-                <p>چاپ پلان</p>
-            </div>
-            <div class="boxs" id="box3">
-
-                <img src="files/print2.png">
-                <p>چاپ ایکس</p>
-            </div>
-
+            <img src="files/print3.png">
+            <p>چاپ سیاه سفید</p>
 
         </div>
+        <div class="boxs" id="box2">
 
-</body>
-</html>
+            <img src="files/print1.png">
+            <p>چاپ پلان</p>
+        </div>
+        <div class="boxs" id="box3">
+
+            <img src="files/print2.png">
+            <p>چاپ ایکس</p>
+        </div>
+    </div>
+</div>
+
+
+
+   

@@ -18,8 +18,11 @@ namespace MainChapar.Data
         public DbSet<BlackWhitePrintDetail> BlackWhitePrintDetails { get; set; }
         public DbSet<ColorPrintDetail> ColorPrintDetails { get; set; }
         public DbSet<PlanPrintDetail> PlanPrintDetails { get; set; }
+        public DbSet<LaminateDetail> laminateDetails { get; set; }
         public DbSet<PrintFile> PrintFiles { get; set; }
         public DbSet<PrintPricing> printPricings { get; set; }
+        public DbSet<LaminatePrintPricing> laminatePrintPricings { get; set; }
+        public DbSet<CartPrintItems> CartPrintItems { get; set; }
 
         //product
         public DbSet<Product> Products { get; set; }
@@ -31,6 +34,12 @@ namespace MainChapar.Data
         public DbSet<PickupRequest> pickupRequests { get; set; }
         public DbSet< PickupProductItem> pickupProducts { get; set; }
         public DbSet<PickupPrintItem> pickupPrintItems { get; set; }
+        public DbSet<CartProductItem> CartProductItems { get; set; }
+
+        public DbSet<Contact> contacts { get; set; }
+        public DbSet<Collaboration> collaborations { get; set; }
+        public DbSet<ServiceRequest> ServiceRequests { get; set; }
+        public DbSet<UsedBook> usedBooks { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,5 +58,6 @@ namespace MainChapar.Data
                 .HasForeignKey(p => p.PrintRequestId)
                 .OnDelete(DeleteBehavior.Cascade);  // حذف Cascade فقط روی این رابطه فعال است
         }
+        public DbSet<MainChapar.Models.UsedBook> UsedBook { get; set; } = default!;
     }
 }

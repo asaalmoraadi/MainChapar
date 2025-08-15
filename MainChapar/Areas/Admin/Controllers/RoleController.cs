@@ -1,10 +1,12 @@
 ﻿using MainChapar.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MainChapar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

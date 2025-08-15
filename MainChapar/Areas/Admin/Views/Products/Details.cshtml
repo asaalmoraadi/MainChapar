@@ -1,67 +1,94 @@
 ﻿@model MainChapar.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "جزئیات محصول";
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/assets/admin-product-details/styles.css" />
+</head>
+<body>
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FullDesc)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FullDesc)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Discount)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Discount)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Qty)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Qty)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Tags)
-        </dd>
-       
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="category-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-action="Index">بازگشت به فهرست</button></a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>جزئیات محصول</h1>
+                <div id="top-buttons">
+                    <a asp-action="Edit" asp-route-id="@Model.Id"><button id="editButton">ویرایش</button></a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id"><button id="editButton">حذف</button></a>
+                    <a asp-action="Index"><button id ="editButton">بازگشت</button></a>
+                </div>
+            </div>
+
+            <section class="product-page">
+                <div class="image-section">
+                    
+                    <div class="image-section">
+                        @{
+                            var mainImage = Model.ProductGalleries.Any()
+                            ? Model.ProductGalleries.First().ImageName
+                            : Model.ImageName;
+                        }
+                        <img src="~/assets/img/product/@Model.ImageName" class="main-img" id="mainImg">
+
+                        <div class="thumbnail-list">
+                            @foreach (var gallery in Model.ProductGalleries)
+                            {
+                                <img src="~/assets/img/product/@gallery.ImageName" class="thumbnail-img" />
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="details-section">
+                    <div class="product-title">@Model.Title</div>
+                    <div class="label">برچسب: @Model.Tags</div>
+                    <div class="short-desc">
+                        <p>@Model.Description</p>
+                    </div>
+
+                    <div class="pricing">
+                        @if (Model.Discount > 0)
+                        {
+                            var discounted = Model.Price - (Model.Price * Model.Discount / 100);
+                            <span class="old-price">@Model.Price تومان</span>
+                            <span class="new-price">@discounted تومان</span>
+                        }
+                        else
+                        {
+                            <span class="new-price">@Model.Price تومان</span>
+                        }
+                    </div>
+
+                    <div class="stock">موجودی: @Model.Qty عدد</div>
+
+                    <div class="short-desc">
+                        <p>@Model.FullDesc</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

@@ -13,19 +13,26 @@
         <label asp-for="PrintType" class="form-label fw-bold">نوع چاپ</label>
         <select asp-for="PrintType" class="form-select form-select-lg">
             <option value="">انتخاب نوع چاپ</option>
-            <option value="BlackWhite">سیاه و سفید</option>
+            <option value="BW">سیاه و سفید</option>
             <option value="Color">رنگی</option>
         </select>
         <span class="text-danger">@Html.ValidationMessageFor(m => m.PrintType)</span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="PaperType" class="form-label fw-bold">نوع کاغذ</label>
+       @*  <label asp-for="PaperType" class="form-label fw-bold">نوع کاغذ</label>
         <select asp-for="PaperType" class="form-select form-select-lg">
             <option value="">انتخاب نوع کاغذ</option>
             <option value="ساده">ساده</option>
-            <option value="گلاسه سبک">گلاسه سبک</option>
+            <option value="گلاسه">گلاسه سبک</option>
             <option value="گلاسه سنگین">گلاسه سنگین</option>
+        </select> *@
+        <label>جنس کاغذ</label>
+        <select asp-for="PaperType" asp-items="@(new List<SelectListItem> {
+                             new SelectListItem { Text = " ساده", Value="ساده" },
+                            new SelectListItem { Text="گلاسه" , Value="گلاسه" },
+                            new SelectListItem { Text="گلاسه سنگین" , Value="گلاسه سنگین" }
+                            })">
         </select>
         <span class="text-danger">@Html.ValidationMessageFor(m => m.PaperType)</span>
     </div>
@@ -41,9 +48,15 @@
         <span class="text-danger">@Html.ValidationMessageFor(m => m.PaperSize)</span>
     </div>
 
-    <div class="form-check form-switch mb-3">
-        <input asp-for="IsDoubleSided" class="form-check-input" type="checkbox" id="IsDoubleSided" />
-        <label class="form-check-label fw-bold" for="IsDoubleSided">چاپ پشت و رو</label>
+    <div mb-3">
+        <label>وجه</label>
+        <select asp-for="PrintSide" class="form-control" asp-items="@(new List<SelectListItem> {
+                            new SelectListItem { Text = " تک رو", Value="تک رو" },
+                            new SelectListItem { Text="پشت و رو" , Value="پشت و رو" }
+                            })">
+            <option value="">انتخاب نوع چاپ</option>
+        </select>
+        @Html.ValidationMessageFor(m => m.PrintSide, "", new { @class = "text-danger" })
     </div>
 
     <div class="mb-3">

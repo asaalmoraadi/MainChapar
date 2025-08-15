@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MainChapar.Models.Product>
+
+<div class="product-grid">
+    @foreach (var item in Model)
+    {
+        var inputId = $"qty-input-{item.Id}"; // برای ایجاد id منحصربه‌فرد
+
+       
+            <div class="product-card">
+                 <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id">
+                <!-- عکس اصلی محصول -->
+                <img src="~/assets/img/product/@item.ImageName" class="card-img-top" style="height:200px; object-fit: cover;" alt="@item.Title" />
+                 </a>
+
+                <div class="card-body">
+                   
+                    <!-- گالری تصاویر کوچک -->
+                    @* <div class="d-flex gap-2 mb-2">
+                        @foreach (var gallery in item.ProductGalleries.Take(3))
+                        {
+                            <img src="~/assets/img/gallery/@gallery.ImageName"
+                                 width="50" height="50"
+                                 style="object-fit: cover; border-radius: 5px;"
+                                 alt="گالری @item.Title" />
+                        }
+                    </div> *@
+                    
+                    <!-- مشخصات محصول -->
+                    <div class="product-title">@item.Title</div>
+                    <p class="card-text text-muted" style="font-size: 0.9rem;">
+                        قیمت: <strong class="product-price">@item.Price.ToString("N0") تومان</strong>
+                        <br />
+                        تخفیف: @item.Discount ٪<br />
+                        موجودی: @item.Qty عدد<br />
+                        برچسب‌ها: @item.Tags <br />
+                        @(item.IsAvailable ? "موجود" : "ناموجود")
+                    </p>
+
+                    <!-- دکمه و کنترل تعداد -->
+                    <div class="product-actions">
+                        <form method="post" asp-controller="Product" asp-action="AddToCart">
+                            <input type="hidden" name="productId" value="@item.Id" />
+                            <input type="hidden" name="quantity" id="@inputId" value="1" />
+
+                            <div class="cart-icon">
+                                <button type="submit" id="store">
+                                    <img src="~/assets/img/files/online-shopping 6.png" alt="افزودن به سبد" />
+                                </button>
+                            </div>
+
+                            <div class="quantity-controls d-flex align-items-center">
+                                <button type="button" class="qty-btn" onclick="changeQty('@inputId', 1, @item.Qty)">+</button>
+                                <div class="quantity-display" id="display-@item.Id">1</div>
+                                <button type="button" class="qty-btn" onclick="changeQty('@inputId', -1, @item.Qty)">−</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+    }
+</div>

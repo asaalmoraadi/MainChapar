@@ -1,0 +1,19 @@
+﻿@model MainChapar.Models.User
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+
+<h2>اطلاعات کاربری</h2>
+
+<div class="profile-container">
+    <p><strong>نام :</strong> @Model.Name</p>
+    <p><strong>نام خانوادگی :</strong> @Model.LName</p>
+    <p><strong>نام کاربری:</strong> @Model.UserName</p>
+    <p><strong>ایمیل:</strong> @Model.Email</p>
+    <p><strong>شماره تلفن:</strong> @Model.PhoneNumber</p>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a href="/Admin/Dashboard/Index" class="btn btn-warning">ورود به داشبورد ادمین</a>
+    }
+</div>

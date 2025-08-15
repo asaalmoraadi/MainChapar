@@ -4,79 +4,137 @@
     ViewData["Title"] = "ایجاد محصول جدید";
 }
 
-<h2>@ViewData["Title"]</h2>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="~/assets/create product/styles.css">
+</head>
+<body>
 
-<form asp-action="Create" method="post" asp-area="Admin" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div asp-validation-summary="All" class="text-danger"></div>
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+    <div class="dashboard-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-action="Index">بازگشت به فهرست</button></a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+        <main class="main-content">
+
+            <div id="top-container">
+
+                <h2 class="section-title">ایجاد محصول جدید</h2>
+            </div>
+            <form asp-action="Create" method="post" asp-area="Admin" enctype="multipart/form-data">
+                <div class="product-info">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    @Html.AntiForgeryToken()
+
+                    <div class="box">
+                        <lable>عنوان :</lable>
+                        <input asp-for="Title" type="text" id=" tilte" placeholder="مداد نوکی">
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    
+                    
+                    <div class="box">
+                        <label>تعداد محصولات  :</label>
+                        <input asp-for="Qty" type="number" placeholder="5" id=" tilte">
+                        <span asp-validation-for="Qty" class="text-danger"></span>
+                    </div>
+                   
+
+                    <div class="box">
+                        <label> دسته بندی :</label>
+                        <select id="title" asp-for="CategoryId">
+                            @foreach (var category in ViewBag.categories as List<MainChapar.Models.Category>)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+
+
+
+                    <div class="box">
+                        <label>تصویر اصلی :</label>
+                        <input type="file" name="MainImage" id=" tilte">  
+                        <span asp-validation-for="ImageName" class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="box">
+                        <label>تصاویر گالری :</label>
+                        <input id=" tilte" type="file" name="GalleryImage" multiple >
+                    </div>
+
+                    <div class="box">
+                        <label>تگ ها :</label>
+                        <input asp-for="Tags" type="text" id=" tilte" placeholder="مثال : #مداد">
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
+
+
+
+                    <div class="box">
+                        <label>قیمت :</label>
+                        <input asp-for="Price" type="number" id=" tilte" placeholder="مثال : 20000">
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="box">
+                        <label>تخفیف :</label>
+                        <input asp-for="Discount" type="number" id=" tilte" placeholder="مثال : 1000">
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+                    </div>
+
+                  
+                    <div class="box" id="first-info">
+                        <label>
+                            توضیحات :</p>
+                            <input asp-for="Description" type="text" id=" tilte" placeholder="مداد نوکی پنتر">
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="box" id="info-box">
+                        <label>توضیحات تکمیلی :</label>
+                        <textarea asp-for="FullDesc" placeholder="توضیحات تکمیلی را در این قسمت وارد کنید"  id="available-input"></textarea>
+                        <span  asp-validation-for="FullDesc" class="text-danger"></span>
+                    </div>
+
+                    <div class="box" id="available-box">
+                        <input asp-for="IsAvailable" class="form-check-input" type="checkbox" />
+                        <label asp-for="IsAvailable">موجود است؟</label>
+                    </div>
+
+                </div>
+                <div class="buttons">
+                    <button type="submit" class="btn btn-confirm">ایجاد محصول</button>
+                    <button class="btn btn-continue">بازگشت</button>
+                </div>
+
+            </form>
+
+        </main>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="FullDesc"></label>
-        <textarea asp-for="FullDesc" class="form-control"></textarea>
-        <span asp-validation-for="FullDesc" class="text-danger"></span>
-    </div>
-    
-    <div class="form-group">
-        <label class="control-label">تصویر اصلی</label>
-        <input type="file" name="MainImage" class="form-control" />
-        <span asp-validation-for="ImageName" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label class="control-label">>گالری تصاویر</label>
-        <input type="file" name="GalleryImage" multiple class="form-control" />
-
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Discount"></label>
-        <input asp-for="Discount" class="form-control" />
-        <span asp-validation-for="Discount" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Qty"></label>
-        <input asp-for="Qty" class="form-control" />
-        <span asp-validation-for="Qty" class="text-danger"></span>
-    </div>
-    <select asp-for="CategoryId">
-        @foreach (var category in ViewBag.categories)
-        {
-            <option value="@category.Id">@category.Name</option>
-        }
-    </select>
-
-    <div class="form-group">
-        <label asp-for="Tags"></label>
-        <input asp-for="Tags" class="form-control" />
-        <span asp-validation-for="Tags" class="text-danger"></span>
-    </div>
-
-    <div class="form-group form-check">
-        <input asp-for="IsAvailable" class="form-check-input" />
-        <label asp-for="IsAvailable" class="form-check-label"></label>
-    </div>
-
-    <button type="submit" class="btn btn-primary">ایجاد محصول</button>
-</form>
-
+</body>
+</html>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

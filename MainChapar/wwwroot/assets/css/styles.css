@@ -7,7 +7,7 @@
 
 @font-face {
     font-family: 'Far_Yekan';
-    src: url('/assets/fonts\Far_Yekan.ttf') format('ttf');
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
 }
 
 @font-face {
@@ -78,7 +78,7 @@ header {
     height: 50px;
     width: 100%;
     padding-left: 40px;
-    background: url('/assets/files/search-icon.png') no-repeat 10px center;
+    background: url('/assets/img/files/search-icon.png') no-repeat 10px center;
     background-color: #ffffff;
     background-size: 30px 30px;
     font-size: 18px;
@@ -94,7 +94,7 @@ header {
         outline: none;
     }
 
-/*nav => menu + user icon */
+/*nav => menu + user icon + shop */
 nav {
     width: 100%;
     display: flex;
@@ -112,6 +112,7 @@ nav {
     align-items: center;
 }
 
+
 nav a {
     text-decoration: none;
     color: #333;
@@ -120,9 +121,70 @@ nav a {
     padding-left: 3rem;
 }
 
+    nav a:hover {
+        color: #f25d5d;
+    }
+
 .user {
-    width: 30%;
-    padding-top: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+    position: relative;
+}
+
+#user-img {
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.user-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none;
+    min-width: 140px;
+    z-index: 100;
+    text-align: right;
+    left: 10px;
+}
+
+    .user-menu.show {
+        display: block;
+    }
+
+
+    .user-menu a {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+        border-bottom: 1px solid #eee;
+        font-family: 'Pinar-medium';
+        font-size: 14px;
+    }
+
+        .user-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .user-menu a:hover {
+            background-color: #f7f7f7;
+        }
+
+#shop-cart {
+    height: 3rem;
+    width: 3rem;
 }
 
 
@@ -149,7 +211,7 @@ nav a {
     row-gap: 10px; /* fasele beyn box ha */
     column-gap: 10px;
     height: 70vh;
-    background-color: #fdfdfd;
+    background-color: #fffbf7;
     margin: 2rem;
 }
 /* amodi - samt chap */
@@ -256,6 +318,7 @@ nav a {
     justify-content: center;
     flex-direction: row-reverse;
     gap: 5rem;
+    margin-top: 5rem;
 }
 
 #feature {
@@ -359,7 +422,7 @@ nav a {
     }
 
         #shop img:hover {
-            content: url('/assets/files/button_hover.png');
+            content: url('/assets/img/files/button_hover.png');
         }
 
 
@@ -525,11 +588,13 @@ nav a {
 
 footer {
     background-color: rgb(255, 255, 255);
-    height: 15rem;
     display: flex;
     direction: rtl;
     border-radius: 10px 10px 0 0;
     font-family: 'B-yekan';
+    width: 100%;
+    justify-content: space-between;
+    margin-top:2rem;
 }
 
 .sections {
@@ -561,7 +626,7 @@ footer {
     flex-direction: column;
 }
 
-    #sec2 h3, #sec3 h3, #sec4 h3 {
+ #sec2 h3, #sec3 h3, #sec4 h3 {
         font-family: 'Pinar-medium';
         font-size: 26px;
         font-weight: 500;
@@ -588,3 +653,75 @@ footer {
         margin-right: 0.5rem;
         margin-left: 0.5rem;
     }
+
+.service {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 14rem;
+    gap: 2rem;
+    margin: 0 auto;
+}
+
+h2 {
+    font-family: 'Rokh-bold';
+    font-size: 36px;
+    text-align: center;
+    color: #000000;
+}
+
+.serv-boxs {
+    width: 20rem;
+    height: 10rem;
+    background-color: #FFDCCC;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-family: 'Pinar-medium';
+    font-weight: 600;
+    box-shadow: rgba(255, 88, 88, 0.4) 0px 5px, rgba(255, 88, 88, 0.3) 0px 10px, rgba(255, 88, 88, 0.2) 0px 15px, rgba(255, 88, 88, 0.1) 0px 20px, rgba(255, 88, 88, 0.05) 0px 25px;
+}
+
+    .serv-boxs:hover {
+        background-color: #FF7E7E;
+        color: #ffffff;
+    }
+    .serv-boxs a {
+        text-decoration: none; 
+        color: inherit; 
+        display: block; 
+    }
+
+
+
+/* style baraye vizhegi ha */
+.systems {
+    height: 25rem;
+    margin: 2rem;
+    background-color: #F5EBE0;
+    border-radius: 10px;
+}
+
+#systems-title {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: 'Rokhbold';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    color: #000000;
+}
+
+#systems-des {
+    font-family: 'Pinar-medium';
+    font-size: 18px;
+    text-align: center;
+}

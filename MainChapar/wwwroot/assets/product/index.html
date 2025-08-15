@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,15 +7,45 @@
     <title>Home</title>
     
 </head>
+<body>
 
+    
+    <header>
+        <div id="logo"><h1>CHAPAR</h1></div>
+        <div id="searchbar">
+            <input id="search-input" type="text" placeholder="جستجو">
+        </div>
+    </header>
+    <nav>
+        <div class="menu">
+        <a href="#">صفحه اصلی</a>
+        <a href="#">فروشگاه</a>
+        
+        <a href="#">درباره ما</a>
+        <a href="#">تماس با ما</a>
+        </div>
+        <div class="user">
+  <div class="user-icon-wrapper">
+    <img id="user-img" src="files/user-icon.png" alt="">
+    <div class="user-menu" id="user-menu">
+      <a href="#">سفارش‌ها</a>
+      <a href="#">اطلاعات کاربری</a>
+      <a href="#">خروج</a>
+    </div>
+  </div>
+  <a href="#"><img id="shop-cart" src="files/shopping-cart.png" alt=""></a>
+</div>
+
+      </nav>
+    
     <div class="container">
-    <section class="product-page">
+    <div class="product-page">
       <div class="image-section">
-        <img src="~/assets/img/files/1.png" class="main-img" id="mainImg" >
+        <img src="files/1.png" class="main-img" id="mainImg" >
         <div class="thumbnail-list">
-          <img src="~/assets/img/files/1.png">
-          <img src="~/assets/img/files/1.png">
-          <img src="~/assets/img/files/1.png">
+          <img src="files/1.png">
+          <img src="files/1.png">
+          <img src="files/1.png">
         </div>
       </div>
       <div class="details-section">
@@ -39,10 +70,10 @@
         </div>
         <button class="add-to-cart">افزودن به سبد خرید</button>
       </div>
-    </section>
 
-    <!-- تب‌ها -->
-    <section class="tabs">
+
+      <!-- تب‌ها -->
+    <div class="tabs">
       <div class="tab-buttons">
         <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
         <button onclick="showTab(1)">مشخصات فنی</button>
@@ -63,7 +94,10 @@
       <div class="tab-content">
         <p>هنوز نظری ثبت نشده است. شما اولین باشید!</p>
       </div>
-    </section>
+    </div>
+    </div>
+
+    
   </div>
 
   <!-- mahsolat moshabeh -->
@@ -73,18 +107,18 @@
         <div class="mahsolat-boxs">
           <div class="boxs" id="box1">
 
-            <img src="~/assets/img/files/print3.png">
+            <img src="files/print3.png">
             <p>چاپ سیاه سفید</p>
             
           </div>
           <div class="boxs" id="box2">
 
-            <img src="~/assets/img/files/print1.png">
+            <img src="files/print1.png">
             <p>چاپ پلان</p>
           </div>
           <div class="boxs" id="box3">
 
-            <img src="~/assets/img/files/print2.png">
+            <img src="files/print2.png">
             <p>چاپ ایکس</p>
           </div>
       
@@ -94,24 +128,65 @@
       <!-- --------------------------------------------------- -->
 
 
-     
+      <footer>
+        <div class="sections" id="sec1">
+
+          <h1>CHAPAR</h1>
+          <p>خدمات چاپ و فروش لوازم التحریر و جزوات</p>
+
+        </div>
+
+
+        <div class="sections" id="sec2">
+
+          <h3>لینک های مفید</h3>
+          <a href="">خدمات چاپ</a>
+          <a href="">جزوات</a>
+          <a href="">درباره ما</a>
+          <a href="">تماس با ما</a>
+
+        </div>
+
+
+        <div class="sections" id="sec3">
+          <h3>راه های ارتباطی</h3>
+          <p>شماره تماس :</p>
+          <p>021-25858000</p>
+          <p>ادرس :</p>
+          <p>تهران - صادقیه</p>
+          <div class="social">
+          <img src="files/instagram.png" alt="">
+          <img src="files/telegram.png" alt="">
+          <img src="files/whatsapp.png" alt="">
+        </div>
+        </div>
+
+
+
+        <div class="sections" id="sec4">
+          <h3>نماد های سایت</h3>
+          <img src="files/namad.png">
+        </div>
+
+
+      </footer>
+
 
       <!-- java script -->
  <script>
-  function scrollRight() {
-    const slider = document.getElementById('slider');
-    const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
-    slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-  }
+  const userImg = document.getElementById('user-img');
+  const userMenu = document.getElementById('user-menu');
 
-  function scrollLeft() {
-    const slider = document.getElementById('slider');
-    const cardWidth = 210 + 16;
-    slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
+  userImg.addEventListener('click', () => {
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  });
 
+  document.addEventListener('click', function(event) {
+    if (!userImg.contains(event.target) && !userMenu.contains(event.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
 
-
-  }
 
     function changeQty(delta) {
       const qty = document.getElementById("qty");
@@ -136,3 +211,8 @@
     }
   
 </script>
+
+
+      
+</body>
+</html>

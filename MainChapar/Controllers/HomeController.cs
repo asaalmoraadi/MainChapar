@@ -1,6 +1,7 @@
 using MainChapar.Data;
 using MainChapar.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace MainChapar.Controllers
@@ -16,12 +17,40 @@ namespace MainChapar.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var banner = _context.Banners.ToList();
-            ViewData["banners"] = banner;
+            // ????? ?????
+            var banners = _context.Banners.ToList();
+            ViewData["banners"] = banners;
+
+            // ????? ????? 10 ????
+            var books = await _context.usedBooks
+                .Include(b => b.Images)
+                .Include(b => b.User)
+                .OrderByDescending(b => b.CreatedAt)
+                .Take(10)
+                .ToListAsync();
+
+            return View(books);
+        }
+
+        public IActionResult AboutUs()
+        {
             return View();
         }
+        public IActionResult Contact() 
+        {
+            return View();
+        
+        }
+        [HttpPost]
+        public IActionResult Contact(Contact contact)
+        {
+            _context.contacts.Add(contact);
+            _context.SaveChanges();
+            return View(contact);
+        }
+
 
         public IActionResult Privacy()
         {

@@ -1,0 +1,60 @@
+﻿@model MainChapar.Models.Contact
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/contact Us/styles.css">
+    <title>درباره چاپار</title>
+
+</head>
+<section class="about-hero">
+    <h1>تماس با چاپار</h1>
+    <p>
+        اگر سوالی در مورد سفارش‌ها دارید یا نیاز به راهنمایی دارید، خوشحال می‌شویم با ما در ارتباط باشید.
+    </p>
+</section>
+
+<div class="container">
+    <section class="page-content">
+        <div class="box">
+
+            <div class="info-group">
+                <p><strong>آدرس : </strong> دانشگاه ...، ساختمان انتشارات</p>
+                <p><strong>ایمیل : </strong> info@unipubsite.ir</p>
+                <p><strong>تلفن : </strong> ۰۲۱-۱۲۳۴۵۶۷۸</p>
+                <p><strong> ساعات پاسخگویی : </strong> شنبه الی چهارشنبه، ۸ صبح الی ۱۵</p>
+            </div>
+
+            <form class="contact-form" method="post" action="Contact">
+                <div class="form-group">
+                    <label asp-for="Name">نام شما</label>
+                    <input type="text" id="name" name="Name" required />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">ایمیل</label>
+                    <input type="email" id="email" name="Email" required />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message">پیام شما</label>
+                    <textarea id="message" name="Message" rows="4" required  style="
+                             resize: none; /* جلوگیری از تغییر اندازه */
+                             padding: 10px;
+                             font-size: 14px;
+                             color: #000000;
+                             border: 1px solid #9fb3df;
+                             border-radius: 8px;
+                             background-color: #ffffff;
+                             box-shadow: inset 0 1px 3px #ffffff;
+                             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"></textarea>
+                </div>
+
+                <a href="/Home/index"> <button type="submit" class="submit-button">ارسال پیام</button> </a>
+            </form>
+        </div>
+    </section>
+</div>
+

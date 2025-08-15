@@ -1,11 +1,13 @@
 ﻿using MainChapar.Data;
 using MainChapar.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MainChapar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class MenuController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -1,45 +1,55 @@
-
 /* add fonts */
 @font-face {
     font-family: 'IranSans';
     src: url('/assets/fonts/iransans.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'Far_Yekan';
-    src: url('/assets/fonts/Far_Yekan.ttf') format('truetype');
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
 }
+
 @font-face {
     font-family: 'RokhBold';
     src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
 }
+
 @font-face {
     font-family: 'Rokh-ultra';
     src: url('/assets/fonts/Rokh-UltraBold.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-medium';
     src: url('/assets/fonts/Pinar-Medium.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-semibold';
     src: url('/assets/fonts/Pinar-SemiBold.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-ds4-black';
     src: url('/assets/fonts/Pinar-DS4-Black.woff2');
 }
+
 @font-face {
     font-family: 'Pinar-DS3-ExtraBold';
     src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
 }
+
 @font-face {
     font-family: 'B-yekan';
-    src: url('/assets/fonts/Yekan.ttf') format('truetype');
+    src: url('/assets/fonts/Yekan.ttf');
 }
+
 body {
     background-color: #FFFBF7;
     margin: 0;
     padding: 0;
+    
+    
 }
 
 header {
@@ -48,7 +58,7 @@ header {
     /* display flex baray shive gharar giri */
     display: flex;
     align-items: center;
-    justify-content: right;
+    justify-content: right  ; 
     flex-direction: row-reverse;
 }
 
@@ -59,42 +69,41 @@ header {
     font-size: 18px;
     width: 10%;
 }
-
-#searchbar {
+#searchbar{
     width: 80%;
     margin-right: 5rem;
 }
 
-#search-input {
+#search-input{
     height: 50px;
     width: 100%;
-    padding-left: 40px;
+    padding-left: 40px; 
     background: url('files/search-icon.png') no-repeat 10px center;
     background-color: #ffffff;
-    background-size: 30px 30px;
+    background-size:30px 30px; 
     font-size: 18px;
     border-radius: 13px;
     direction: rtl;
     text-align: right;
     padding-right: 15px;
     border: 0;
+
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
 }
 
-    #search-input:focus {
-        border: 1px solid rgb(197, 197, 197);
-        outline: none;
-    }
-
-/*nav => menu + user icon */
+/*nav => menu + user icon + shop */
 nav {
     width: 100%;
     display: flex;
     justify-content: center;
+    
     flex-direction: row-reverse;
     height: 4rem;
 }
-
-.menu {
+.menu{
     width: 60%;
     display: flex;
     flex-direction: row-reverse;
@@ -110,10 +119,65 @@ nav a {
     position: relative;
     padding-left: 3rem;
 }
-
+nav a:hover {
+    color: #f25d5d;
+}
 .user {
-    width: 30%;
-    padding-top: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
 }
 
 .container {
@@ -122,360 +186,276 @@ nav a {
     direction: rtl;
     padding-bottom: 2rem;
     margin-top: 2rem;
+    font-family: 'Pinar-medium';
+    margin-bottom: 10rem;
+    z-index: 0;
 }
 
-/* --- ساختار صفحه محصول --- */
-.product-page {
-    display: flex;
-    z-index:0;
-    flex-wrap: wrap;
-    gap: 40px;
-    background: white;
-    padding: 24px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-}
+    /* --- ساختار صفحه محصول --- */
+    .product-page {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      background: white;
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      width: 60rem;
 
-.image-section {
-    flex: 0 0 200px;
-    border-radius: 15px;
-}
-
-    .image-section .main-img {
-        margin-bottom: 12px;
     }
 
-.thumbnail-list {
-    display: flex;
-    gap: 10px;
-}
+    .image-section {
+      flex: 0 0 200px;
+      border-radius: 15px;
+    }
+
+        .image-section .main-img {
+            margin-bottom: 12px;
+            height: 15rem;
+            width: 15rem;
+        }
+
+    .thumbnail-list {
+      display: flex;
+      gap: 10px;
+    }
 
     .thumbnail-list img {
-        width: 60px;
-        height: 60px;
-        border: 2px solid transparent;
-        cursor: pointer;
-        transition: 0.3s;
+      width: 60px;
+      
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
-        .thumbnail-list img:hover {
-            border-color: #ff5722;
-        }
+    .thumbnail-list img:hover {
+      border-color: #ff5722;
+    }
 
-.details-section {
-    flex: 1 1 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px; /* fasele beyn anasor */
-}
+    .details-section {
+      flex: 1 1 400px;
+      display: flex;
+      flex-direction: column;
+      
+      gap: 16px; /* fasele beyn anasor */
+    }
 
-.product-title {
-    font-size: 30px;
-    font-weight: bold;
-}
+    .product-title {
+      font-size: 26px;
+      font-weight: bold;
+    }
 
-.label {
-    font-size: 18px;
-    color: gray;
-}
+    .label {
+      font-size: 16px;
+      color: gray;
+    }
 
-.short-desc {
-    font-size: 18px;
-    line-height: 1.8;
-    color: #444;
-}
+    .short-desc {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #444;
+    }
 
-/* --- قیمت --- */
-.pricing {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 21px;
-    margin-bottom: 2rem;
-}
+    /* --- قیمت --- */
+    .pricing {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      margin-bottom: 2rem;
+    }
 
-.old-price {
-    text-decoration: line-through;
-    color: #888;
-}
+    .old-price {
+      text-decoration: line-through;
+      color: #888;
+    }
 
-.new-price {
-    font-weight: bold;
-    color: #d32f2f;
-}
+    .new-price {
+      font-weight: bold;
+      color: #a00;
+    }
 
-.stock {
-    font-size: 21px;
-    color: green;
-}
+    .stock {
+      font-size: 18px;
+      color: green;
+      font-family: 'Pinar-semibold';
+      
+    }
 
-/* --- کنترل تعداد --- */
-.quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    /* --- کنترل تعداد --- */
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      
+      
+    }
 
     .quantity-control button {
-        width: 36px;
-        height: 36px;
-        border: none;
-        background: #eee;
-        font-size: 18px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: 0.2s;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: #eee;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      
     }
 
-        .quantity-control button:hover {
-            background: #ddd;
-        }
+    .quantity-control button:hover {
+      background: #ddd;
+    }
 
     .quantity-control input {
-        width: 48px;
-        height: 36px;
-        text-align: center;
-        font-size: 16px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
+      width: 48px;
+      height: 36px;
+      text-align: center;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
 
 .add-to-cart {
     margin-top: 10px;
     padding: 12px;
-    background: #ff7043;
+    background: #ffdddd;
     border: none;
     border-radius: 12px;
-    color: white;
+    color: #a00;
     font-size: 16px;
     cursor: pointer;
     transition: 0.3s;
+    font-family: 'Pinar-medium';
+    width: 100%;
 }
 
     .add-to-cart:hover {
-        background: #e64a19;
+      background-color: #ffaaaa;
     }
 
-/* --- تب‌ها --- */
-.tabs {
-    z-index:0;
-    margin-top: 40px;
-    background: white;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
-}
+    /* --- تب‌ها --- */
+    .tabs {
+      margin-top: 40px;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      width: 100%;
+      
+    }
 
-.tab-buttons {
-    display: flex;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 16px;
-}
+    .tab-buttons {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 16px;
+    }
 
     .tab-buttons button {
-        flex: 1;
-        background: none;
-        border: none;
-        padding: 12px;
-        font-size: 16px;
-        cursor: pointer;
-        border-bottom: 3px solid transparent;
+      flex: 1;
+      background: none;
+      border: none;
+      padding: 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      font-family: 'Pinar-medium';
+      
     }
 
-        .tab-buttons button.active {
-            border-bottom: 3px solid #ff7043;
-            color: #ff7043;
-        }
+    .tab-buttons button.active {
+      border-bottom: 3px solid #ffaaaa;
+      color: #ffaaaa;
+      
+    }
 
-.tab-content {
-    display: none;
-    font-size: 15px;
-    line-height: 1.8;
-    color: #444;
-}
+    .tab-content {
+      display: none;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #444;
+    }
 
     .tab-content.active {
-        display: block;
+      display: block;
     }
 
+  
 
 
-
-.mahsolat {
+.mahsolat{
     margin-top: 2rem;
     margin-bottom: 4rem;
     height: 15rem;
     align-items: center;
     padding-bottom: 5rem;
 }
-
-    .mahsolat h2 {
-        font-family: 'Rokh-ultra';
-        font-weight: 800;
-        font-size: 26px;
-        text-align: center;
-        color: #000000;
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
-
-.mahsolat-boxs {
-    height: 11rem;
-    display: flex;
-    justify-content: center;
-    flex-direction: row-reverse;
-    align-items: center;
-    padding-bottom: 2rem;
+  
+.mahsolat h2{
+  font-family: 'Rokh-ultra';
+  font-weight: 800;
+  font-size: 26px;
+  text-align: center;
+  color: #000000;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
-    .mahsolat-boxs .boxs {
-        height: 11rem;
-        width: 11rem;
-        margin-right: 2rem;
-        border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-        .mahsolat-boxs .boxs img {
-            margin-top: 1rem;
-            height: 9rem;
-            width: 9rem;
-        }
-
-        .mahsolat-boxs .boxs p {
-            font-size: 16px;
-            font-family: 'Rokh-ultra';
-            font-weight: bold;
-        }
-
-#box1 {
-    background-color: #EDDFE0;
+.mahsolat-boxs{
+  height: 11rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  align-items: center;
+  padding-bottom:2rem ;
 }
 
-#box2 {
-    background-color: #EEF1DA;
+.mahsolat-boxs .boxs{
+  height: 11rem;
+  width: 11rem;
+  margin-right: 2rem;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
-#box3 {
-    background-color: #F5EBE0;
+.mahsolat-boxs .boxs img{
+  margin-top: 1rem;
+  height: 9rem;
+  width: 9rem;
+}
+.mahsolat-boxs .boxs p{
+  font-size: 16px;
+  font-family: 'Rokh-ultra';
+  font-weight: bold;
 }
 
-#box4 {
-    background-color: #FFDCCC;
-}
+#box1{background-color: #EDDFE0;}
+#box2{background-color: #EEF1DA;}
+#box3{background-color: #F5EBE0;}
+#box4{background-color: #FFDCCC;}
 
 /* hover */
 
-#box1:hover {
-    background-color: rgb(177, 166, 167);
-}
-
-#box2:hover {
-    background-color: #d2d4bf;
-}
-
-#box3:hover {
-    background-color: #d4ccc2;
-}
-
-#box4:hover {
-    background-color: #dabcae;
-}
+#box1:hover{background-color: rgb(177, 166, 167);}
+#box2:hover{background-color: #d2d4bf;}
+#box3:hover{background-color: #d4ccc2;}
+#box4:hover{background-color: #dabcae;}
 
 /* active */
 
-#box1:active {
-    background-color: rgb(87, 73, 74);
-    color: #ffffff;
-}
-
-#box2:active {
-    background-color: #666855;
-    color: #ffffff;
-}
-
-#box3:active {
-    background-color: #49443c;
-    color: #ffffff;
-}
-
-#box4:active {
-    background-color: #4d3f39;
-    color: #ffffff;
-}
+#box1:active{background-color: rgb(87, 73, 74); color: #ffffff;}
+#box2:active{background-color: #666855;color: #ffffff;}
+#box3:active{background-color: #49443c;color: #ffffff;}
+#box4:active{background-color: #4d3f39;color: #ffffff;}
 
 
 
 /*        footer         */
 
-footer {
-    background-color: rgb(255, 255, 255);
-    height: 15rem;
-    display: flex;
-    direction: rtl;
-    border-radius: 10px 10px 0 0;
-    font-family: 'B-yekan';
-}
-
-.sections {
-    margin: 0rem;
-    width: 25%;
-    border-radius: 15px;
-    align-items: center;
-    text-align: center;
-}
-
-#sec1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-    #sec1 h1 {
-        font-size: 32px;
-    }
-
-    #sec1 p {
-        font-size: 16px;
-        font-family: 'Pinar-medium';
-        font-weight: 600;
-    }
-
-#sec2 {
-    display: flex;
-    flex-direction: column;
-}
-
-    #sec2 h3, #sec3 h3, #sec4 h3 {
-        font-family: 'Pinar-medium';
-        font-size: 26px;
-        font-weight: 500;
-    }
-
-    #sec2 a, #sec3 p {
-        font-size: 16px;
-        font-family: 'Pinar-medium';
-        font-weight: 500;
-        color: #000000;
-        text-decoration: none;
-        margin: 0.4rem;
-    }
-
-        #sec2 a:hover {
-            color: #967f74;
-        }
-
-.social {
-    margin: 1rem;
-}
-
-    .social img {
-        margin-right: 0.5rem;
-        margin-left: 0.5rem;
-    }
 
 
 

@@ -1,17 +1,38 @@
 ﻿@model MainChapar.ViewModel.UserOrdersViewModel
+@using MainChapar.Helpers
 
 @{
     ViewData["Title"] = "وضعیت سفارشات من";
 }
-
-<h1>وضعیت سفارشات من</h1>
-
-@* نمایش سفارش‌های خدمات چاپی *@
-@foreach (var printRequest in Model.PrintRequests)
+@if (TempData["Error"] != null)
 {
-    <div class="order">
-        <div class="order-header">
-            <strong>
+    <div class="alert alert-warning text-center" role="alert">
+        @TempData["Error"]
+    </div>
+}
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/Order status/styles.css">
+    <title>وضعیت سفارش</title>
+
+</head>
+<br/>
+<br/>
+<div id="top-container">
+    <a id="back" href="/Home/index">بازگشت</a>
+    <h1 class="section-title">وضعیت سفارشات من</h1>
+</div>
+
+<div class="status-container">
+    @foreach (var printRequest in Model.PrintRequests)
+    {
+        <div class="boxs">
+            <p id="title">
                 @{
                     switch (printRequest.ServiceType)
                     {
@@ -29,70 +50,57 @@
                             break;
                     }
                 }
-            </strong>
+            </p>
 
-            <span class="status @(printRequest.Status == "Submitted" ? "pending" :
-                               printRequest.Status == "Completed" ? "approved" :
-                               printRequest.Status == "Rejected" ? "rejected" : "")">
-                @{
-                    switch (printRequest.Status)
-                    {
-                        case "Submitted":
-                            @:در انتظار تایید
-                            break;
-                        case "Completed":
-                            @:تایید شده
-                            break;
-                        case "Rejected":
-                            @:رد شده
-                            break;
-                        default:
-                            @:در حال پردازش
-                            break;
-                    }
-                }
-            </span>
-        </div>
-        <div>
-            @* نمایش جزئیات بر اساس نوع خدمات چاپی *@
             @if (printRequest.ServiceType == "BlackWhite" && printRequest.BlackWhitePrintDetail != null)
             {
-                <p>تعداد صفحات: @printRequest.BlackWhitePrintDetail.CopyCount</p>
-                <p>نوع کاغذ: @printRequest.BlackWhitePrintDetail.PaperType</p>
+                <div class="fields" id="num-pages">
+                    <p class="num-pages-key">تعداد صفحات :</p>
+                    <p class="num-pages-value">@printRequest.BlackWhitePrintDetail.CopyCount</p>
+                </div>
+                <div class="fields" id="paper-type">
+                    <p class="paper-type-key">نوع کاغذ :</p>
+                    <p class="paper-type-value">@printRequest.BlackWhitePrintDetail.PaperType</p>
+                </div>
             }
             else if (printRequest.ServiceType == "Color" && printRequest.ColorPrintDetail != null)
             {
-                <p>تعداد صفحات: @printRequest.ColorPrintDetail.CopyCount</p>
-                <p>نوع کاغذ: @printRequest.ColorPrintDetail.PaperType</p>
+                <div class="fields" id="num-pages">
+                    <p class="num-pages-key">تعداد صفحات :</p>
+                    <p class="num-pages-value">@printRequest.ColorPrintDetail.CopyCount</p>
+                </div>
+                <div class="fields" id="paper-type">
+                    <p class="paper-type-key">نوع کاغذ :</p>
+                    <p class="paper-type-value">@printRequest.ColorPrintDetail.PaperType</p>
+                </div>
             }
             else if (printRequest.ServiceType == "Plan" && printRequest.PlanPrintDetail != null)
             {
-                
-                <p>نوع کاغذ: @printRequest.PlanPrintDetail.PaperType</p>
+                <div class="fields" id="paper-type">
+                    <p class="paper-type-key">نوع کاغذ :</p>
+                    <p class="paper-type-value">@printRequest.PlanPrintDetail.PaperType</p>
+                </div>
             }
-            <p>تاریخ ثبت: @printRequest.CreatedAt.ToString("yyyy/MM/dd")</p>
-        </div>
-    </div>
-}
 
-@* نمایش سفارش‌های محصولات *@
-@foreach (var order in Model.ProductOrders)
-{
-    <div class="order">
-        <div class="order-header">
-            <strong>سفارش محصول: @order.OrderDetails.FirstOrDefault()?.Product.Title</strong>
-            <span class="status @(order.IsConfirmed ? "approved" : "pending")">
-                @(order.IsConfirmed ? "تایید شده" : "در انتظار تایید")
-            </span>
+            <div class="fields" id="date">
+                <p class="date-key">تاریخ ثبت :</p>
+                <p class="date-value">@printRequest.CreatedAt.ToString("yyyy/MM/dd")</p>
+            </div>
+
+            <div class="fields" id="status">
+                <p class="status-key">وضعیت سفارش :</p>
+                <p class="status-value">
+                    @StatusExtensions.ToFarsiStatus(printRequest.Status)
+                </p>
+            </div>
+            <div class="fields">
+                @if (printRequest.Status == "Completed")
+                {
+                    <a asp-controller="Cart" asp-action="Success" asp-route-id="@printRequest.Id">دریافت کد</a>
+                }
+            </div>
+           
         </div>
-        <div>
-            <p>تعداد: @order.OrderDetails.Sum(od => od.Quantity) عدد</p>
-            <p>قیمت کل: @order.TotalPrice.ToString("N0") تومان</p>
-            <p>تاریخ سفارش: @order.CreatedAt.ToString("yyyy/MM/dd")</p>
-        </div>
-        <div class="qr">
-            <p>کد QR برای تحویل:</p>
-            <img src="@Url.Action("GenerateQr", "UserOrder", new { pickupCode = order.PickupCode })" alt="QR Code" />
-        </div>
-    </div>
-}
+    }
+</div>
+

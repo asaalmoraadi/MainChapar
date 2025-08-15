@@ -1,0 +1,97 @@
+﻿@model IEnumerable<MainChapar.Models.ServiceRequest>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles -Contact.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>مدیریت درخواست‌ها</h1>
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+
+                            <th>نام</th>
+                            <th>تلفن</th>
+                            <th>مهلت</th>
+                            <th>نوع خدمت</th>
+                            <th>عنوان پروژه</th>
+                            <th>توضیحات</th>
+                            <th>فایل</th>
+                            <th>تاریخ ثبت</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                
+                                <td>@item.Name @item.Family</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.Deadline.ToShortDateString()</td>
+                                <td>@item.Type</td>
+                                <td>
+                                    @if (item.Type == MainChapar.Models.ServiceType.PowerPoint)
+                                    {
+                                        @item.ProjectTitle
+                                    }
+                                </td>
+                                <td>@item.Description</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.UploadedFilePath))
+                                    {
+                                        <a href="@item.UploadedFilePath" target="_blank">دانلود</a>
+                                    }
+                                </td>
+                                <td>@item.SubmittedAt.ToShortDateString()</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+
+

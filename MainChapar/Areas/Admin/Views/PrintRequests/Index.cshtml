@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>داشبورد اصلی</title>
-    <link rel="stylesheet" href="/assets/category/styles.css">
+    <link rel="stylesheet" href="/assets/category/styles - printReq.css">
 </head>
 <body>
 
@@ -17,7 +17,10 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
                 </ul>
             </nav>
         </aside>
@@ -28,6 +31,20 @@
             <div class="top-table">
                 <h1>درخواست‌های چاپ</h1>
             </div>
+            <section class="stats-cards">
+                <div class="stat-card" id="card-0">
+                    <span class="stat-value">@ViewBag.totalPrintServices</span>
+                    <span class="stat-label">درخواست های ثبت شده</span>
+                </div>
+                <div class="stat-card" id="card-1">
+                    <span class="stat-value">@ViewBag.RejectedServices </span>
+                    <span class="stat-label">درخواست های رد شده</span>
+                </div>
+                <div class="stat-card" id="card-2">
+                    <span class="stat-value">@ViewBag.completedPrintServices</span>
+                    <span class="stat-label">درخواست های انجام شده</span>
+                </div>
+            </section>
 
             <div id="taskList">
                 <table>
@@ -47,16 +64,40 @@
                             <tr>
 
                                 <td>@item.User?.UserName</td>
-                                <td>@item.ServiceType</td>
+                                <td>
+                                    @{
+                                        switch (@item.ServiceType)
+                                        {
+                                            case "BlackWhite":
+                                                <p>سیاه و سفید</p>
+                                                break;
+                                            case "Color":
+                                                <p>رنگی</p>
+                                                break;
+                                            case "Plan":
+                                                <p>پلان</p>
+                                                break;
+                                            case "Laminate":
+                                                <p>لمینیت و پرس</p>
+                                                break;
+                                            default:
+                                                break;
+                                        }
+
+                                    }
+                                </td>
                                 <td>
                                     <span class="badge
-                                         @(item.Status == "Approved" ? "bg-success" :
+                                        @(item.Status == "Approved" ? "bg-success" :
                                          item.Status == "Rejected" ? "bg-danger" :
                                          item.Status == "Processing" ? "bg-warning text-dark" :
                                          item.Status == "Completed" ? "bg-primary" :
-                                          "bg-secondary")">
-                                        @item.Status
+                                         item.Status == "Submitted" ? "bg-info text-dark" :
+                                         "bg-secondary")">
+                                        
+                                        @item.Status.ToFarsiStatus()
                                     </span>
+                                   @*  @StatusExtensions.ToFarsiStatus(item.Status) *@
                                 </td>
                                 <td>@item.CreatedAt.ToShortDateString()</td>
                                 <td class="actions">

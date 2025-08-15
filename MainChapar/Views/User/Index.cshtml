@@ -1,0 +1,73 @@
+﻿@model List<MainChapar.Models.DTO.UserWithRolesDTO>
+@{
+    Layout = null;  // یعنی هیچ لای‌آوتی استفاده نشه
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لیست کاربران</title>
+    <link rel="stylesheet" href="~/assets/admin-List of users/styles.css">
+</head>
+<body>
+
+<div class="category-container">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>انتشارات دانشگاه</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#" class="active"> داشبورد اصلی</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="top-table">
+            <h1>لیست کاربران</h1>
+        </div>
+
+        <div id="taskList">
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام کاربری</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>ایمیل</th>
+                        <th>نقش فعلی</th>
+                        <th>تغییر نقش</th>
+                    </tr>
+                </thead>
+                <tbody id="taskItems">
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td style="direction: ltr;">@user.Username</td>
+                            <td>@user.FirstName</td>
+                            <td>@user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>@user.CurrentRole</td>
+                            <td>
+                                <form asp-action="ChangeRole" method="post">
+                                    <input type="hidden" asp-for="@user.Id" name="userId" />
+
+                                    <select name="newRole" asp-items="@(new SelectList(user.AllRoles, user.CurrentRole))"></select>
+
+                                    <button type="submit" class="btn btn-sm btn-primary">ثبت</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

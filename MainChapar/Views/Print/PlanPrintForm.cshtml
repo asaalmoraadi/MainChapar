@@ -25,9 +25,30 @@
     <!-- order box -->
 
     <p class="path_txt">مسیر شما &gt; صفحه اصلی &gt; خدمات چاپ &gt; چاپ دیجیتال پلان</p>
+    <p class="path_txt" style="color:lightcoral">هزینه خدمات چاپ دیجیتال پلان به علت نبود پارامتر های مورد نیاز برای سنجش  
+        به صورت حضوری در انتشارات هنگام دریافت فیزیکی محاسبه می شود
+    </p>
     <!-- start container khadamat chap -->
-    <form asp-action="BlackWhitePrintForm" method="post" enctype="multipart/form-data">
+    <form asp-action="PlanPrintForm" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
+        @if (!ViewData.ModelState.IsValid)
+        {
+            var allErrors = ViewData.ModelState.Values.SelectMany(v => v.Errors).ToList();
+            if (allErrors.Any())
+            {
+                <div style="background-color: #fff4f4; border: 1px solid #e44d4d; padding: 12px 16px; border-radius: 10px; margin: 20px auto; color: #c0392b; max-width: 600px; font-size: 14px;">
+                    <strong style="font-size: 15px;">⚠️ خطا در ثبت درخواست:</strong>
+                    <ul style="margin-top: 8px; padding-right: 20px; margin-bottom: 0;">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li style="margin-bottom: 5px;">@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+
+
+            }
+        }
         <div class="form-container">
             <!--soton 1 (az rast)-->
             <div class="image-box">
@@ -91,7 +112,7 @@
                              resize: none; /* جلوگیری از تغییر اندازه */
                              padding: 10px;
                              font-size: 14px;
-                             color: #ffffff;
+                             color: #000000;
                              border: 1px solid #ffffff;
                              border-radius: 8px;
                              background-color: #ffffff;
@@ -112,7 +133,7 @@
                              resize: none; /* جلوگیری از تغییر اندازه */
                              padding: 10px;
                              font-size: 14px;
-                             color: #ffffff;
+                             color: #000000;;
                              border: 1px solid #ffffff;
                              border-radius: 8px;
                              background-color: #ffffff;
@@ -148,15 +169,17 @@
             <h2>خدمات مشابه</h2>
             <div class="khadamat-boxs">
                 <div class="boxs" id="box1">
-
-                    <img src="/assets/print/files/pallte.png">
-                    <p>چاپ  رنگی</p>
+                    <a href="/print/ColorPrintForm" class="boxs" id="box1" style="text-decoration:none; color: inherit; ">
+                        <img src="/assets/print/files/pallte.png">
+                        <p>چاپ  رنگی</p>
+                    </a>
 
                 </div>
                 <div class="boxs" id="box2">
-
-                    <img src="/assets/print/files/print3.png">
-                    <p>چاپ سیاه سفید</p>
+                    <a href="/print/BlackWhitePrintForm" class="boxs" id="box2" style="text-decoration:none; color: inherit;">
+                        <img src="/assets/print/files/print3.png">
+                        <p>چاپ سیاه سفید</p>
+                    </a>
                 </div>
               
 

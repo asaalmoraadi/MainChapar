@@ -8,7 +8,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/assets/css/styles.css">
-    
+    @RenderSection("Styles", required: false)
+
     <title>Home</title>
 
 </head>
@@ -17,25 +18,41 @@
     <header>
         <div id="logo"><h1>CHAPAR</h1></div>
         <div id="searchbar">
-            <input id="search-input" type="text" value="جستجو">
+            <form asp-controller="Product" asp-action="Search" method="get">
+                <input id="search-input" type="text" name="query" placeholder="جستجو" />
+            </form>
         </div>
     </header>
     <nav>
         <div class="menu">
-            <a href="#">صفحه اصلی</a>
-            <a href="#">خدمات چاپ</a>
-            <a href="#">کتاب ها</a>
-            <a href="#">درباره ما</a>
-            <a href="#">تماس با ما</a>
+            <a href="/Home/index">صفحه اصلی</a>
+            <a href="/product/index">فروشگاه</a>
+            <a href="/Home/AboutUs">درباره ما</a>
+            <a href="/Home/Contact">تماس با ما</a>
+            <a href="/Collaboration/Create"> همکاری با ما</a>
+          
         </div>
-        <div class="user">
-            <img src="~/assets/img/files/user-icon.png" alt="">
+        <div class="user">      
+            <div class="user-icon-wrapper">
+                <img id="user-img" src="~/assets/img/files/user-icon.png" alt="">
+                 <div class="user-menu" id="user-menu">
+                    @if (User.IsInRole("admin"))
+                    {
+                        <a href="/Admin/Dashboard">ورود به پنل مدیریت</a>
+                    }
+                    <a href="/Cart/Orders">سفارش‌ها</a>
+                    <a href="/User/Profile">اطلاعات کاربری</a>
+                     <a href="/User/Logout">خروج</a>
+                 </div>
+                <a href="/Cart/index"><img id="shop-cart" src="~/assets/img/files/shopping-cart.png" alt=""></a>
+            </div>
         </div>
+
     </nav>
 
     @RenderBody()
     <!-- --------------------------------------------------- -->
-
+    <br />
 
     <footer>
         <div class="sections" id="sec1">
@@ -49,10 +66,10 @@
         <div class="sections" id="sec2">
 
             <h3>لینک های مفید</h3>
-            <a href="">خدمات چاپ</a>
-            <a href="">جزوات</a>
-            <a href="">درباره ما</a>
-            <a href="">تماس با ما</a>
+            <a href="/product/index">فروشگاه</a>
+            <a href="/Home/AboutUs">درباره ما</a>
+            <a href="/Home/Contact">تماس با ما</a>
+            <a href="/Collaboration/Create"> همکاری با ما</a>
 
         </div>
 
@@ -95,8 +112,62 @@
             slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
         }
     </script>
+    <!--تعداد موجودی کالا ها-->
+    <script>
+        function changeQty(inputId, delta, maxQty) {
+            const input = document.getElementById(inputId);
+            const display = document.getElementById("display-" + inputId.split("-")[2]);
+            let value = parseInt(input.value) || 1;
+
+            value += delta;
+            if (value < 1) value = 1;
+            if (value > maxQty) value = maxQty;
+
+            input.value = value;
+            display.innerText = value;
+        }
+    </script>
+    <!--باز و بسته کردن منو آدمک-->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const userIcon = document.getElementById("user-img");
+            const userMenu = document.getElementById("user-menu");
+
+            if (userIcon && userMenu) {
+                userIcon.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle("show");
+                });
+
+                document.addEventListener("click", function (e) {
+                    if (!userMenu.contains(e.target)) {
+                        userMenu.classList.remove("show");
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!--نمایش QR کد-->
+@*     <script>
+        function downloadQR() {
+            const svgElement = document.querySelector('#qr-container svg');
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = "QRCode.svg";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+ *@
 
 
-
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

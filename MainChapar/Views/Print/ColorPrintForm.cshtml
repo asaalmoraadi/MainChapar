@@ -13,141 +13,158 @@
         @Html.Raw(TempData["FormErrors"].ToString())
     </div>
 }
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/assets/print/styles.css">
     <title>Colorprintform</title>
 </head>
-<body>
-    <!-- order box -->
+<!-- order box -->
 
-    <p class="path_txt">مسیر شما &gt; صفحه اصلی &gt; خدمات چاپ &gt; چاپ دیجیتال رنگی</p>
-    <!-- start container khadamat chap -->
-    <form asp-action="ColorPrintForm" method="post" enctype="multipart/form-data">
-        @Html.AntiForgeryToken()
-        <div class="form-container">
-            <!--soton 1 (az rast)-->
-            <div class="image-box">
-                <img src="/assets/print/files/pallte.png" alt="چاپ دیجیتال">
-                <p>چاپ دیجیتال رنگی</p>
+<p class="path_txt">مسیر شما &gt; صفحه اصلی &gt; خدمات چاپ &gt; چاپ دیجیتال رنگی</p>
+<!-- start container khadamat chap -->
+<form asp-action="ColorPrintForm" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    @if (!ViewData.ModelState.IsValid)
+    {
+        var allErrors = ViewData.ModelState.Values.SelectMany(v => v.Errors).ToList();
+        if (allErrors.Any())
+        {
+            <div style="background-color: #fff4f4; border: 1px solid #e44d4d; padding: 12px 16px; border-radius: 10px; margin: 20px auto; color: #c0392b; max-width: 600px; font-size: 14px;">
+                <strong style="font-size: 15px;">⚠️ خطا در ثبت درخواست:</strong>
+                <ul style="margin-top: 8px; padding-right: 20px; margin-bottom: 0;">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li style="margin-bottom: 5px;">@error.ErrorMessage</li>
+                    }
+                </ul>
             </div>
 
-            <!--soton 2 (4ta field)-->
-            <div class="form-grid">
 
-                <!--field 1-->
-                <div class="form-group">
-                    <label>جنس کاغذ</label>
-                    <select asp-for="PaperType" asp-items="@(new List<SelectListItem> {
+        }
+    }
+
+    <div class="form-container">
+        <!--soton 1 (az rast)-->
+        <div class="image-box">
+            <img src="/assets/print/files/pallte.png" alt="چاپ دیجیتال">
+            <p>چاپ دیجیتال رنگی</p>
+        </div>
+
+        <!--soton 2 (4ta field)-->
+        <div class="form-grid">
+
+            <!--field 1-->
+            <div class="form-group">
+                <label>جنس کاغذ</label>
+                <select asp-for="PaperType" asp-items="@(new List<SelectListItem> {
                              new SelectListItem { Text = " ساده", Value="ساده" },
                             new SelectListItem { Text="گلاسه" , Value="گلاسه" },
                             new SelectListItem { Text="گلاسه سنگین" , Value="گلاسه سنگین" }
                             })">
-                    </select>
-                    @Html.ValidationMessageFor(m => m.PaperType, "", new { @class = "text-danger" })
-                </div>
+                </select>
+                @Html.ValidationMessageFor(m => m.PaperType, "", new { @class = "text-danger" })
+            </div>
 
-                <!--field 2-->
-                <div class="form-group">
-                    <label>ابعاد ( ابعاد به سانتی‌متر می‌باشد)</label>
-                    <select asp-for="PaperSize" asp-items="@(new List<SelectListItem> {
+            <!--field 2-->
+            <div class="form-group">
+                <label>ابعاد ( ابعاد به سانتی‌متر می‌باشد)</label>
+                <select asp-for="PaperSize" asp-items="@(new List<SelectListItem> {
                              new SelectListItem { Text = " A5", Value="A5" },
                             new SelectListItem { Text="A4" , Value="A4" },
                             new SelectListItem { Text="A3" , Value="A3" }
                             })">
-                        <option value="">انتخاب اندازه کاغذ</option>
-                    </select>
-                    @Html.ValidationMessageFor(m => m.PaperSize, "", new { @class = "text-danger" })
-                </div>
+                    <option value="">انتخاب اندازه کاغذ</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.PaperSize, "", new { @class = "text-danger" })
+            </div>
 
-                <!--field 3-->
-                <div class="form-group">
-                    <label>تیراژ</label>
-                    <input asp-for="CopyCount" id="tiraj" type="number" min="1" />
-                    @Html.ValidationMessageFor(m => m.CopyCount, "", new { @class = "text-danger" })
-                </div>
+            <!--field 3-->
+            <div class="form-group">
+                <label>تیراژ</label>
+                <input asp-for="CopyCount" id="tiraj" type="number" min="1" />
+                @Html.ValidationMessageFor(m => m.CopyCount, "", new { @class = "text-danger" })
+            </div>
 
-                <!--field 4-->
-                <div class="form-group">
-                    <label>وجه</label>
-                    <select asp-for="PrintSide" class="form-control" asp-items="@(new List<SelectListItem> {
+            <!--field 4-->
+            <div class="form-group">
+                <label>وجه</label>
+                <select asp-for="PrintSide" class="form-control" asp-items="@(new List<SelectListItem> {
                             new SelectListItem { Text = " تک رو", Value="تک رو" },
                             new SelectListItem { Text="پشت و رو" , Value="پشت و رو" }
                             })">
-                        <option value="">انتخاب نوع چاپ</option>
-                    </select>
-                    @Html.ValidationMessageFor(m => m.PrintSide, "", new { @class = "text-danger" })
+                    <option value="">انتخاب نوع چاپ</option>
+                </select>
+                @Html.ValidationMessageFor(m => m.PrintSide, "", new { @class = "text-danger" })
+            </div>
+
+            <!-- radif jadid baray upload file-->
+
+            <div class="form-group">
+                <label>نوع صحافی</label>
+                <select asp-for="BindingType" class="form-control">
+                    <option value="هیچ‌کدام">هیچ‌کدام</option>
+                    <option value="سیمی">سیمی</option>
+                    <option value="طلق و شیرازه">طلق و شیرازه</option>
+                    <option value="منگنه">منگنه</option>
+                </select>
+                <span asp-validation-for="BindingType" class="text-danger"></span>
+
+
+                <div class="form-group upload-centered">
+                    <label for="fileUpload">آپلود فایل</label>
+                    <input asp-for="Files" type="file" multiple id="fileUpload" />
+                    @Html.ValidationMessageFor(m => m.Files, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <!-- radif jadid baray upload file-->
-
-                <div class="form-group">
-                    <label>نوع صحافی</label>
-                    <select asp-for="BindingType" class="form-control">
-                        <option value="هیچ‌کدام">هیچ‌کدام</option>
-                        <option value="سیمی">سیمی</option>
-                        <option value="طلق و شیرازه">طلق و شیرازه</option>
-                        <option value="منگنه">منگنه</option>
-                    </select>
-                    <span asp-validation-for="BindingType" class="text-danger"></span>
-
-
-                    <div class="form-group upload-centered">
-                        <label for="fileUpload">آپلود فایل</label>
-                        <input asp-for="Files" type="file" multiple id="fileUpload" />
-                        @Html.ValidationMessageFor(m => m.Files, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>توضیحات</label>
-                    <textarea asp-for="Description" placeholder="توضیحات مثل از صفحه سه تا پنج پرینت شود" class="form-control" rows="3" style="
+            <div class="form-group">
+                <label>توضیحات</label>
+                <textarea asp-for="Description" placeholder="توضیحات مثل از صفحه سه تا پنج پرینت شود" class="form-control" rows="3" style="
                              width: 90%;
                              max-width: 100%;
                              height: 120px;
                              resize: none; /* جلوگیری از تغییر اندازه */
                              padding: 10px;
                              font-size: 14px;
-                             color: #ffffff;
+                             color: #000000;
                              border: 1px solid #ffffff;
                              border-radius: 8px;
                              background-color: #ffffff;
                              box-shadow: inset 0 1px 3px #ffffff;
                              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+        </div>
 
-            <!--end container -->
+        <!--end container -->
+
+    </div>
+
+    <div class="form-button">
+        <button type="submit" class="add-item">افزودن به سبد خرید</button>
+    </div>
+
+    <!-- khadamat -->
+
+    <div class="khadamat">
+        <h2>خدمات مشابه</h2>
+        <div class="khadamat-boxs">
+            <div class="boxs" id="box1">
+
+                <img src="/assets/print/files/print3.png">
+                <p>چاپ سیاه سفید</p>
+
+            </div>
+            <div class="boxs" id="box2">
+
+                <img src="/assets/print/files/print1.png">
+                <p>چاپ پلان</p>
+            </div>
 
         </div>
 
-        <div class="form-button">
-            <button type="submit" class="add-item">افزودن به سبد خرید</button>
-        </div>
+</form>
 
-        <!-- khadamat -->
-
-        <div class="khadamat">
-            <h2>خدمات مشابه</h2>
-            <div class="khadamat-boxs">
-                <div class="boxs" id="box1">
-
-                    <img src="/assets/print/files/print3.png">
-                    <p>چاپ سیاه سفید</p>
-
-                </div>
-                <div class="boxs" id="box2">
-
-                    <img src="/assets/print/files/print1.png">
-                    <p>چاپ پلان</p>
-                </div>
-           
-            </div>
-
-    </form>
-</body>
-</html>
+    

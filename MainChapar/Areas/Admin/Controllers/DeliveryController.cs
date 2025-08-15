@@ -37,7 +37,6 @@ namespace MainChapar.Areas.Admin.Controllers
                 return NotFound();
 
             request.IsDelivered = true;
-            request.Status = "تحویل داده شده";
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "تحویل نهایی با موفقیت ثبت شد.";

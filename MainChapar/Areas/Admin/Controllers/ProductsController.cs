@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MainChapar.Data;
 using MainChapar.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MainChapar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -67,11 +69,7 @@ namespace MainChapar.Areas.Admin.Controllers
                     Console.WriteLine($"خطا در '{key}': {error.ErrorMessage}");
                 }
             }
-            //if (!ModelState.IsValid)
-            //{
-            //    ViewBag.Categories = new SelectList(_context.categories.ToList(), "Id", "Name", product.CategoryId);
-            //    return View(product);
-            //}
+           
             if (ModelState.IsValid)
             {
                 // ذخیره عکس اصلی محصول
@@ -122,13 +120,11 @@ namespace MainChapar.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             // در صورتی که ModelState نامعتبر باشد، دوباره فرم را با داده‌های قبلی برگردان
-            ViewBag.Categories = new SelectList(_context.categories.ToList(), "Id", "Name", product.CategoryId);
+            ViewBag.categories = new SelectList(_context.categories.ToList(), "Id", "Name", product.CategoryId, "Slug");
             return View(product);
 
 
         }
-
-
 
 
 
@@ -145,15 +141,14 @@ namespace MainChapar.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            //-------------------
+
+            ViewBag.Categories = _context.categories.ToList();
             ViewData["gallery"] = _context.ProductGallerys.Where(x => x.ProductId == product.Id).ToList();
-            //----------------------
+
             return View(product);
         }
 
         // POST: Admin/Products/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Product product, IFormFile? MainImage, IFormFile[]? GalleryImage)
@@ -167,52 +162,73 @@ namespace MainChapar.Areas.Admin.Controllers
             {
                 try
                 {
-                    //====================saveimage
-
-
-                    if (MainImage != null)
+                    // بارگذاری محصول از دیتابیس برای دسترسی به اطلاعات فعلی (مثل نام عکس قدیمی)
+                    var productInDb = await _context.Products.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+                    if (productInDb == null)
                     {
-                        string d = Directory.GetCurrentDirectory();
-                        string fn = d + "\\wwwroot\\assets\\img\\product\\" + product.ImageName;
-                        if (System.IO.File.Exists(fn))
-                        {
-                            System.IO.File.Delete(fn);
-                        }
-                        using (var stream = new FileStream(fn, FileMode.Create))
-                        {
-                            MainImage.CopyTo(stream);
-                        }
+                        return NotFound();
                     }
 
-                    //=======================================
+                    // ذخیره عکس اصلی جدید اگر ارسال شده
+                    if (MainImage != null && MainImage.Length > 0)
+                    {
+                        // حذف عکس قبلی اگر وجود داشت
+                        if (!string.IsNullOrEmpty(productInDb.ImageName))
+                        {
+                            var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/img/product", productInDb.ImageName);
+                            if (System.IO.File.Exists(oldImagePath))
+                            {
+                                System.IO.File.Delete(oldImagePath);
+                            }
+                        }
 
-                    if (GalleryImage != null)
+                        // ذخیره عکس جدید با نام جدید
+                        var newImageName = Guid.NewGuid().ToString() + Path.GetExtension(MainImage.FileName);
+                        var newImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/img/product", newImageName);
+
+                        using (var stream = new FileStream(newImagePath, FileMode.Create))
+                        {
+                            await MainImage.CopyToAsync(stream);
+                        }
+
+                        product.ImageName = newImageName;
+                    }
+                    else
+                    {
+                        // اگر عکس جدیدی ارسال نشده، نام عکس قبلی را نگه دار
+                        product.ImageName = productInDb.ImageName;
+                    }
+
+                    // ذخیره تصاویر گالری جدید
+                    if (GalleryImage != null && GalleryImage.Length > 0)
                     {
                         foreach (var item in GalleryImage)
                         {
-                            var imagename = Guid.NewGuid() + Path.GetExtension(item.FileName);
-
-                            //--------------
-                            string d = Directory.GetCurrentDirectory();
-                            string fn = d + "\\wwwroot\\assets\\img\\product\\" + imagename;
-
-                            using (var stream = new FileStream(fn, FileMode.Create))
+                            if (item.Length > 0)
                             {
-                                item.CopyTo(stream);
+                                var galleryFileName = Guid.NewGuid().ToString() + Path.GetExtension(item.FileName);
+                                var galleryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/img/product", galleryFileName);
+
+                                using (var stream = new FileStream(galleryPath, FileMode.Create))
+                                {
+                                    await item.CopyToAsync(stream);
+                                }
+
+                                var newGallery = new ProductGallery()
+                                {
+                                    ProductId = product.Id,
+                                    ImageName = galleryFileName
+                                };
+
+                                _context.ProductGallerys.Add(newGallery);
                             }
-
-                            //----------------
-                            var galleryitem = new ProductGallery()
-                            {
-                                ImageName = imagename,
-                                ProductId = product.Id,
-                            };
-                            _context.ProductGallerys.Add(galleryitem);
-
                         }
                     }
+
                     _context.Update(product);
                     await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -225,10 +241,15 @@ namespace MainChapar.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
+            // اگر مدل نامعتبر بود دوباره دسته بندی و گالری را بارگذاری کن
+            ViewBag.Categories = _context.categories.ToList();
+            ViewData["gallery"] = _context.ProductGallerys.Where(x => x.ProductId == product.Id).ToList();
+
             return View(product);
         }
+
 
         // GET: Admin/Products/Delete/5
         public async Task<IActionResult> Delete(int? id)

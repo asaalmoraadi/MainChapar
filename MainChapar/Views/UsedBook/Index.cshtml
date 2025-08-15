@@ -1,0 +1,151 @@
+﻿@model IEnumerable<MainChapar.Models.UsedBook>
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست محصولات</title>
+    <link rel="stylesheet" href="~/assets/usedBook/styles.css" />
+</head>
+<body>
+
+
+
+
+    <h1>کتاب های شما</h1>
+    <div class="btn-box" style="align-items:center">
+    <a class="a-add" asp-action="Create"><button class="add-product">افزودن محصول</button></a>
+    </div>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>تصویر</th>
+                <th>عنوان</th>
+                <th>ناشر</th>
+                <th>قیمت</th>
+                <th>شماره همراه</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td style="width:100px; text-align:center;">
+                        @if (item.Images != null && item.Images.Any())
+                        {
+                            <img src="@item.Images.First().ImagePath" alt="تصویر کتاب" style="width:150px; height:150px; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <span>بدون عکس</span>
+                        }
+                    </td>
+                    <td>@item.Title</td>
+                    <td>@item.Author</td>
+                    <td><p>@item.Price</p><p>تومان</p></td>
+                    <td><p>@item.ContactNumber</p></td>
+                    <td>
+                        @if (item.IsApproved)
+                        {
+                            <span class="badge bg-success">تأیید شده</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-warning">در انتظار تأیید</span>
+                        }
+                    </td>
+                    <td class="actions">
+                        <a asp-action="Edit" asp-route-id="@item.Id"><button class="btn edit">ویرایش</button></a>
+                        <a asp-action="Details" asp-route-id="@item.Id"><button class="btn edit">جزئیات</button></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id"><button class="btn delete">حذف</button></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+    </main>
+
+    </div>
+
+
+</body>
+</html>
+
+
+
+@* div class="category-container">
+
+
+
+    <main class="main-content">
+        <div class="top-table">
+            <h1>@ViewData["Title"]</h1>
+            <a asp-action="Create"><button class="btn" id="addProductButton">افزودن محصول</button></a>
+        </div>
+
+        <div id="taskList">
+            <table>
+                <thead>
+                    <tr>
+                        <th>تصویر</th>
+                        <th>عنوان</th>
+                        <th>ناشر</th>
+                        <th>قیمت</th>
+                        <th>شماره همراه</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+
+                    </tr>
+                </thead>
+                <tbody id="taskItems">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td style="width:100px; text-align:center;">
+                                @if (item.Images != null && item.Images.Any())
+                                {
+                                    <img src="~/@item.Images.First().ImagePath" alt="تصویر کتاب" style="width:80px; height:100px; object-fit:cover;" />
+                                }
+                                else
+                                {
+                                    <span>بدون عکس</span>
+                                }
+                            </td>
+                            <td>@item.Title</td>
+                            <td>@item.Author</td>
+                            <td><p>@item.Price</p><p>تومان</p></td>
+                            <td><p>@item.ContactNumber</p></td>
+                            <td>@item.IsApproved </td>
+                            <td class="actions">
+                                <a asp-action="Edit" asp-route-id="@item.Id"><button class="edit-btn">ویرایش</button></a>
+                                <a asp-action="Details" asp-route-id="@item.Id"><button class="info-btn">جزئیات</button></a>
+                                <a asp-action="Delete" asp-route-id="@item.Id"><button class="delete-btn">حذف</button></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+</div> *@
+
+
+
+
+
+    

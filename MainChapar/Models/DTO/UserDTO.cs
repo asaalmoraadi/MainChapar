@@ -12,6 +12,9 @@ namespace MainChapar.Models.DTOs
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [RegularExpression(@"^09\d{9}$", ErrorMessage = "شماره تلفن باید 11 رقمی و با 09 شروع شود.")]
+        public string PhoneNumber { get; set; }
         [Required] public string Username { get; set; }
         [Required]
         [DataType(DataType.Password)]

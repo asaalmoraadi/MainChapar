@@ -16,7 +16,6 @@ namespace MainChapar.Models.DTO
         [Required]
         [Range(1, 1000)]
         public int CopyCount { get; set; }
-
         public List<IFormFile> Files { get; set; }
     }
 }

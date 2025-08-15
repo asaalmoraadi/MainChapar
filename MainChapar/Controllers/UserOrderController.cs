@@ -70,17 +70,25 @@ namespace MainChapar.Controllers
             return View(order);
         }
 
+
+
         // تولید QR کد برای تحویل حضوری
+        // لینک QR شامل لینک کامل به صفحه ادمین با پارامتر کد تحویل است
         public IActionResult GenerateQr(string pickupCode)
         {
             if (string.IsNullOrEmpty(pickupCode)) return NotFound();
 
+            // ساخت URL لینک به متد FindByCode در کنترلر Order در ناحیه Admin
+            string url = Url.Action("FindByCode", "Order", new { area = "Admin", code = pickupCode }, Request.Scheme);
+
             using var qrGenerator = new QRCodeGenerator();
-            using var qrData = qrGenerator.CreateQrCode(pickupCode, QRCodeGenerator.ECCLevel.Q);
+            using var qrData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
             using var qrCode = new PngByteQRCode(qrData);
             byte[] qrCodeBytes = qrCode.GetGraphic(20);
 
             return File(qrCodeBytes, "image/png");
         }
+
+       
     }
 }

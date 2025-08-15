@@ -275,65 +275,7 @@ h2{
 
 
 
-/*        footer         */
 
-footer{
-  background-color: rgb(255, 255, 255);
-  height: 15rem;
-  display: flex;
-  direction: rtl;
-  border-radius: 10px 10px 0 0;
-  font-family: 'B-yekan';
-}
-.sections{
-  margin: 0rem;
-  width: 25%;
-  border-radius: 15px;
-  align-items: center;
-  text-align: center;
-}
-#sec1{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-#sec1 h1{
-    font-size: 32px;
-}
-#sec1 p{
-  font-size: 16px;
-  font-family: 'Pinar-medium';
-  font-weight: 600;
-}
-#sec2{
-  display: flex;
-  flex-direction: column;
-}
-#sec2 h3 , #sec3 h3 , #sec4 h3{
-  font-family: 'Pinar-medium';
-  font-size: 26px;
-  font-weight: 500;
-}
-#sec2 a , #sec3 p{
-  font-size: 16px;
-  font-family: 'Pinar-medium';
-  font-weight: 500;
-  color: #000000;
-  text-decoration: none;
-  margin: 0.4rem;
-
-}
-#sec2 a:hover{
-  color: #967f74;
-}
-.social{
-  margin: 1rem;
-
-}
-.social img{
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
-}
 #shop{
   display: flex;
   align-items: center;

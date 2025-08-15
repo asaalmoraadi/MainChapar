@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MainChapar.Data;
 using MainChapar.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MainChapar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -57,10 +59,18 @@ namespace MainChapar.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
         {
-           
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+
+            category.Slug = category.Slug.Replace(" ", "-").ToLower();
+
+            if (ModelState.IsValid)
+            {
+                _context.categories.Add(category);
+                _context.SaveChanges();
+                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+
         }
      
         // GET: Admin/Category/Edit/5

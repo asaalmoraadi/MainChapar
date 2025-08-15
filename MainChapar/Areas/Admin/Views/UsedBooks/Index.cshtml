@@ -1,0 +1,90 @@
+﻿@model IEnumerable<MainChapar.Models.UsedBook>
+@{
+    ViewData["Title"] = "مدیریت کتاب‌های دست دوم";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/assets/admin-products/styles.css" />
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>@ViewData["Title"]</h1>
+                
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>تصویر</th>
+                            <th>عنوان</th>
+                            <th>نویسنده</th>
+                            <th>قیمت</th>
+                            <th>وضعیت تایید</th>
+                            <th>کاربر</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                        @foreach (var book in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @if (book.Images != null && book.Images.Any())
+                                    {
+                                        <img src="@book.Images.First().ImagePath" alt="@book.Title" style="max-width: 100px;" />
+                                    }
+                                    else
+                                    {
+                                        <span>بدون عکس</span>
+                                    }
+                                </td>
+                                <td>@book.Title</td>
+                                <td>@book.Author</td>
+                                <td><p>@book.Price.ToString("N0") تومان</p></td>
+                                <td>@(book.IsApproved ? "تایید شده" : "در انتظار تایید")</td>
+                                <td>@book.User?.UserName</td>
+                                <td class="actions">
+                                    @if (!book.IsApproved)
+                                    {
+                                        <a asp-action="Approve" asp-route-id="@book.Id"><button class="edit-btn">تایید</button></a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Reject" asp-route-id="@book.Id"><button class="delete-btn">رد</button></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>
+
+</body>
+</html>

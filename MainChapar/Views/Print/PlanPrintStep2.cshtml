@@ -1,4 +1,4 @@
-﻿@model MainChapar.ViewModel.Print.PlanPrintRequestViewModel
+﻿@model MainChapar.ViewModel.Print.PlanPrintSummaryViewModel
 @{
     Layout = "~/Views/Shared/_newLayout1.cshtml";
 }
@@ -37,12 +37,13 @@
                 <p>صحافی :</p>
                 <p>@Model.BindingType</p>
             </div>
-
-        </div>
-        <div class="items">
+            <div class="items">
             <p>توضیحات  :</p>
             <p>@Model.SizeOrScaleDescription</p>
+            </div>
+
         </div>
+        
 
 
         <div class="form-button">

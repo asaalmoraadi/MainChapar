@@ -1,12 +1,14 @@
 ﻿using MainChapar.Data;
 using MainChapar.Models;
 using MainChapar.ViewModel.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace MainChapar.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
     public class PricingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,8 +21,16 @@ namespace MainChapar.Areas.Admin.Controllers
         // نمایش همه قیمت‌ها
         public async Task<IActionResult> Index()
         {
-            var prices = await _context.printPricings.ToListAsync();
-            return View(prices);
+            var printPricings = _context.printPricings.ToList();
+            var laminatePricings = _context.laminatePrintPricings.ToList();
+
+            var viewModel = new PricingIndexViewModel
+            {
+                PrintPricings = printPricings,
+                LaminatePricings = laminatePricings
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult CreatePricing()
@@ -43,7 +53,7 @@ namespace MainChapar.Areas.Admin.Controllers
                 PrintType = vm.PrintType,
                 PaperType = vm.PaperType,
                 PaperSize = vm.PaperSize,
-                IsDoubleSided = vm.IsDoubleSided,
+                PrintSide = vm.PrintSide,
                 PricePerPage = vm.PricePerPage,
                 IsAvailable = vm.IsAvailable
             };
@@ -53,5 +63,38 @@ namespace MainChapar.Areas.Admin.Controllers
 
             return RedirectToAction("Index", "Pricing", new { area = "Admin" });
         }
+
+        // GET
+        public IActionResult CreateLaminatePricing()
+        {
+            return View(new LaminatePricingCreateViewModel());
+        }
+
+        // POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateLaminatePricing(LaminatePricingCreateViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
+
+            var pricing = new LaminatePrintPricing
+            {
+                PaperSize = vm.PaperSize,
+                PaperType = vm.PaperType,
+                PrintSide = vm.PrintSide,
+                PricePerPage = vm.PricePerPage,
+                IsAvailable = vm.IsAvailable,
+                PrintType = vm.PrintType,
+                LaminateType = vm.LaminateType
+            };
+
+            _context.laminatePrintPricings.Add(pricing);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Pricing", new { area = "Admin" }); // به لیست قیمت‌های لمینیت
+        }
+
+
     }
 }

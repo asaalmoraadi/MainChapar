@@ -1,0 +1,90 @@
+﻿@model MainChapar.Models.UsedBook
+
+@{
+    ViewData["Title"] = "جزئیات کتاب دست‌دوم";
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CHAPAR</title>
+    <link rel="stylesheet" href="~/assets/product/styles.css" />
+</head>
+
+<div class="container">
+    <div class="product-page">
+        <!-- بخش تصویر -->
+        <div class="image-section">
+            @if (Model.Images != null && Model.Images.Any())
+            {
+                <img src="@Model.Images.First().ImagePath" class="main-img" id="mainImg" alt="@Model.Title" />
+                <div class="thumbnail-list">
+                    @foreach (var img in Model.Images)
+                    {
+                        <img src="@img.ImagePath" onclick="changeMainImg(this.src)" />
+                    }
+                </div>
+            }
+            else
+            {
+                <img src="~/assets/img/no-image.png" class="main-img" alt="بدون تصویر" />
+            }
+        </div>
+
+        <!-- بخش جزئیات -->
+        <div class="details-section">
+            <div class="product-title">@Model.Title</div>
+            <div class="label">نویسنده: @Model.Author</div>
+            <div class="short-desc">@Model.Description</div>
+            <div class="pricing">
+                <span class="new-price">@Model.Price تومان</span>
+            </div>
+            <div class="label">شماره تماس: @Model.ContactNumber</div>
+            <div class="label">تاریخ ثبت: @Model.CreatedAt.ToString("yyyy/MM/dd")</div>
+            @if (Model.IsApproved)
+            {
+                <span class="badge bg-success">تأیید شده</span>
+            }
+            else
+            {
+                <span class="badge bg-warning">در انتظار تأیید</span>
+            }
+        </div>
+
+        <!-- تب‌ها -->
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
+                <button onclick="showTab(1)">مشخصات</button>
+            </div>
+
+            <div class="tab-content active">
+                <p>@Model.Description</p>
+            </div>
+            <div class="tab-content">
+                <p>
+                    - شناسه کتاب: @Model.Id <br />
+                    - ثبت‌کننده: @Model.User?.UserName
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function changeMainImg(src) {
+            document.getElementById("mainImg").src = src;
+        }
+
+        function showTab(index) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-buttons button');
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+                buttons[i].classList.toggle('active', i === index);
+            });
+        }
+    </script>
+}

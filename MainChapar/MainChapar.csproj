@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\User\AccessDenied.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
@@ -29,8 +33,23 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="ViewModel\NewFolder\" />
     <Folder Include="wwwroot\assets\img\product\" />
-    <Folder Include="wwwroot\uploads\" />
+    <Folder Include="wwwroot\assets\usedBook\" />
+    <Folder Include="wwwroot\uploads\collaborators\" />
+    <Folder Include="wwwroot\uploads\books\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\User\AccessDenied.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\User\AccessDenied.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\User\AccessDenied.cshtml" />
   </ItemGroup>
 
 </Project>

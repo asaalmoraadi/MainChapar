@@ -1,93 +1,266 @@
 ﻿@model MainChapar.Models.Product
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ویرایش محصول";
+    var galleries = ViewData["gallery"] as List<MainChapar.Models.ProductGallery>;
 }
 
-<h1>Edit</h1>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="~/assets/admin-product-edit/styles.css">
+</head>
+<body>
+    <div class="category-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-action="Index">بازگشت به فهرست</button></a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Edit" asp-controller="Product" asp-area="Admin" enctype="multipart/form-data" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="ImageName" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+        <main class="main-content">
+            <div class="top-table">
+                <h1>ویرایش محصول</h1>
+                <div id="top-buttons">
+                    <button type="submit" form="editForm" id="editButton">ذخیره</button>
+                    <a href="/admin/products/delete/@Model.Id"><button type="button" id="editButton">حذف</button></a>
+                    <a href="/admin/products"><button type="button" id="editButton">بازگشت</button></a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullDesc" class="control-label"></label>
-                @*<input asp-for="FullDesc" class="form-control" />*@
-                <textarea asp-for="FullDesc" class="form-control" rows="4"></textarea>
-                <span asp-validation-for="FullDesc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Discount" class="control-label"></label>
-                <input asp-for="Discount" class="form-control" />
-                <span asp-validation-for="Discount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageName" class="control-label"></label>
-                <input type="file" name="MainImage" class="form-control" />
-                <img src="~/assets/img/product/@Model.ImageName" class="img-thumbnail" style="max-width:200px" />
-                <span asp-validation-for="ImageName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Gallery</label>
-                <input type="file" name="GalleryImage" multiple class="form-control" />
-                <br />
-                @{
-                    var galleries = ViewData["gallery"] as List<MainChapar.Models.ProductGallery>;
-                    <div class="row">
-                        @if (galleries != null)
-                        {
-                            foreach (var item in galleries)
-                            {
-                                <div class="col-md-3 col-12" id="@item.Id">
-                                    <img src="~/assets/img/product/@item.ImageName" class="img-thumbnail" />
-                                    <a class="btn btn-danger w-100" href="/admin/Products/DeleteGallery?id=@item.Id">delete</a>
-                                </div>
-                            }
-                        }
+
+            <div class="admin-container">
+                <form id="editForm" asp-action="Edit" asp-controller="Products" asp-area="Admin" enctype="multipart/form-data" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ImageName" />
+
+                    <!-- عنوان -->
+                    <div>
+                        <label >عنوان محصول</label>
+                        <input asp-for="Title" type="text" id="Title" name="Title" value="@Model.Title" />
                     </div>
-                }
+                    <!-- عکس اصلی -->
+                    <div class="form-section">
+                        <label>عکس اصلی فعلی:</label>
+                        <div>
+                            <img src="~/assets/img/product/@Model.ImageName" alt="Main Image" style="max-width: 150px; border: 1px solid #ccc;" />
+                        </div>
+                        <label >تغییر عکس اصلی:</label>
+                        <input  type="file" name="MainImage" id="mainImage" />
+                    </div>
 
+                    <!-- گالری تصاویر -->
+                    <div class="form-section">
+                        <label>گالری تصاویر فعلی:</label>
+                        <div class="gallery-preview d-flex gap-2 flex-wrap">
+                            @if (galleries != null && galleries.Any())
+                            {
+                                foreach (var item in galleries)
+                                {
+                                    <div class="gallery-thumb" style="text-align: center;">
+                                        <img src="~/assets/img/product/@item.ImageName" alt="Gallery Image" class="gallery-thumb" />
+                                        <a href="/admin/Products/DeleteGallery?id=@item.Id">
+                                            <button type="button" id="editButton">حذف</button>
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <label for="galleryImages">افزودن تصاویر جدید به گالری:</label>
+                        <input type="file" id="galleryImages" name="GalleryImage" multiple />
+                    </div>
 
+                    <!-- قیمت -->
+                    <div>
+                        <label >قیمت (تومان)</label>
+                        <input asp-for="Price" type="number" id="Price" name="Price" value="@Model.Price" min="0" step="100" required />
+                    </div>
 
+                    <!-- تخفیف -->
+                    <div>
+                        <label>تخفیف</label>
+                        <input asp-for="Discount" type="number" id="Discount" name="Discount" value="@Model.Discount" min="0" max="100" />
+                    </div>
 
+                    <!-- موجودی -->
+                    <div>
+                        <label >تعداد</label>
+                        <input asp-for="Qty" type="number" id="Qty" name="Qty" value="@Model.Qty" min="0" />
+                    </div>
+
+                    <!-- توضیح کوتاه -->
+                    <div class="full-col">
+                        <label for="Description">توضیح کوتاه</label>
+                        <textarea asp-for="Description" id="Description" name="Description" rows="2">@Model.Description</textarea>
+                    </div>
+
+                    <!-- توضیح تکمیلی -->
+                    <div class="full-col">
+                        <label for="FullDesc">توضیح تکمیلی</label>
+                        <textarea asp-for="FullDesc" id="FullDesc" name="FullDesc" rows="4">@Model.FullDesc</textarea>
+                    </div>
+
+                    <div class="box">
+                        <label> دسته بندی :</label>
+                        <select id="title" asp-for="CategoryId">
+                            @foreach (var category in ViewBag.categories as List<MainChapar.Models.Category>)
+                            {
+                                <option value="@category.Id">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- تگ‌ها -->
+                    <div class="full-col">
+                        <label>تگ ها</label>
+                        <input asp-for="Tags" type="text" id="Tags" name="Tags" value="@Model.Tags" />
+                    </div>
+
+                    <!-- موجود است -->
+                    <div class="box" id="available-box">
+                        <input asp-for="IsAvailable" class="form-check-input" type="checkbox" />
+                        <label >موجود است ؟</label>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Qty" class="control-label"></label>
-                <input asp-for="Qty" class="form-control" />
-                <span asp-validation-for="Qty" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tags" class="control-label"></label>
-                <input asp-for="Tags" class="form-control" />
-                <span asp-validation-for="Tags" class="text-danger"></span>
-            </div>
-        
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </main>
     </div>
-</div>
+</body>
+</html>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+@* 
+@model MainChapar.Models.Product
+
+@{
+    ViewData["Title"] = "ویرایش محصول";
+    var galleries = ViewData["gallery"] as List<MainChapar.Models.ProductGallery>;
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="~/assets/admin-product-edit/styles.css">
+</head>
+<body>
+    <div class="category-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>ویرایش محصول</h1>
+                <div id="top-buttons">
+                    <button type="submit" form="editForm" id="editButton">ذخیره</button>
+                    <a href="/admin/products/delete/@Model.Id" class="btn btn-danger"><button id="editButton">حذف</button> </a>
+                    <a href="/admin/products" class="btn btn-secondary"><button id="editButton">بازگشت</button></a>
+                </div>
+            </div>
+
+            <div class="admin-container">
+                <form id="editForm" asp-action="Edit" asp-controller="Products" asp-area="Admin" enctype="multipart/form-data" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ImageName" />
+
+                    <div>
+                        <label asp-for="Title">عنوان محصول</label>
+                        <input asp-for="Title" class="form-control" />
+                    </div>
+
+                    <div>
+                        <label asp-for="Price">قیمت (تومان)</label>
+                        <input asp-for="Price" type="number" min="0" step="100" required />
+                    </div>
+
+                    <div>
+                        <label asp-for="Discount">تخفیف</label>
+                        <input asp-for="Discount" type="number" min="0" max="100" />
+                    </div>
+
+                    <div>
+                        <label asp-for="Qty">تعداد</label>
+                        <input asp-for="Qty" type="number" min="0" />
+                    </div>
+
+                    <div class="full-col">
+                        <label asp-for="Description">توضیح کوتاه</label>
+                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                    </div>
+
+                    <div class="full-col">
+                        <label asp-for="FullDesc">توضیح تکمیلی</label>
+                        <textarea asp-for="FullDesc" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <!-- عکس اصلی -->
+                    <div class="form-section">
+                        <label>عکس اصلی فعلی:</label>
+                        <div>
+                            <img src="~/assets/img/product/@Model.ImageName" alt="Main Image" style="max-width: 150px; border: 1px solid #ccc;" />
+                        </div>
+                        <label for="mainImage">تغییر عکس اصلی:</label>
+                        <input type="file" name="MainImage" id="mainImage" />
+                    </div>
+
+                    <!-- گالری تصاویر -->
+                    <div class="form-section">
+                        <label>گالری تصاویر فعلی:</label>
+                        <div class="gallery-preview d-flex gap-2 flex-wrap">
+                            @if (galleries != null && galleries.Any())
+                            {
+                                foreach (var item in galleries)
+                                {
+                                    <div class="gallery-thumb" style="text-align: center;">
+                                        <img src="~/assets/img/product/@item.ImageName" alt="Gallery Image" class="gallery-thumb" style="max-width: 100px;" />
+                                        <a class="btn btn-danger btn-sm d-block mt-1" href="/admin/Products/DeleteGallery?id=@item.Id"><button id="editButton">حذف</button></a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <label for="galleryImages">افزودن تصاویر جدید به گالری:</label>
+                        <input type="file" id="galleryImages" name="GalleryImage" multiple />
+                    </div>
+
+                    <!-- تگ‌ها -->
+                    <div class="full-col">
+                        <label asp-for="Tags">تگ ها</label>
+                        <input asp-for="Tags" class="form-control" />
+                    </div>
+
+                    <!-- موجودی -->
+                    <div class="box" id="available-box">
+                        <input type="checkbox" asp-for="IsAvailable" />
+                        <label asp-for="IsAvailable">موجود است ؟</label>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+
+</body>
+</html>
+ *@

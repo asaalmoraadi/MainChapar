@@ -1,0 +1,124 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+
+
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Pinar-medium';
+    }
+
+body {
+  background-color: #F3C5C5; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#back{
+  font-size: 20px;
+  color: #000000;
+  order: 2; /* برای چیدمان از راست به چپ */
+  text-decoration: none;
+}
+#back:hover{
+  color: #f27979;
+}
+#back:active{
+  color: #891212;
+}
+#top-container{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 10rem;
+  position: relative;
+}
+
+.section-title {
+   font-size: 1.5rem;
+  color: #333;
+  margin: 0 auto;
+  text-align: center;
+  order: 1;
+  flex-grow: 1;
+  margin-left: 4rem;
+  }
+
+
+.status-container {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  direction: rtl;
+}
+
+.boxs {
+  flex: 0 0 calc(50% - 1rem); /* دو ستون */
+  background-color: rgb(255, 255, 255);
+  padding: 1rem;
+  color: rgb(0, 0, 0);
+  direction: rtl;
+  border-radius: 0.5rem;
+}
+.fields{
+  margin: 1rem;
+  display: flex;
+  gap: 2rem;
+}
+#title{
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+
+
+
+

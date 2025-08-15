@@ -1,82 +1,81 @@
 ﻿@model IEnumerable<MainChapar.Models.Product>
-
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "لیست محصولات";
 }
 
-<h1>Index</h1>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/assets/admin-products/styles.css" />
+</head>
+<body>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
+    <div class="category-container">
 
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageName)
+        <main class="main-content">
+            <div class="top-table">
+                <h1>@ViewData["Title"]</h1>
+                <a asp-action="Create"><button class="btn" id="addProductButton">افزودن محصول</button></a>
+            </div>
 
-            </th>
-           
-            <th>
-                @Html.DisplayNameFor(model => model.Qty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>تصویر</th>
+                            <th>عنوان</th>
+                            <th>قیمت</th>
+                            <th>تخفیف</th>
+                            <th>تعداد</th>
+                            <th>تگ ها</th>
+                            <th>موجودی</th>
+                            <th>تغییرات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/assets/img/product/@item.ImageName" alt="" style="max-width: 100px;" />
+                                </td>
+                                <td>@item.Title</td>
+                                <td><p>@item.Price</p><p>تومان</p></td>
+                                <td><p>@item.Discount</p><p>تومان</p></td>
+                                <td><p>@item.Qty</p></td>
+                                <td>@item.Tags</td>
+                                <td>@(item.IsAvailable ? "موجود" : "ناموجود")</td>
+                                <td class="actions">
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><button class="edit-btn">ویرایش</button></a>
+                                    <a asp-action="Details" asp-route-id="@item.Id"><button class="info-btn">جزئیات</button></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><button class="delete-btn">حذف</button></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </main>
 
-            <th>
-                موجودی
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
+    </div>
 
+</body>
+</html>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Discount)
-                </td>
-                <td>
-                   
-                    <img src="~/assets/img/product/@item.ImageName" style="max-width:100px" />
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Qty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Tags)
-                </td>
-                <td>
-                    @(item.IsAvailable == true ? "موجود" : "ناموجود")
-                </td>
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>

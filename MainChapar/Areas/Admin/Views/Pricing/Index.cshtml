@@ -1,4 +1,5 @@
-﻿@model IEnumerable<MainChapar.Models.PrintPricing>
+﻿
+@model MainChapar.ViewModel.Admin.PricingIndexViewModel
 
 @{
     ViewData["Title"] = "لیست قیمت‌ها";
@@ -9,8 +10,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>داشبورد اصلی</title>
-    <link rel="stylesheet" href="/assets/category/styles.css">
+    <title>داشبورد قیمت‌ها</title>
+    <link rel="stylesheet" href="/assets/category/styles - Pricing.css">
 </head>
 <body>
 
@@ -22,17 +23,18 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
                 </ul>
             </nav>
         </aside>
 
-
-
         <main class="main-content">
             <div class="top-table">
-                <h1>دسته بندی محصولات</h1>   
-                <a asp-action="CreatePricing"><button id="addTaskButton">ایجاد قیمت جدید</button></a>
+                <h1>قیمت چاپ معمولی</h1>
+                <a asp-action="CreatePricing"><button id="addTaskButton">افزودن قیمت چاپ معمولی</button></a>
             </div>
 
             <div id="taskList">
@@ -48,14 +50,14 @@
                             <th>عملیات</th>
                         </tr>
                     </thead>
-                    <tbody id="taskItems">
-                        @foreach (var item in Model)
+                    <tbody>
+                        @foreach (var item in Model.PrintPricings)
                         {
                             <tr>
-                                <td>@(item.PrintType == "BlackWhite" ? "سیاه و سفید" : "رنگی")</td>
+                                <td>@(item.PrintType == "BW" ? "سیاه و سفید" : "رنگی")</td>
                                 <td>@item.PaperType</td>
                                 <td>@item.PaperSize</td>
-                                <td>@(item.IsDoubleSided ? "بله" : "خیر")</td>
+                                <td>@item.PrintSide</td>
                                 <td>@item.PricePerPage تومان</td>
                                 <td>@(item.IsAvailable ? "بله" : "خیر")</td>
                                 <td>
@@ -64,12 +66,49 @@
                                 </td>
                             </tr>
                         }
-            
                     </tbody>
                 </table>
             </div>
 
+            <div class="top-table mt-5">
+                <h1>قیمت چاپ لمینیت</h1>
+                <a asp-action="CreateLaminatePricing"><button id="addTaskButton">افزودن قیمت لمینیت</button></a>
+            </div>
 
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نوع چاپ</th>
+                            <th>نوع کاغذ</th>
+                            <th>سایز کاغذ</th>
+                            <th>وجه چاپ</th>
+                            <th>نوع لمینیت</th>
+                            <th>قیمت هر صفحه</th>
+                            <th>فعال؟</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.LaminatePricings)
+                        {
+                            <tr>
+                                <td>@(item.PrintType == "BW" ? "سیاه و سفید" : "رنگی")</td>
+                                <td>@item.PaperType</td>
+                                <td>@item.PaperSize</td>
+                                <td>@item.PrintSide</td>
+                                <td>@item.LaminateType</td>
+                                <td>@item.PricePerPage تومان</td>
+                                <td>@(item.IsAvailable ? "بله" : "خیر")</td>
+                                <td>
+                                    <a asp-action="EditLaminate" asp-route-id="@item.Id"><button class="edit-btn">ویرایش</button></a>
+                                    <a asp-action="DeleteLaminate" asp-route-id="@item.Id" onclick="return confirm('آیا مطمئنید؟')"><button class="delete-btn">حذف</button></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
         </main>
 
@@ -77,4 +116,5 @@
 
 </body>
 </html>
+
 

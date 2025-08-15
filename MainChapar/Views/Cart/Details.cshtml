@@ -1,71 +1,236 @@
-﻿@model MainChapar.Models.PickupRequest
+﻿@model MainChapar.ViewModel.OrderDetailsViewModel
+@using MainChapar.Helpers
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 
-<h2>جزئیات سفارش شماره @Model.Id</h2>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/assets/my orders-details/styles.css" />
+    <title>سفارشات من</title>
+</head>
 
-<p>
-    تاریخ ثبت: @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm") <br />
-    وضعیت: <strong>@Model.Status</strong> <br />
-    کد QR برای تحویل: @Model.QrCodeToken
-</p>
+<h2>جزئیات سفارش‌ها</h2>
 
-<h3>محصولات</h3>
-@if (Model.ProductItems != null && Model.ProductItems.Any())
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>نام محصول</th>
-                <th>تعداد</th>
-                <th>قیمت واحد</th>
-                <th>قیمت کل</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.ProductItems)
-            {
+<div class="table-container">
+    <h3>محصولات</h3>
+    @if (Model.PickupRequest?.ProductItems != null && Model.PickupRequest.ProductItems.Any())
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td>@item.Product?.Title</td>
-                    <td>@item.Quantity</td>
-                    <td>@string.Format("{0:N0}", item.Product?.Price ?? 0) تومان</td>
-                    <td>@string.Format("{0:N0}", item.TotalPrice) تومان</td>
+                    <th>عکس محصول</th>
+                    <th>نام محصول</th>
+                    <th>تعداد</th>
+                    <th>قیمت</th>
+                    <th>مجموع قیمت</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>محصولی در این سفارش وجود ندارد.</p>
-}
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PickupRequest.ProductItems)
+                {
+                    <tr>
+                        <td>
+                            <img src="~/assets/img/product/@item.Product?.ImageName" alt="" />
+                        </td>
+                        <td>@item.Product?.Title</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <p id="number">@string.Format("{0:N0}", item.Product?.Price ?? 0)</p>
+                            <p id="vahed">تومان</p>
+                        </td>
+                        <td>
+                            <p id="number">@string.Format("{0:N0}", item.TotalPrice)</p>
+                            <p id="vahed">تومان</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p style="text-align:center; font-size:28px; direction:rtl; font-family: 'Pinar-medium';">هیچ محصولی در سفارشات وجود ندارد.</p>
+    }
+</div>
 
-<h3>سفارشات چاپ</h3>
-@if (Model.PickupPrintItems != null && Model.PickupPrintItems.Any())
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>شناسه سفارش چاپ</th>
-                <th>قیمت کل</th>
-                <th>وضعیت سفارش چاپ</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var printItem in Model.PickupPrintItems)
-            {
+<div class="table-container">
+    <h3>درخواست‌های چاپ</h3>
+    @if (Model.PrintRequests != null && Model.PrintRequests.Any())
+    {
+        <table>
+            <thead>
                 <tr>
-                    <td>@printItem.PrintRequestId</td>
-                    <td>@string.Format("{0:N0}", printItem.TotalPrice) تومان</td>
-                    <td>@printItem.PrintRequest?.Status ?? "نامشخص"</td>
+                    <th>نوع چاپ</th>
+                    <th>تعداد صفحات</th>
+                    <th>نوع کاغذ</th>
+                    <th>تاریخ ثبت</th>
+                    <th>وضعیت سفارش</th>
+                    <th>قیمت</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>سفارشی برای چاپ در این سفارش وجود ندارد.</p>
-}
+            </thead>
+            <tbody>
+                @foreach (var printRequest in Model.PrintRequests)
+                {
+                    <tr>
+                        <td>
+                            @switch (printRequest.ServiceType)
+                            {
+                                case "Color":
+                                    @:چاپ رنگی
+                                    break;
+                                case "BlackWhite":
+                                    @:چاپ سیاه و سفید
+                                    break;
+                                case "Plan":
+                                    @:چاپ پلان
+                                    break;
+                                case "Laminate":
+                                    @:چاپ لمینیت
+                                    break;
 
-<p>
-    <a asp-action="MyOrders" class="btn btn-secondary">بازگشت به لیست سفارش‌ها</a>
-</p>
+                                default:
+                                    @:نامشخص
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @(printRequest.ServiceType == "BlackWhite" ? printRequest.BlackWhitePrintDetail?.CopyCount.ToString() ?? "" :
+                                printRequest.ServiceType == "Color" ? printRequest.ColorPrintDetail?.CopyCount.ToString() ?? "" :
+                                printRequest.ServiceType == "Laminate" ? printRequest.LaminateDetail?.CopyCount.ToString() ?? "" :""
+                            )
+                        </td>
+                        <td>
+                            @(printRequest.ServiceType == "BlackWhite" ? printRequest.BlackWhitePrintDetail?.PaperType ?? "" :
+                                printRequest.ServiceType == "Color" ? printRequest.ColorPrintDetail?.PaperType ?? "" :
+                                printRequest.ServiceType == "Plan" ? printRequest.PlanPrintDetail?.PaperType ?? "" :
+                                printRequest.ServiceType == "Laminate" ? printRequest.LaminateDetail?.PaperType.ToString() ?? "" : "")
+                        </td>
+                        <td>@printRequest.CreatedAt.ToString("yyyy/MM/dd")</td>
+                        <td>
+                            <p class="status-value">
+                                @StatusExtensions.ToFarsiStatus(printRequest.Status)
+                            </p>
+                        </td>
+                        <td>
+                            <p id="number">@string.Format("{0:N0}", printRequest.TotalPrice ?? 0)</p>
+                            <p id="vahed">تومان</p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+       
+
+    }
+    else
+    {
+        <p style="text-align:center; font-size:28px; direction:rtl; font-family: 'Pinar-medium';">هیچ سفارش چاپی وجود ندارد.</p>
+    }
+</div>
+
+<div id="total-price-box">
+
+    @{
+        decimal productTotal = Model.PickupRequest?.ProductItems?.Sum(pi => pi.TotalPrice) ?? 0;
+        decimal printTotal = Model.PrintRequests?.Sum(pr => pr.TotalPrice ?? 0) ?? 0;
+        decimal total = productTotal + printTotal;
+    }
+
+    @if (productTotal > 0)
+    {
+        <div class="total-price">
+            <h4>مبلغ کل سفارشات محصول   </h4>
+            <div id="price-div">
+                <p id="number">@string.Format("{0:N0}  ", productTotal)</p>
+                <p id="vahed">تومان</p>
+            </div>
+        </div>
+    }
+
+    @if (productTotal > 0 && printTotal > 0)
+    {
+        <hr style="border: 1px solid #fad6d6; width: 80%;">
+    }
+
+    @if (printTotal > 0)
+    {
+        <div class="total-price">
+            <h4>مبلغ کل سفارشات چاپ  </h4>
+            <div id="price-div">
+                <p id="number">@string.Format("{0:N0}  ", printTotal)</p>
+                <p id="vahed">تومان</p>
+            </div>
+        </div>
+    }
+
+    @if ((productTotal > 0 || printTotal > 0))
+    {
+        <hr style="border: 1px solid #fad6d6; width: 80%;">
+        <div class="total-price">
+            <h3>جمع کلی قیمت  </h3>
+            <div id="price-div" style="font-weight: bold; font-size: 24px;">
+                <p id="number">@string.Format("{0:N0}  ", total)</p>
+                <p id="vahed">تومان</p>
+            </div>
+        </div>
+        <div class="qr-div">
+            @if (Model.IsReadyForPickup)
+            {
+                <button id="qr-btn">
+                    <a asp-controller="Cart" asp-action="Success" asp-route-id="@Model.PickupRequest.Id" class="btn btn-primary">
+                        دریافت کد سفارش
+                    </a>
+                </button>
+            }
+            else
+            {
+                <p class="text-danger" style="text-align:center; font-size:28px; direction:rtl; font-family: 'Pinar-medium';">سفارش شما هنوز آماده تحویل نیست.</p>
+            }
+
+        </div>
+    }
+</div>
+
+
+
+@* <div id="total-price-box">
+    <h3>مبلغ کل سفارشات</h3>
+    <div id="total-price">
+        @{
+            decimal total = 0;
+            if (Model.PickupRequest?.ProductItems != null)
+            {
+                total += Model.PickupRequest.ProductItems.Sum(pi => pi.TotalPrice);
+            }
+            if (Model.PrintRequests != null)
+            {
+                total += Model.PrintRequests.Sum(pr => pr.TotalPrice ?? 0);
+            }
+        }
+        <p id="number">@string.Format("{0:N0}", total)</p>
+        <p id="vahed">تومان</p>
+    </div>
+</div>
+
+@{
+    decimal productTotal = 0;
+    decimal printTotal = 0;
+    decimal tota = 0;
+    if (Model.PickupRequest?.ProductItems != null)
+    {
+        productTotal = Model.PickupRequest.ProductItems.Sum(pi => pi.TotalPrice);
+    }
+    if (Model.PrintRequests != null)
+    {
+        printTotal = Model.PrintRequests.Sum(pr => pr.TotalPrice ?? 0);
+    }
+   
+    total = productTotal + printTotal;
+    
+} *@
+@* <p>مبلغ محصولات: @string.Format("{0:N0}", productTotal) تومان</p>
+<p>مبلغ چاپ‌ها: @string.Format("{0:N0}", printTotal) تومان</p>
+<p>مبلغ کل: @string.Format("{0:N0}", total) تومان</p> *@

@@ -1,0 +1,131 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: Tahoma, sans-serif;
+    background-color: #fff8f0;
+    padding: 20px;
+   
+}
+
+h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+.btn-box{
+    text-align:center;
+    font-family:
+}
+.a-add{
+    margin:0
+}
+
+.add-product {
+    background-color: #c8f7c5;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    direction: rtl;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #f5c6c6;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #fcfafa;
+}
+
+img {
+    max-width: 60px;
+    border-radius: 5px;
+}
+
+.btn {
+    padding: 5px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 2px;
+    color: white;
+}
+
+.edit {
+    background-color: #b5b5ff;
+}
+
+.details {
+    background-color: #a8f0c6;
+    color: #333;
+}
+
+.delete {
+    background-color: #f5b57c;
+}

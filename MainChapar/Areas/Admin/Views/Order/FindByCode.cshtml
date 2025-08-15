@@ -1,0 +1,49 @@
+﻿@model MainChapar.Models.Order
+
+@{
+    ViewData["Title"] = "بررسی و تأیید تحویل سفارش";
+}
+
+<h2>کد پیگیری: @Model.PickupCode</h2>
+
+<p>
+    <strong>نام کاربر:</strong> @Model.User.UserName <br />
+    <strong>تاریخ سفارش:</strong> @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm") <br />
+    <strong>وضعیت تأیید سفارش:</strong> @(Model.IsConfirmed ? "تأیید شده" : "تأیید نشده") <br />
+    <strong>وضعیت تحویل:</strong> @(Model.IsCollected ? "تحویل داده شده" : "تحویل داده نشده")
+</p>
+
+<h3>جزئیات سفارش</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>نام محصول</th>
+            <th>تعداد</th>
+            <th>قیمت واحد</th>
+            <th>قیمت کل</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>@item.Product.Title</td>
+                <td>@item.Quantity</td>
+                <td>@item.UnitPrice.ToString("N0") تومان</td>
+                <td>@(item.Quantity * item.UnitPrice).ToString("N0") تومان</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.IsCollected)
+{
+    <form asp-action="ConfirmByCode" method="post">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="btn btn-success">تأیید تحویل</button>
+    </form>
+}
+else
+{
+    <p class="text-success">این سفارش قبلاً تحویل داده شده است.</p>
+}

@@ -17,19 +17,16 @@ namespace MainChapar.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _env;
         private readonly UserManager<User> _userManager;
-
         public PrintController(ApplicationDbContext context, IWebHostEnvironment env, UserManager<User> userManager)
         {
             _context = context;
             _env = env;
             _userManager = userManager;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         // GET: نمایش فرم چاپ سیاه‌وسفید
         [HttpGet]
         public IActionResult BlackWhitePrintForm()
@@ -37,7 +34,6 @@ namespace MainChapar.Controllers
             var vm = new BlackWhitePrintRequestViewModel();
             return View(vm);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BlackWhitePrintForm(BlackWhitePrintRequestViewModel vm)
@@ -45,10 +41,12 @@ namespace MainChapar.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
+            var normalizedPrintSide = vm.PrintSide?.Trim().ToLower();
+
             var pricing = await _context.printPricings.FirstOrDefaultAsync(p =>
                 p.PaperType == vm.PaperType &&
                 p.PaperSize == vm.PaperSize &&
-                p.IsDoubleSided == string.Equals(vm.PrintSide.Trim(), "پشت و رو", StringComparison.OrdinalIgnoreCase) &&
+                p.PrintSide.Trim().ToLower() == normalizedPrintSide &&
                 p.IsAvailable);
 
             if (pricing == null)
@@ -116,6 +114,11 @@ namespace MainChapar.Controllers
                 });
 
             }
+            if (files.Count == 0 || totalPrice == 0)
+            {
+                ModelState.AddModelError("", "هیچ فایل معتبری برای چاپ بارگذاری نشده یا قیمت نهایی صفر است.");
+                return View(vm);
+            }
 
             var summary = new BWPrintSummaryViewModel
             {
@@ -130,39 +133,70 @@ namespace MainChapar.Controllers
                 BindingType = vm.BindingType,
             };
 
-            TempData["PrintSummary"] = JsonConvert.SerializeObject(summary);
+           // TempData["PrintSummary"] = JsonConvert.SerializeObject(summary);
+            //بخش جدید
+            HttpContext.Session.SetString("PrintSummary", JsonConvert.SerializeObject(summary));
+            //
             return RedirectToAction("BlackWhitePrintStep2");
         }
-        
         public IActionResult BlackWhitePrintStep2()
         {
-            if (TempData["PrintSummary"] == null)
+            //if (TempData["PrintSummary"] == null)
+            //    return RedirectToAction("BlackWhitePrintForm");
+
+            //var json = TempData["PrintSummary"] as string;
+            //var vm = JsonConvert.DeserializeObject<BWPrintSummaryViewModel>(json);
+
+            //TempData["PrintSummary"] = json; // برای مراحل بعدی دوباره ست می‌کنیم
+
+            //بخش جدید
+            var json = HttpContext.Session.GetString("PrintSummary");
+            if (string.IsNullOrEmpty(json))
                 return RedirectToAction("BlackWhitePrintForm");
 
-            var json = TempData["PrintSummary"] as string;
             var vm = JsonConvert.DeserializeObject<BWPrintSummaryViewModel>(json);
-
-            TempData["PrintSummary"] = json; // برای مراحل بعدی دوباره ست می‌کنیم
+            //
             return View(vm);
         }
-
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCartFromPrint()
         {
-            var json = TempData["PrintSummary"] as string;
-            if (json == null)
+            
+           
+            //بخش جدید
+            var json = HttpContext.Session.GetString("PrintSummary");
+            if (string.IsNullOrEmpty(json))
                 return RedirectToAction("BlackWhitePrintForm");
+            //
 
             var vm = JsonConvert.DeserializeObject<BWPrintSummaryViewModel>(json);
 
-            // ساختن شی PrintRequest
+            // گرفتن آی‌دی کاربر
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return RedirectToAction("Login", "User");
+
+            //بخش جدید
+            if (vm.TotalPrice == 0 || vm.TotalPrice == null)
+            {
+                ModelState.AddModelError("", "قیمت نهایی سفارش مشخص نشده است.");
+                return RedirectToAction("BlackWhitePrintForm");
+            }
+            //
+
+            // ساخت شی PrintRequest
             var printRequest = new PrintRequest
             {
                 CreatedAt = DateTime.Now,
-                Status = "در انتظار تأیید",
+                //بخش جدید
+                Status = "Draft", // به جای Processing، وضعیت پیش‌فرض Draft
+                IsFinalized = false,
+                //Status = "Processing",
                 ServiceType = "BlackWhite",
+                UserId = userId,
+                TotalPrice = vm.TotalPrice,
                 BlackWhitePrintDetail = new BlackWhitePrintDetail
                 {
                     PaperType = vm.PaperType,
@@ -176,32 +210,34 @@ namespace MainChapar.Controllers
                     BindingType = vm.BindingType,
                 }
             };
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                // کاربر لاگین نکرده → می‌تونی برگردونی به صفحه لاگین
-                return RedirectToAction("Login", "Account");
-            }
-
-            printRequest.UserId = userId;
 
             _context.PrintRequests.Add(printRequest);
             await _context.SaveChangesAsync();
 
-            // افزودن آیدی به سبد خرید داخل Session
-            var existing = HttpContext.Session.GetString("CartPrints");
-            var list = string.IsNullOrEmpty(existing)
-                ? new List<int>()
-                : JsonConvert.DeserializeObject<List<int>>(existing);
+            //بخش جدید
+            var savedRequest = await _context.PrintRequests
+    .Include(p => p.BlackWhitePrintDetail)
+    .FirstOrDefaultAsync(p => p.Id == printRequest.Id);
 
-            list.Add(printRequest.Id);
-            HttpContext.Session.SetString("CartPrints", JsonConvert.SerializeObject(list));
+            if (savedRequest == null || savedRequest.TotalPrice == 0 || savedRequest.BlackWhitePrintDetail.TotalPrice == 0)
+            {
+                TempData["CartDebug"] = "خطا: قیمت در دیتابیس ذخیره نشده است.";
+                return RedirectToAction("BlackWhitePrintForm");
+            }
+            //
+
+            // اضافه کردن به سبد خرید (CartPrintItems)
+            var cartItem = new CartPrintItems
+            {
+                PrintRequestId = printRequest.Id,
+                UserId = userId
+            };
+
+            _context.CartPrintItems.Add(cartItem);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Cart");
         }
-
-
         // GET: نمایش فرم چاپ رنگی
         [HttpGet]
         public IActionResult ColorPrintForm()
@@ -209,7 +245,6 @@ namespace MainChapar.Controllers
             var vm = new ColorPrintRequestViewModel();
             return View(vm);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ColorPrintForm(ColorPrintRequestViewModel vm)
@@ -217,10 +252,12 @@ namespace MainChapar.Controllers
             if (!ModelState.IsValid)
                 return View(vm);
 
+            var normalizedPrintSide = vm.PrintSide?.Trim().ToLower();
+
             var pricing = await _context.printPricings.FirstOrDefaultAsync(p =>
                 p.PaperType == vm.PaperType &&
                 p.PaperSize == vm.PaperSize &&
-                p.IsDoubleSided == string.Equals(vm.PrintSide.Trim(), "پشت و رو", StringComparison.OrdinalIgnoreCase) &&
+                p.PrintSide.Trim().ToLower() == normalizedPrintSide &&
                 p.IsAvailable);
 
             if (pricing == null)
@@ -262,19 +299,8 @@ namespace MainChapar.Controllers
                     pageCount = await GetPdfPageCount(file);
                 }
 
-                // بررسی اینکه چاپ پشت و رو است یا خیر
                 bool isDoubleSided = string.Equals(vm.PrintSide?.Trim(), "پشت و رو", StringComparison.OrdinalIgnoreCase);
-                int effectivePages;
-
-                if (string.Equals(vm.PrintSide?.Trim(), "پشت و رو", StringComparison.OrdinalIgnoreCase))
-                {
-                    //محاسبه قیمت صفحات فرد
-                    effectivePages = (int)Math.Ceiling(pageCount / 2.0);
-                }
-                else
-                {
-                    effectivePages = pageCount;
-                }
+                int effectivePages = isDoubleSided ? (int)Math.Ceiling(pageCount / 2.0) : pageCount;
 
                 decimal filePrice = effectivePages * vm.CopyCount * pricing.PricePerPage;
                 totalPrice += filePrice;
@@ -286,7 +312,12 @@ namespace MainChapar.Controllers
                     PageCount = pageCount,
                     FilePrice = filePrice
                 });
+            }
 
+            if (files.Count == 0 || totalPrice == 0)
+            {
+                ModelState.AddModelError("", "هیچ فایل معتبری برای چاپ بارگذاری نشده یا قیمت نهایی صفر است.");
+                return View(vm);
             }
 
             var summary = new ColorPrintSummaryViewModel
@@ -302,39 +333,51 @@ namespace MainChapar.Controllers
                 BindingType = vm.BindingType,
             };
 
-            TempData["PrintSummary"] = JsonConvert.SerializeObject(summary);
+            HttpContext.Session.SetString("PrintSummary_Color", JsonConvert.SerializeObject(summary)); // ← به جای TempData
             return RedirectToAction("ColorPrintStep2");
         }
 
-        
+
         public IActionResult ColorPrintStep2()
         {
-            if (TempData["PrintSummary"] == null)
+            var json = HttpContext.Session.GetString("PrintSummary_Color");
+            if (string.IsNullOrEmpty(json))
                 return RedirectToAction("ColorPrintForm");
 
-            var json = TempData["PrintSummary"] as string;
             var vm = JsonConvert.DeserializeObject<ColorPrintSummaryViewModel>(json);
-
-            TempData["PrintSummary"] = json; // برای مراحل بعدی دوباره ست می‌کنیم
             return View(vm);
         }
+
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+    
         public async Task<IActionResult> AddToCartColorFromPrint()
         {
-            var json = TempData["PrintSummary"] as string;
-            if (json == null)
+            var json = HttpContext.Session.GetString("PrintSummary_Color");
+            if (string.IsNullOrEmpty(json))
                 return RedirectToAction("ColorPrintForm");
 
             var vm = JsonConvert.DeserializeObject<ColorPrintSummaryViewModel>(json);
 
-            // ساختن شی PrintRequest
+            if (vm.TotalPrice == 0 || vm.TotalPrice == null)
+            {
+                TempData["Error"] = "قیمت نهایی سفارش مشخص نشده است.";
+                return RedirectToAction("ColorPrintForm");
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return RedirectToAction("Login", "User");
+
             var printRequest = new PrintRequest
             {
                 CreatedAt = DateTime.Now,
-                Status = "در انتظار تأیید",
+                Status = "Draft", 
+                IsFinalized = false, 
                 ServiceType = "Color",
+                TotalPrice = vm.TotalPrice,
+                UserId = userId,
                 ColorPrintDetail = new ColorPrintDetail
                 {
                     PaperType = vm.PaperType,
@@ -345,29 +388,20 @@ namespace MainChapar.Controllers
                     TotalPrice = vm.TotalPrice,
                     FilesJson = JsonConvert.SerializeObject(vm.Files),
                     BindingType = vm.BindingType,
+                    Description = vm.Description,
                 }
             };
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                // کاربر لاگین نکرده → می‌تونی برگردونی به صفحه لاگین
-                return RedirectToAction("Login", "Account");
-            }
-
-            printRequest.UserId = userId;
 
             _context.PrintRequests.Add(printRequest);
             await _context.SaveChangesAsync();
 
-            // افزودن آیدی به سبد خرید داخل Session
-            var existing = HttpContext.Session.GetString("CartPrints");
-            var list = string.IsNullOrEmpty(existing)
-                ? new List<int>()
-                : JsonConvert.DeserializeObject<List<int>>(existing);
-
-            list.Add(printRequest.Id);
-            HttpContext.Session.SetString("CartPrints", JsonConvert.SerializeObject(list));
+            var cartPrintItem = new CartPrintItems
+            {
+                PrintRequestId = printRequest.Id,
+                UserId = userId
+            };
+            _context.CartPrintItems.Add(cartPrintItem);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Cart");
         }
@@ -379,7 +413,6 @@ namespace MainChapar.Controllers
             var vm = new PlanPrintRequestViewModel();
             return View(vm);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PlanPrintForm(PlanPrintRequestViewModel vm)
@@ -445,7 +478,6 @@ namespace MainChapar.Controllers
             TempData["PrintSummary"] = JsonConvert.SerializeObject(summary);
             return RedirectToAction("PlanPrintStep2");
         }
-
         // مرحله دوم: نمایش خلاصه اطلاعات قبل از افزودن به سبد
         public IActionResult PlanPrintStep2()
         {
@@ -473,7 +505,7 @@ namespace MainChapar.Controllers
             var printRequest = new PrintRequest
             {
                 CreatedAt = DateTime.Now,
-                Status = "در انتظار تأیید",
+                Status = "Processing",
                 ServiceType = "Plan",
                 PlanPrintDetail = new PlanPrintDetail
                 {
@@ -484,6 +516,7 @@ namespace MainChapar.Controllers
                     AdditionalDescription = vm.AdditionalDescription,
                     printType = vm.printType,
                     BindingType = vm.BindingType,
+                    Description = vm.Description,
 
                 }
             };
@@ -492,7 +525,7 @@ namespace MainChapar.Controllers
             if (string.IsNullOrEmpty(userId))
             {
                 // کاربر لاگین نکرده → می‌تونی برگردونی به صفحه لاگین
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "User");
             }
 
             printRequest.UserId = userId;
@@ -500,28 +533,182 @@ namespace MainChapar.Controllers
             _context.PrintRequests.Add(printRequest);
             await _context.SaveChangesAsync();
 
-            // افزودن آیدی به سبد خرید داخل Session
-            var existing = HttpContext.Session.GetString("CartPrints");
-            var list = string.IsNullOrEmpty(existing)
-                ? new List<int>()
-                : JsonConvert.DeserializeObject<List<int>>(existing);
-
-            list.Add(printRequest.Id);
-            HttpContext.Session.SetString("CartPrints", JsonConvert.SerializeObject(list));
+            var cartPrintItem = new CartPrintItems
+            {
+                PrintRequestId = printRequest.Id,
+                UserId = userId
+            };
+            _context.CartPrintItems.Add(cartPrintItem);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Cart");
         }
+        // GET: نمایش فرم چاپ لمینیت
+        [HttpGet]
+        public IActionResult LaminatePrintForm()
+        {
+            var vm = new LaminatePrintRequestViewModel();
+            return View(vm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LaminatePrintForm(LaminatePrintRequestViewModel vm)
+        {
+            if (!ModelState.IsValid)
+                return View(vm);
 
+            var normalizedPrintSide = vm.PrintSide?.Trim().ToLower();
+
+            var pricing = await _context.printPricings.FirstOrDefaultAsync(p =>
+                p.PaperType == vm.PaperType &&
+                p.PaperSize == vm.PaperSize &&
+                p.PrintSide.Trim().ToLower() == normalizedPrintSide &&
+                p.IsAvailable);
+
+            TempData["DebugInfo"] = $"PT: {vm.PaperType}, PS: {vm.PaperSize}, PTy: {vm.printType}, LT: {vm.LaminateType}, Side: {vm.PrintSide}";
+            if (pricing == null)
+            {
+                ModelState.AddModelError("", "ترکیب انتخاب‌شده در حال حاضر فعال نیست.");
+                return View(vm);
+            }
+            var uploadPath = Path.Combine(_env.WebRootPath, "uploads");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            var files = new List<PrintFileViewModel>();
+            decimal totalPrice = 0;
+
+            foreach (var file in vm.Files)
+            {
+                if (file == null || file.Length == 0)
+                    continue;
+
+                var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
+                if (ext != ".pdf" && ext != ".docx" && ext != ".jpg" && ext != ".jpeg" && ext != ".png")
+                {
+                    ModelState.AddModelError("", $"فرمت فایل '{file.FileName}' پشتیبانی نمی‌شود.");
+                    return View(vm);
+                }
+
+                var fileName = Guid.NewGuid() + ext;
+                var filePath = Path.Combine(uploadPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                int pageCount = 1;
+                if (ext == ".pdf")
+                {
+                    pageCount = await GetPdfPageCount(file);
+                }
+
+                decimal filePrice = pageCount * vm.CopyCount * pricing.PricePerPage;
+                totalPrice += filePrice;
+
+                files.Add(new PrintFileViewModel
+                {
+                    FileName = file.FileName,
+                    FilePath = "~/uploads/" + fileName,
+                    PageCount = pageCount,
+                    FilePrice = filePrice
+                });
+            }
+
+            var summary = new LaminatePrintSummaryViewModel
+            {
+                PaperType = vm.PaperType,
+                PaperSize = vm.PaperSize,
+                PrintSide = vm.PrintSide,
+                CopyCount = vm.CopyCount,
+                TotalPages = files.Sum(f => f.PageCount),
+                TotalPrice = totalPrice,
+                Files = files,
+                Description = vm.Description,
+                printType = vm.printType,
+                LaminateType = vm.LaminateType,
+                CornerType = vm.CornerType,
+            };
+
+            TempData["PrintSummary"] = JsonConvert.SerializeObject(summary);
+            return RedirectToAction("LaminatePrintStep2");
+        }
+        public IActionResult LaminatePrintStep2()
+        {
+            var json = HttpContext.Session.GetString("PrintSummary_Laminate");
+            if (string.IsNullOrEmpty(json))
+                return RedirectToAction("LaminatePrintForm");
+
+            var vm = JsonConvert.DeserializeObject<ColorPrintSummaryViewModel>(json);
+            return View(vm);
+            return View(vm);
+        }
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToCartLaminateFromPrint()
+        {
+            var json = HttpContext.Session.GetString("PrintSummary_Laminate");
+            if (string.IsNullOrEmpty(json))
+                return RedirectToAction("LaminatePrintForm");
+
+            var vm = JsonConvert.DeserializeObject<LaminatePrintSummaryViewModel>(json);
+
+            if (vm.TotalPrice == 0 || vm.TotalPrice == null)
+            {
+                TempData["Error"] = "قیمت نهایی سفارش مشخص نشده است.";
+                return RedirectToAction("LaminatePrintForm");
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return RedirectToAction("Login", "User");
+
+            var printRequest = new PrintRequest
+            {
+                CreatedAt = DateTime.Now,
+                Status = "Draft",
+                IsFinalized = false,
+                ServiceType = "Laminate",
+                TotalPrice = vm.TotalPrice,
+                UserId = userId,
+                LaminateDetail = new LaminateDetail
+                {
+                    PaperType = vm.PaperType,
+                    PaperSize = vm.PaperSize,
+                    PrintSide = vm.PrintSide,
+                    CopyCount = vm.CopyCount,
+                    TotalPages = vm.TotalPages,
+                    TotalPrice = vm.TotalPrice,
+                    FilesJson = JsonConvert.SerializeObject(vm.Files),
+                    printType = vm.printType,
+                    LaminateType = vm.LaminateType,
+                    CornerType = vm.CornerType,
+                    Description = vm.Description,
+
+                }
+            };
+
+            _context.PrintRequests.Add(printRequest);
+            await _context.SaveChangesAsync();
+
+            var cartPrintItem = new CartPrintItems
+            {
+                PrintRequestId = printRequest.Id,
+                UserId = userId
+            };
+            _context.CartPrintItems.Add(cartPrintItem);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Cart");
+          
+        }
         private async Task<int> GetPdfPageCount(IFormFile file)
         {
             using var stream = file.OpenReadStream();
             using var pdf = PdfReader.Open(stream, PdfDocumentOpenMode.ReadOnly);
             return pdf.PageCount;
         }
-
-
-
-
-
     }
 }

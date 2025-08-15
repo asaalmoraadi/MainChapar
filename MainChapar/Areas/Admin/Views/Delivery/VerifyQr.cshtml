@@ -13,7 +13,6 @@ else
 {
     <div class="card p-3 my-3">
         <p><strong>کد سفارش:</strong> @Model.Id</p>
-        <p><strong>وضعیت:</strong> @Model.Status</p>
         <p><strong>تاریخ ثبت:</strong> @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
         <p><strong>تحویل داده شده:</strong> @(Model.IsDelivered ? "بله" : "خیر")</p>
 

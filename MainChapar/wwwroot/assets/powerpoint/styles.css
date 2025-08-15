@@ -1,0 +1,339 @@
+
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+
+body {
+    background-color: #FFFBF7;
+    margin: 0;
+    padding: 0;
+    
+    
+}
+
+header {
+    width: 100%;
+    height: 5rem;
+    /* display flex baray shive gharar giri */
+    display: flex;
+    align-items: center;
+    justify-content: right  ; 
+    flex-direction: row-reverse;
+}
+
+#logo {
+    margin-right: 10px;
+    margin-top: 1rem;
+    font-family: 'Rokhbold';
+    font-size: 18px;
+    width: 10%;
+}
+#searchbar{
+    width: 80%;
+    margin-right: 5rem;
+}
+
+#search-input{
+    height: 50px;
+    width: 100%;
+    padding-left: 40px; 
+    background: url('files/search-icon.png') no-repeat 10px center;
+    background-color: #ffffff;
+    background-size:30px 30px; 
+    font-size: 18px;
+    border-radius: 13px;
+    direction: rtl;
+    text-align: right;
+    padding-right: 15px;
+    border: 0;
+
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
+}
+
+/*nav => menu + user icon + shop */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: row-reverse;
+    height: 4rem;
+}
+.menu{
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Pinar-medium';
+    font-size: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 3rem;
+}
+nav a:hover {
+    color: #f25d5d;
+}
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
+}
+
+.cooperation-form {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cooperation-form h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-family: 'Pinar-semibold', sans-serif;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.vector {
+  display: block;
+  margin: 0 auto 2rem auto;
+  width: 30rem;
+  height: auto;
+    
+}
+
+.description {
+  background: linear-gradient(to right, #ffe4e4, #ffdada);
+  border-radius: 1rem;
+  padding: 1.5rem 1rem;
+  font-family: 'Pinar-medium', sans-serif;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #444;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  
+}
+
+.description .highlight {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #d72638;
+  margin-top: 1rem;
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-family: 'Pinar-medium', sans-serif;
+  text-align: center;
+  color: #222;
+  margin-top: 2rem;
+}
+
+
+    .box {
+      max-width: 800px;
+      margin: auto;
+      padding: 3rem;
+      background-color: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      direction: rtl;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* دو ستون با عرض مساوی */
+      gap: 2rem;
+     
+      margin-bottom: 2rem;
+
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      font-family: 'Pinar-medium';
+    }
+
+    input, textarea {
+      width: 97%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-family: 'Pinar-medium';
+      font-size: 1rem;
+    }
+    select {
+      display: block;
+      width: 100%;
+      height: 2.9rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-family: 'Pinar-medium';
+      font-size: 1rem;
+      appearance: none;
+      background: url(files/arrow.png) no-repeat left 8px center;
+      background-color: white;
+      background-size: 1rem;
+}
+
+
+
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    input[type="file"] {
+      border: none;
+      padding: 0;
+
+      
+    }
+
+    button {
+      background-color: #fcd7d7;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-family: 'Pinar-medium';
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      
+    }
+
+    button:hover {
+      background-color: #f49494;
+      color: white;
+    }
+
+
+    #skills{
+   grid-column: span 2;
+}
+
+
+#shamsi-date {
+  width: 97%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-family: 'Pinar-medium';
+  font-size: 1rem;
+  direction: ltr;
+  
+}
+
+
+
+
+

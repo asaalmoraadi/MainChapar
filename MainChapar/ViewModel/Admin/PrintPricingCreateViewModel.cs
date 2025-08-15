@@ -13,7 +13,8 @@ namespace MainChapar.ViewModel.Admin
         [Required(ErrorMessage = "سایز کاغذ را انتخاب کنید.")]
         public string PaperSize { get; set; }
 
-        public bool IsDoubleSided { get; set; }
+        [Required(ErrorMessage = "نوع چاپ الزامی است")]
+        public string PrintSide { get; set; }
 
         [Required(ErrorMessage = "قیمت به ازای هر صفحه را وارد کنید.")]
         [Range(0.01, double.MaxValue, ErrorMessage = "قیمت باید عدد مثبت باشد.")]

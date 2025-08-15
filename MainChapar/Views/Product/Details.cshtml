@@ -1,206 +1,163 @@
-﻿@model MainChapar.Models.Product
+﻿
+@model MainChapar.Models.Product
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
 @{
+    ViewData["Title"] = "جزییات محصول";
+    var comments = ViewBag.Comments as List<MainChapar.Models.Comment>;
+    var similarProducts = ViewBag.SimilarProducts as List<MainChapar.Models.Product>;
+    var user = UserManager.GetUserAsync(User).Result;
     Layout = "~/Views/Shared/_newLayout1.cshtml";
 }
-@{
-    ViewData["Title"] = Model.Title;
-    var comments = ViewBag.Comments as List<MainChapar.Models.Comment>;
-}
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/product/styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CHAPAR</title>
+    <link rel="stylesheet" href="~/assets/product/styles.css" />
 </head>
-<body>
-    <div class="container">
-        <section class="product-page">
-            <div class="image-section">
-                <img src="~/assets/img/product/@Model.ImageName" alt="@Model.Title" class="main-img" id="mainImg" />
-                <div class="thumbnail-list">
-                    <!-- گالری تصاویر -->
-                    @if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+
+<div class="container">
+    <div class="product-page">
+        <div class="image-section">
+            <img src="~/assets/img/product/@Model.ImageName" class="main-img" id="mainImg" alt="@Model.Title" />
+            <div class="thumbnail-list">
+                @if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+                {
+                    foreach (var img in Model.ProductGalleries)
                     {
-                            @foreach (var galleryImage in Model.ProductGalleries)
-                            {
-                                <img src="~/assets/img/product/@galleryImage.ImageName"
-                                     onclick="changeMainImg(this.src)"
-                                     alt="Gallery image" />
-                            }
+                        <img src="~/assets/img/product/@img.ImageName" onclick="changeMainImg(this.src)" />
                     }
-                </div>
+                }
+                else
+                {
+                    <img src="~/assets/img/product/@Model.ImageName" />
+                }
             </div>
-            <div class="details-section">
-                <div class="product-title">@Model.Title</div>
-                <div class="label"> <strong>برچسب‌:</strong> @Model.Tags</div>
-                <div class="short-desc">
-                    <p><strong>توضیحات:</strong> @Model.Description</p>
-                </div>
-                @* <p><strong>تخفیف:</strong> @(Model.Discount ?? 0) %</p> *@
-                <div class="pricing">
-                    @* <span class="old-price">120000 تومان</span>
-                    <span class="new-price">95000 تومان</span> *@
-                    <span> @Model.Price تومان</span>
-                </div>
-                <div class="stock">موجودی: @Model.Qty</div>
+            
+        </div>
+        <div class="details-section">
+            <div class="product-title">@Model.Title</div>
+            <div class="label">دسته‌بندی: @Model.Category?.Name</div>
+            <div class="short-desc">@Model.Description</div>
+            <div class="pricing">
+                @if (Model.Discount.HasValue && Model.Discount.Value > 0)
+                {
+                    <span class="old-price">@Model.Price تومان</span>
+                    <span class="new-price">@((Model.Price - Model.Discount.Value)) تومان</span>
+                }
+                else
+                {
+                    <span class="new-price">@Model.Price تومان</span>
+                }
+            </div>
+            <div class="stock">موجودی: @Model.Qty عدد</div>
+            <form asp-action="AddToCart" asp-controller="Product" method="post">
+                <input type="hidden" name="productId" value="@Model.Id" />
                 <div class="quantity-control">
-                    <button onclick="changeQty(1)">+</button>
-                    <input type="number" id="qty" value="1" min="1">
-                    <button onclick="changeQty(-1)">−</button>
-                <button class="add-to-cart">افزودن به سبد خرید</button>
+                    <button type="button" onclick="changeQty(1)">+</button>
+                    <input type="number" id="qty" name="quantity" value="1" min="1" />
+                    <button type="button" onclick="changeQty(-1)">−</button>
                 </div>
-            </div>
-        </section>
-
+                <button class="add-to-cart" type="submit">افزودن به سبد خرید</button>
+            </form>
+        </div>
         <!-- تب‌ها -->
-        <section class="tabs">
+        <div class="tabs">
             <div class="tab-buttons">
                 <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
                 <button onclick="showTab(1)">مشخصات فنی</button>
                 <button onclick="showTab(2)">نظرات کاربران</button>
             </div>
-            <div class="tab-content active">
-                <p>
-                    این بخش شامل توضیحات کامل‌تر درباره محصول، موارد مصرف، ترکیبات و مزایا می‌باشد.
-                </p>
-            </div>
-            <div class="tab-content">
-                <p>
-                    - وزن: ۵۰۰ گرم <br>
-                    - ابعاد بسته‌بندی: ۲۰×۱۰×۵ <br>
-                    - ساخت: ایران
-                </p>
-            </div>
-            <div class="tab-content">
-                <p>هنوز نظری ثبت نشده است. شما اولین باشید!</p>
-            </div>
-        </section>
-    </div>
-  
 
-      @*   <!-- تب‌ها -->
-        <section class="tabs">
-            <div class="tab-buttons">
-                <button class="active" onclick="showTab(0)">توضیحات بیشتر</button>
-                <button onclick="showTab(1)">مشخصات فنی</button>
-                <button onclick="showTab(2)">نظرات کاربران</button>
-            </div>
             <div class="tab-content active">
-                <p>
-                    این بخش شامل توضیحات کامل‌تر درباره محصول، موارد مصرف، ترکیبات و مزایا می‌باشد.
-                </p>
+                <p>@Model.Description</p>
             </div>
             <div class="tab-content">
                 <p>
-                    - وزن: ۵۰۰ گرم <br>
-                    - ابعاد بسته‌بندی: ۲۰×۱۰×۵ <br>
-                    - ساخت: ایران
+                    - تاریخ افزوده‌شدن: @Model.CreatedAt.ToString("yyyy/MM/dd") <br />
+                    - شناسه محصول: @Model.Id
                 </p>
             </div>
             <div class="tab-content">
-
-                <!-- نمایش کامنت‌ها -->
-                <h3>نظرات کاربران</h3>
                 @if (comments != null && comments.Any())
                 {
-                    <ul>
+                    <ul class="list-group">
                         @foreach (var comment in comments)
                         {
-                            <li>
-                                <strong>@comment.User?.UserName ?? "کاربر ناشناس":</strong>
+                            <li class="list-group-item">
+                                <strong>@comment.User?.UserName</strong> در تاریخ @comment.CreatedAt.ToString("yyyy/MM/dd HH:mm") نوشت:
                                 <p>@comment.Text</p>
-                                <small><i>تاریخ: @comment.CreatedAt.ToString("yyyy/MM/dd HH:mm")</i></small>
                             </li>
                         }
                     </ul>
                 }
                 else
                 {
-                    <p>هیچ نظری ثبت نشده است.</p>
+                    <p>هنوز نظری ثبت نشده است. شما اولین باشید!</p>
                 }
-                <hr />
-                <!-- فرم ثبت نظر -->
+
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <h4>ثبت نظر جدید</h4>
-                    <form asp-action="AddComment" method="post">
-                        <input type="hidden" name="ProductId" value="@Model.Id" />
-                        <div class="form-group">
-                            <label for="Text">نظر شما</label>
-                            <textarea class="form-control" id="Text" name="Text" rows="3" required></textarea>
-                        </div>
+                    <form asp-action="AddComment" asp-controller="Product" method="post" class="mt-3">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <textarea name="text" class="form-control" rows="4" placeholder="نظر خود را بنویسید..." required ></textarea>
                         <button type="submit" class="btn btn-primary mt-2">ارسال نظر</button>
                     </form>
                 }
                 else
                 {
-                    <p>برای ثبت نظر لطفا <a href="/Identity/Account/Login">وارد شوید</a>.</p>
+                    <p class="text-muted mt-3">برای ارسال نظر لطفاً <a href="/User/Login">وارد شوید</a>.</p>
                 }
             </div>
-        </section>
-    </div>
- *@
-    <!-- mahsolat moshabeh -->
-    <div class="mahsolat">
-        <h2>محصولات مشابه</h2>
-        <div class="mahsolat-boxs">
-            <div class="boxs" id="box1">
-
-                <img src="~/assets/img/files/print3.png">
-                <p>چاپ سیاه سفید</p>
-
-            </div>
-            <div class="boxs" id="box2">
-
-                <img src="~/assets/img/files/print1.png">
-                <p>چاپ پلان</p>
-            </div>
-            <div class="boxs" id="box3">
-
-                <img src="~/assets/img/files/print2.png">
-                <p>چاپ ایکس</p>
-            </div>
         </div>
-        <!-- java script -->
-        <script>
-            function scrollRight() {
-                const slider = document.getElementById('slider');
-                const cardWidth = 210 + 16; // عرض کارت + فاصله بین کارت‌ها
-                slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-            }
 
-            function scrollLeft() {
-                const slider = document.getElementById('slider');
-                const cardWidth = 210 + 16;
-                slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
-            }
+      @*   <!-- محصولات مشابه -->
+        @if (similarProducts != null && similarProducts.Any())
+        {
+            <div class="mahsolat">
+                <h2>محصولات مشابه</h2>
+                <div class="mahsolat-boxs">
+                    @foreach (var p in similarProducts)
+                    {
+                        <div class="boxs">
+                            <a href="/Product/Details/@p.Id">
+                                <img src="~/assets/img/product/@p.ImageName" alt="@p.Title" />
+                                <p>@p.Title</p>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+ *@
+    </div>
 
-            function changeQty(delta) {
-                const qty = document.getElementById("qty");
-                let current = parseInt(qty.value);
-                if (isNaN(current)) current = 1;
-                current += delta;
-                if (current < 1) current = 1;
-                qty.value = current;
-            }
+</div>
 
-            function changeMainImg(src) {
-                document.getElementById("mainImg").src = src;
-            }
+@section Scripts {
+    <script>
+        function changeQty(delta) {
+            const qty = document.getElementById("qty");
+            let current = parseInt(qty.value);
+            if (isNaN(current)) current = 1;
+            current += delta;
+            if (current < 1) current = 1;
+            qty.value = current;
+        }
 
-            function showTab(index) {
-                const tabs = document.querySelectorAll('.tab-content');
-                const buttons = document.querySelectorAll('.tab-buttons button');
-                tabs.forEach((tab, i) => {
-                    tab.classList.toggle('active', i === index);
-                    buttons[i].classList.toggle('active', i === index);
-                });
-            }
-        </script>
+        function changeMainImg(src) {
+            document.getElementById("mainImg").src = src;
+        }
 
-</body>
-
-</html>
-
-
+        function showTab(index) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-buttons button');
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+                buttons[i].classList.toggle('active', i === index);
+            });
+        }
+    </script>
+}

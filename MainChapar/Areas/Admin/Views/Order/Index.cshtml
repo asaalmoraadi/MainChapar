@@ -1,43 +1,124 @@
-﻿@model List<MainChapar.Models.Order>
+﻿@model List<MainChapar.Models.PickupRequest>
 
-<h2>لیست سفارش‌ها</h2>
+<!---->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="~/assets/admin-products/styles.css">
+</head>
+<body>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>شماره سفارش</th>
-            <th>نام کاربر</th>
-            <th>تاریخ ثبت</th>
-            <th>تأیید شده</th>
-            <th>تحویل شده</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model)
-        {
-            <tr>
-                <td>@order.Id</td>
-                <td>@order.User?.UserName</td>  @* فرض کردم User فیلد FullName دارد *@
-                <td>@order.CreatedAt.ToString("yyyy/MM/dd")</td>
-                <td>@(order.IsConfirmed ? "بله" : "خیر")</td>
-                <td>@(order.IsCollected ? "بله" : "خیر")</td>
-                <td>
-                    <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary btn-sm">جزئیات</a>
-                    @if (!order.IsConfirmed)
-                    {
-                        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id="@order.Id" style="display:inline">
-                            <button type="submit" class="btn btn-success btn-sm">تأیید</button>
-                        </form>
-                    }
-                    @if (order.IsConfirmed && !order.IsCollected)
-                    {
-                        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="MarkAsCollected" asp-route-id="@order.Id" style="display:inline">
-                            <button type="submit" class="btn btn-warning btn-sm">علامت‌گذاری تحویل شده</button>
-                        </form>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>لیست سفارش‌ها</h1>
+                <p>تعداد سفارش‌ها: @ViewBag.Count</p>
+            </div>
+
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>شماره سفارش</th>
+                            <th>تصویر</th>
+                            <th>عنوان</th>
+                            <th>قیمت</th>
+                            <th>تخفیف</th>
+                            <th>تعداد</th>
+                            <th>نام کاربر</th>
+                            <th>تاریخ ثبت</th>
+                            <th>تحویل شده</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                        @foreach (var order in Model)
+                        {
+                            if (order.ProductItems != null && order.ProductItems.Any())
+                            {
+                                foreach (var item in order.ProductItems)
+                                {
+                                    <tr>
+                                        <td>@order.Id</td>
+                                        <td>
+                                            <img src="/assets/img/product/@item.Product?.ImageName" alt="@item.Product?.Title" style="max-width: 100px;" />
+                                        </td>
+                                        <td>@item.Product?.Title</td>
+                                        <td>@item.Product?.Price.ToString("N0") تومان</td>
+                                        <td>
+                                            @(item.Product?.Discount > 0
+                                                ? item.Product.Discount + "%"
+                                                : "بدون تخفیف")
+                                        </td>
+                                        <td>@item.Quantity</td>
+                                        <td>@order.User?.UserName</td>
+                                        <td>@order.CreatedAt.ToString("yyyy/MM/dd")</td>
+                                        <td>@(order.IsDelivered ? "بله" : "خیر")</td>
+                                        <td>
+                                            <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="edit-btn">جزئیات</a>
+                                            @if (!order.IsDelivered)
+                                            {
+                                                <form method="post" asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id="@order.Id" style="display:inline">
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="info-btn">تأیید</button>
+                                                </form>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>@order.Id</td>
+                                    <td colspan="5"><span>محصولی ثبت نشده</span></td>
+                                    <td>@order.User?.UserName</td>
+                                    <td>@order.CreatedAt.ToString("yyyy/MM/dd")</td>
+                                    <td>@(order.IsDelivered ? "بله" : "خیر")</td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="edit-btn">جزئیات</a>
+                                        @if (!order.IsDelivered)
+                                        {
+                                            <form method="post" asp-area="Admin" asp-controller="Order" asp-action="Confirm" asp-route-id="@order.Id" style="display:inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="info-btn">تأیید</button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>

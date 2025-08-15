@@ -1,0 +1,94 @@
+﻿@model MainChapar.ViewModel.TypingRequestViewModel
+
+@{
+    ViewData["Title"] = "درخواست تایپ";
+}
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/type/styles.css">
+
+    <title>سفارش پروژه تایپ</title>
+
+</head>
+<section class="cooperation-form">
+    <h2>سفارش پروژه تایپ</h2>
+    <p class="form-title">اطلاعات خودت به همراه فایل برامون قرار بده</p>
+    <img class="vector" src="/assets/type/files/type.png">
+
+    
+</section>
+@if (!ViewData.ModelState.IsValid)
+{
+    <div style="
+        background-color: #fff4f4;
+        border: 1px solid #e44d4d;
+        color: #c0392b;
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 20px auto;
+        font-size: 14px;">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+<form class="box" asp-action="Typing" method="post" enctype="multipart/form-data">
+  
+
+    <div class="form-group">
+        <label >نام:</label>
+        <input asp-for="Name" type="text"  placeholder="علی" required>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>نام خانوادگی:</label>
+        <input asp-for="Family" type="text" placeholder="محمدی" required>
+        <span asp-validation-for="Family" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>شماره تلفن:</label>
+        <input asp-for="PhoneNumber" type="tel"  required placeholder="09123456789">
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label>مهلت اراسال:</label>
+        <input asp-for="Deadline" type="date"  placeholder="مثلاً 1403/05/25">
+        <span asp-validation-for="Deadline" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group" id="skills">
+        <label>توضیحات :</label>
+        <textarea asp-for="Description"  placeholder="فایل به صورت کادر بندی شده با فونت مناسب باشد"></textarea>
+        
+    </div>
+
+    <div class="form-group full-width">
+        <label>فایل:</label>
+        <input asp-for="UploadedFile" type="file" accept=".pdf,.doc,.docx">
+    </div>
+
+
+
+
+    <div class="form-group" style="text-align: center;" >
+        <button type="submit">ارسال فرم</button>
+    </div>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

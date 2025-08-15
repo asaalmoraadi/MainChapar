@@ -1,4 +1,5 @@
 using MainChapar.Data;
+using MainChapar.Helpers;
 using MainChapar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,13 @@ namespace MainChapar
                 });
             });
 
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/User/AccessDenied";
+                options.LoginPath = "/User/Login";
+            });
             builder.Services.AddSession();
+           
 
             var app = builder.Build();
 
@@ -80,6 +87,11 @@ namespace MainChapar
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
+                name: "productsByCategory",
+                pattern: "products/{slug}",
+                defaults: new { controller = "Products", action = "ByCategory" });
 
             app.Run();
         }

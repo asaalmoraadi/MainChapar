@@ -1,0 +1,263 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background-color: #f4f7f6; 
+    color: #333;
+    direction: rtl; 
+    text-align: right; 
+    line-height: 1.6;
+    display: flex; 
+    
+}
+h1{
+    text-align: center;
+}
+
+
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    direction: ltr;
+}
+
+
+.sidebar {
+    width: 250px; 
+    background-color: #BFF0DB; 
+    color: white;
+    padding: 20px;
+    border-radius: 0 25px 0 25px;
+    display: flex;
+    flex-direction: column; 
+    font-family: 'Pinar-medium';
+    height: 100vh; 
+    overflow: hidden; /* sabet bodan sidebar*/
+    position: sticky; /*chasbidan*/
+    top: 0; /*fasele az bala */
+    align-items: center;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+}
+
+.sidebar-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    font-weight: 600;
+    color: #000000;
+}
+.sidebar-nav ul {
+    list-style: none; /* hazfe dayere list item */
+    direction: rtl;
+}
+
+.sidebar-nav ul li {
+    margin-bottom: 10px;
+    
+}
+
+.sidebar-nav ul li a {
+    
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    padding: 12px 15px;
+    display: flex;
+    
+    border-radius: 15px;
+    
+    
+    
+    transition: background-color 0.3s ease; 
+    
+}
+
+
+.sidebar-nav ul li a:hover,
+.sidebar-nav ul li a:active {
+     
+    color: #ffffff;
+    background-color: #f16c6c; 
+    background-color: #F3C5C5;
+    border-radius: 15px;
+
+}
+
+
+.main-content {
+    flex-grow: 1; /* nesbat fazayi ke mikhad ( age a=2 bashe va b = 1 => a 2barabar faza migire)*/
+    padding: 30px;
+    background-color: #f4f7f6; 
+    font-family: 'Pinar-medium';
+
+}
+
+.main-header {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.main-header h1 {
+    font-size: 2.2rem;
+    color: #333;
+    font-weight: 700;
+}
+.main-content img{
+    height: 13rem;
+    width: 21rem;
+}
+
+
+.stats-cards {
+    display: flex; 
+    gap: 20px; /*faza beyn cards */
+    margin-bottom: 40px;
+    flex-wrap: wrap; /* age faza kam omad bere khat bad */
+    justify-content: flex-end; 
+}
+
+.stat-card {
+    
+    color: rgb(0, 0, 0);
+    padding: 20px 25px;
+    border-radius: 10px;
+    flex: 1; 
+    min-width: 220px; 
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-end;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.stat-card .stat-label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+
+
+
+.management-section {
+    margin-bottom: 5rem;
+    margin-top: 5rem;
+    
+}
+
+.management-section h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    color: #444;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee; 
+}
+
+/* Grid Container for Dashboard Cards */
+.grid-container {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+
+.dashboard-card {
+    background-color: #F3C5C5; 
+    color: white;
+    text-decoration: none; 
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column; 
+    align-items: flex-end;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 30rem;
+    align-items: center;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+}
+
+
+
+.dashboard-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    
+}
+
+.dashboard-card p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    text-align: right;
+    color: #000000;
+}
+

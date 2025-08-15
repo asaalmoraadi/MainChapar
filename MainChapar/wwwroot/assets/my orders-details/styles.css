@@ -1,0 +1,311 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+body {
+    background-color: #FFFBF7;
+    margin: 0;
+    padding: 0;
+    
+    
+}
+
+header {
+    width: 100%;
+    height: 5rem;
+    /* display flex baray shive gharar giri */
+    display: flex;
+    align-items: center;
+    justify-content: right  ; 
+    flex-direction: row-reverse;
+}
+
+#logo {
+    margin-right: 10px;
+    margin-top: 1rem;
+    font-family: 'Rokhbold';
+    font-size: 18px;
+    width: 10%;
+}
+#searchbar{
+    width: 80%;
+    margin-right: 5rem;
+}
+
+#search-input{
+    height: 50px;
+    width: 100%;
+    padding-left: 40px; 
+    background: url('files/search-icon.png') no-repeat 10px center;
+    background-color: #ffffff;
+    background-size:30px 30px; 
+    font-size: 18px;
+    border-radius: 13px;
+    direction: rtl;
+    text-align: right;
+    padding-right: 15px;
+    border: 0;
+
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
+}
+
+/*nav => menu + user icon + shop */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: row-reverse;
+    height: 4rem;
+}
+.menu{
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Pinar-medium';
+    font-size: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 3rem;
+}
+nav a:hover {
+    color: #f25d5d;
+}
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
+}
+ h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 1.8rem;
+      font-family: 'Pinar-semibold';
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-family: 'Pinar-semibold';
+    }
+
+    .table-container {
+      border-radius: 10px;
+      overflow: hidden;
+      max-width: 1000px;
+      margin: auto;
+      margin-bottom: 2rem; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Pinar-medium';
+      direction: rtl;
+    }
+
+    thead {
+      background-color: #fad6d6;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: center;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #fadfdf85;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    th {
+      font-weight: bold;
+      
+    }
+    td img{
+      height: 5rem;
+      width: 5rem;
+    }
+#total-price-box {
+    
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 1000px;
+    margin: auto;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center;
+    font-family: 'Pinar-medium';
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+    .total-price{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 18px;
+      flex-direction: row-reverse
+
+    }
+
+
+    .total-price-last{
+      display: flex;
+      align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    
+    gap: 1rem;
+    font-size: 18px;
+    flex-direction: row-reverse
+    }
+
+    #last{
+      display: flex;
+      flex-direction: column;
+    }
+
+    #price-div{
+      display: flex;
+      direction: rtl;
+      gap: 1rem;
+    }
+
+    #qr-btn{
+      background-color: #ffdddd;
+      color: #a00;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      align-self: center;
+      margin-right: 1rem;
+      transition: background-color 0.3s ease;
+      font-family: 'Pinar-semibold';
+      margin: 1rem 0 1rem 0;
+    }
+    #qr-btn:hover {
+         background-color: #ffaaaa;
+    }
+
+    #qr-btn:active {
+         background-color: #ff7171;
+    }
+
+
+
+
+

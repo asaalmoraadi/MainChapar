@@ -1,0 +1,85 @@
+﻿@model IEnumerable<MainChapar.Models.Contact>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles -Contact.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>درخواست کاربران</h1> 
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+
+                            <th>نام</th>
+                            <th>ایمیل</th>
+                            <th>پیغام</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </td>
+                                <td class="actionsOfContact">
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><button class="delete-btn">حذف</button></a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+
+

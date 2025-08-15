@@ -1,0 +1,286 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+
+body {
+    background-color: #FFFBF7;
+    margin: 0;
+    padding: 0;
+    
+    
+}
+
+header {
+    width: 100%;
+    height: 5rem;
+    /* display flex baray shive gharar giri */
+    display: flex;
+    align-items: center;
+    justify-content: right  ; 
+    flex-direction: row-reverse;
+}
+
+#logo {
+    margin-right: 10px;
+    margin-top: 1rem;
+    font-family: 'Rokhbold';
+    font-size: 18px;
+    width: 10%;
+}
+#searchbar{
+    width: 80%;
+    margin-right: 5rem;
+}
+
+#search-input{
+    height: 50px;
+    width: 100%;
+    padding-left: 40px; 
+    background: url('files/search-icon.png') no-repeat 10px center;
+    background-color: #ffffff;
+    background-size:30px 30px; 
+    font-size: 18px;
+    border-radius: 13px;
+    direction: rtl;
+    text-align: right;
+    padding-right: 15px;
+    border: 0;
+
+}
+#search-input:focus{
+     border: 1px solid rgb(197, 197, 197);
+     outline: none;
+}
+
+/*nav => menu + user icon + shop */
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    
+    flex-direction: row-reverse;
+    height: 4rem;
+}
+.menu{
+    width: 60%;
+    display: flex;
+    flex-direction: row-reverse;
+    font-family: 'Pinar-medium';
+    font-size: 24px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-size: 1.2rem;
+    position: relative;
+    padding-left: 3rem;
+}
+nav a:hover {
+    color: #f25d5d;
+}
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
+}
+
+
+
+
+/* hero/banner */
+    .about-hero {
+      background-color: #fffbf7;
+      border-radius: 12px;
+      padding: 4rem 2rem;
+      text-align: center;
+      margin: 2rem auto;
+      max-width: 1200px;
+      direction: rtl;
+    }
+    .about-hero h1 {
+      font-family: "Rokh-ultra";
+      font-size: 40px;
+      color: #222;
+      margin-bottom: 1rem;
+    }
+    .about-hero p {
+      font-family: "Pinar-medium";
+      font-size: 18px;
+      color: #555;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* mission/vision section */
+    .mission {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+      direction: rtl;
+    }
+    .mission-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .mission-card h3 {
+      font-family: "RokhBold";
+      font-size: 22px;
+      margin-bottom: 1rem;
+      color: #9FB3DF;
+    }
+    .mission-card p {
+      font-family: "Pinar-medium";
+      font-size: 16px;
+      color: #555;
+    }
+
+    
+
+    /* contact CTA */
+    .cta {
+      max-width: 920px;
+      margin: 4rem auto;
+      background:  #9FB3DF;
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      direction: rtl;
+    }
+    .cta h3 {
+      font-family: "Rokh-ultra";
+      font-size: 28px;
+      margin-bottom: 1rem;
+      
+    }
+    .cta p {
+      font-size: 16px;
+      margin-bottom: 1.5rem;
+      font-family: 'Pinar-medium';
+    }
+    .cta a {
+      display: inline-block;
+      background: #ffffff;
+      color: #9FB3DF;
+      text-decoration: none;
+      padding: 0.8rem 2.2rem;
+      border-radius: 8px;
+      font-family: "Pinar-semibold";
+      transition: background 0.3s;
+    }
+    .cta a:hover {
+      background: #005fa3;
+      color: #ffffff;
+    }
+
+    
+
+
+
+ 
+
+
+

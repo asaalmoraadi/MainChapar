@@ -18,11 +18,11 @@ namespace MainChapar.ViewModel.Print
         [AtLeastOneFileRequired(ErrorMessage = "حداقل یک فایل باید انتخاب شود")]
         public List<IFormFile> Files { get; set; }
 
-        [Required(ErrorMessage = "نوع چاپ الزامی است")]
+        [Required(ErrorMessage = "انتخاب وجه چاپ الزامی است")]
         public string PrintSide { get; set; }
 
 
-        [Display(Name = "توضیحات برای اپراتور")]
+        [Display(Name = "توضیحات ")]
         public string Description { get; set; }
 
         [Display(Name = "نوع صحافی")]

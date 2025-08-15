@@ -1,0 +1,62 @@
+﻿@* @model IEnumerable<Product> *@
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/categoryProd/styles.css">
+    <title>Home</title>
+    
+</head>
+ <div class="box-title">
+    <img src="~/assets/img/files/colorpaint.png" alt="">
+    <div id="title">
+    <h1> @ViewBag.CategoryName</h1>
+    <p>از مداد گرفته تا پاک کن و تراش و هرچیزی که بخوای</p>
+        @* <div class="page_amount">
+            <p>محصول پیدا شد <span>@Model.Count()</span> </p>
+        </div> *@
+    </div>
+
+ </div>
+
+
+<div class="tabs">
+    <div class="tab" onclick="filterProducts('mostDiscount')">بیشترین تخفیف</div>
+    <div class="tab" onclick="filterProducts('mostStock')">محبوب ترین</div>
+    <div class="tab" onclick="filterProducts('expensive')">گران‌ترین</div>
+    <div class="tab" onclick="filterProducts('cheap')">ارزان‌ترین</div>
+    <div class="tab" onclick="filterProducts('newest')">جدیدترین</div> 
+</div>>
+<hr>
+
+
+<div id="product-container">
+    @{
+        await Html.RenderPartialAsync("_ProductListPartial", new List<Product>()); // برای پر شدن بعد از Ajax
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function filterProducts(sortType) {
+            const categorySlug = '@ViewBag.CategorySlug';
+
+            fetch(`/Product/FilterProducts?categorySlug=${categorySlug}&sort=${sortType}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("product-container").innerHTML = html;
+                })
+                .catch(error => {
+                    console.error("خطا در فیلتر:", error);
+                });
+        }
+
+        // فراخوانی اولیه
+        window.addEventListener("DOMContentLoaded", () => {
+            filterProducts('newest');
+        });
+    </script>
+}
+

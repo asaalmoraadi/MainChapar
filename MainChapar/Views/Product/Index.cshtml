@@ -1,59 +1,238 @@
 ﻿@model IEnumerable<MainChapar.Models.Product>
-
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 @{
     ViewData["Title"] = "محصولات";
 }
-<div class="container mt-4">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="page_amount">
-            <p><span>@Model.Count()</span> Products Found</p>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/shop_page/styles.css">
+    <title>Home</title>
+
+</head>
+<body>
+
+    <!-- header + nav = org header-->
+    <!--banner 1-->
+    <div class="banner">
+        <img src="~/assets/shop_page/files/lavazem-tahrir-banner.jpg" alt="">
+    </div>
+
+    <!-- categories -->
+    <div class="container">
+        <!-- Stationery Archive -->
+        <div class="box1">
+            <a href="@Url.Action("Category", "Product", new { categorySlug = "archiving-supplies" })">
+                <img src="~/assets/shop_page/files/home---box1.png" alt="Archiving Supplies">
+            </a>
         </div>
-        @foreach (var item in Model)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm border-0">
+        <!-- Writing Tools -->
+        <div class="box2">
+            <a href="@Url.Action("Category", "Product", new { categorySlug = "writing-tools" })">
+                <img id="img1" src="~/assets/shop_page/files/ban1.png" alt="Writing Tools">
+            </a>
+        </div>
+        <div class="row2">
+            <!-- Paper and Notebook -->
+            <a href="@Url.Action("Category", "Product", new { categorySlug = "paper-and-notebook" })">
+                <div class="box3">
+                    <img src="~/assets/shop_page/files/box3.png" alt="Paper and Notebook">
+                </div>
+            </a>
+            <!-- Auxiliary Supplies -->
+            <a href="@Url.Action("Category", "Product", new { categorySlug = "auxiliary-supplies" })">
+                <div class="box4">
+                    <img src="~/assets/shop_page/files/box4.png" alt="Auxiliary Supplies">
+                </div>
+            </a>
+        </div>
+    </div>
 
-                    <!-- عکس اصلی محصول -->
-                    <img src="~/assets/img/product/@item.ImageName" class="card-img-top" style="height:200px; object-fit: cover;" alt="@item.Title" />
+    <p id="info">
+        چاپار سامانه آنلاین سفارش خدمات انتشاراتی ویژه دانشگاه ها است . از ثبت سفارش جزوه تا چاپ و تحویل همه چیز را سریع ، دقیق و بدون نیاز به مراجعه حضوری انجام دهید . همراه با بهترین قیمت و پشتیبانی و تضمین کیفیت !
+    </p>
 
-                    <div class="card-body">
-
-                        <!-- گالری تصاویر کوچک -->
-                        <div class="d-flex gap-2 mb-2">
-                            @foreach (var gallery in item.ProductGalleries.Take(3)) // فقط ۳ تا نمایش میدیم
-                            {
-                                <img src="~/assets/img/gallery/@gallery.ImageName"
-                                     width="50" height="50"
-                                     style="object-fit: cover; border-radius: 5px;"
-                                     alt="گالری @item.Title" />
-                            }
+    <section class="special-offer-container">
+        <div class="top-bar">
+            <span class="special-offer">جدید ترین ها</span>
+        </div>
+        <div class="slider-wrapper">
+            <div class="product-list" id="product-list">
+                @foreach (var product in Model)
+                {
+                    <div class="product-card">
+                        <div class="product-image-wrapper">
+                            <img src="~/assets/img/product/@product.ImageName" alt="@product.Title" />
                         </div>
-
-                        <!-- مشخصات محصول -->
-                        <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text text-muted" style="font-size: 0.9rem;">
-                            قیمت: <strong>@item.Price.ToString("N0") تومان</strong>
-                            <br />
-                            تخفیف: @item.Discount ٪<br />
-                            موجودی: @item.Qty عدد<br />
-                            برچسب‌ها: @item.Tags
-                            @(item.IsAvailable == true ? "موجود" : "ناموجود")
-                        </p>
-
+                        <div class="product-details">
+                            <h3 class="product-title">@product.Title</h3>
+                            <div class="product-price-info">
+                                @* <span class="original-price-strikethrough">@product.OldPrice.ToString("N0") تومان</span> *@
+                                <span class="current-price">@product.Price.ToString("N0") تومان</span>
+                            </div>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"><button class="buy-btn">جزئیات بیشتر</button></a> 
+                        </div>
                     </div>
+                }
+            </div>
 
-                    <!-- دکمه‌ها -->
-                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">جزئیات</a>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">ویرایش</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">حذف</a>
+        </div>    
+    </section>
+
+
+    <!-- finish-->
+    <!-- vizhegi ha -->
+    <div class="features">
+        <div id="feature"><img src="~/assets/shop_page/files/online.png"><h2>سفارش آنلاین</h2></div>
+        <div id="feature"><img src="~/assets/shop_page/files/inclusion.png"> <h2>تضمین  کیفیت</h2></div>
+        <div id="feature"><img src="~/assets/shop_page/files/credit-card.png"><h2>پرداخت امن </h2></div>
+        <div id="feature"><img src="~/assets/shop_page/files/support.png"><h2>پشتیبانی</h2></div>
+
+    </div>
+
+
+
+
+
+
+
+    <section class="new-product-container">
+        <div class="top-bar">
+            <span class="new-product">محصولات جدید</span>
+        </div>
+
+        <div class="slider-wrapper">
+
+            <div class="product-list" id="product-list">
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="نازک دل و دو داستان دیگر اثر داستایفسکی">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۲۵۰۰۰ تومان</span>
+                            <span class="current-price">۲۰۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="جزوه علوم پایه">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۱۵۰۰۰ تومان</span>
+                            <span class="current-price">۱۲۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="معادلات">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۱۸۰۰۰ تومان</span>
+                            <span class="current-price">۱۴۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
                     </div>
 
                 </div>
-            </div>
-        }
-    </div>
-</div>
 
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="جزوه دلات">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۱۸۰۰۰ تومان</span>
+                            <span class="current-price">۱۵۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="جزوه">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۱۸۰۰۰ تومان</span>
+                            <span class="current-price">۱۰۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="جزوه معادلات">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۱۸۰۰۰ تومان</span>
+                            <span class="current-price">۱۶۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="جزوه معادلات">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۱۸۰۰۰ تومان</span>
+                            <span class="current-price">۱۷۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="~/assets/shop_page/files/1.png" alt="چاپ پایان‌نامه">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-title">نازک دل</h3>
+                        <div class="product-price-info">
+                            <span class="original-price-strikethrough">۵۰۰۰۰ تومان</span>
+                            <span class="current-price">۴۵۰۰۰ تومان</span>
+                        </div>
+                        <button class="buy-btn">جزئیات بیشتر</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+    <!-- --------------------------------------------------- -->
+
+</body>
+</html>
 
 

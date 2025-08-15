@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="styles.css">
+  <title>سبد خرید</title>
+  
+</head>
+<body>
+
+  <header>
+        <div id="logo"><h1>CHAPAR</h1></div>
+        <div id="searchbar">
+            <input id="search-input" type="text" placeholder="جستجو">
+        </div>
+    </header>
+    <nav>
+        <div class="menu">
+        <a href="#">صفحه اصلی</a>
+        <a href="#">فروشگاه</a>
+        
+        <a href="#">درباره ما</a>
+        <a href="#">تماس با ما</a>
+        </div>
+        <div class="user">
+  <div class="user-icon-wrapper">
+    <img id="user-img" src="files/user-icon.png" alt="">
+    <div class="user-menu" id="user-menu">
+      <a href="#">سفارش‌ها</a>
+      <a href="#">اطلاعات کاربری</a>
+      <a href="#">خروج</a>
+    </div>
+  </div>
+  <a href="#"><img id="shop-cart" src="files/shopping-cart.png" alt=""></a>
+</div>
+
+      </nav>
+
+
+  <h1>سبد خرید من</h1>
+
+  <div class="cart-container">
+
+    <div class="item">
+      <div class="item-details">
+        <p class="product-name"><strong>خودکار آبی</strong></p>
+        <p>موجودی: <span class="product-stock" id="stock-pen">15</span> عدد</p>
+      </div>
+      <div id="counter">
+        <p class="price" id="price-pen">۴۵,۰۰۰ تومان</p>
+        <div class="quantity-controls">
+          <button class="qty-btn" id="plus">+</button>
+          <input class="qty-input" type="text" id="qty-pen" value="1" readonly>
+          <button class="qty-btn" id="mines">−</button>
+        </div>
+      </div>
+      <button class="remove-btn">حذف</button>
+    </div>
+
+    <div class="item">
+      <div class="item-details">
+        <p class="service-title"><strong>چاپ سیاه و سفید</strong></p>
+        <p>تعداد صفحات: <span id="pages-count">12</span><br><br>نوع کاغذ : <span id="paper-type">گلاسه سبک</span></p>
+      </div>
+      <div id="counter">
+        <p class="price" id="price-print">۱۵۰,۰۰۰ تومان</p>
+        <p style="text-align: center"><span id="qty-print">1</span></p>
+      </div>
+      <button class="remove-btn">حذف</button>
+    </div>
+
+    <div class="item">
+      <div class="item-details">
+        <p class="product-name"><strong>خودکار آبی</strong></p>
+        <p>موجودی: <span class="product-stock" id="stock-pen">15</span> عدد</p>
+      </div>
+      <div id="counter">
+        <p class="price" id="price-pen">۴۵,۰۰۰ تومان</p>
+        <div class="quantity-controls">
+          <button class="qty-btn" id="plus">+</button>
+          <input class="qty-input" type="text" id="qty-pen" value="1" readonly>
+          <button class="qty-btn" id="mines">−</button>
+        </div>
+      </div>
+      <button class="remove-btn">حذف</button>
+    </div>
+
+    <div class="item">
+      <div class="item-details">
+        <p class="product-name"><strong>خودکار آبی</strong></p>
+        <p>موجودی: <span class="product-stock" id="stock-pen">15</span> عدد</p>
+      </div>
+      <div id="counter">
+        <p class="price" id="price-pen">۴۵,۰۰۰ تومان</p>
+        <div class="quantity-controls">
+          <button class="qty-btn" id="plus">+</button>
+          <input class="qty-input" type="text" id="qty-pen" value="1" readonly>
+          <button class="qty-btn" id="mines">−</button>
+        </div>
+      </div>
+      <button class="remove-btn">حذف</button>
+    </div>
+
+    <p class="total">جمع کل: <span id="total-price">۱۹۵,۰۰۰</span> تومان</p>
+
+    <div class="buttons">
+      <button class="btn btn-confirm">تایید نهایی و ثبت سفارش</button>
+      <button class="btn btn-continue">ادامه خرید</button>
+    </div>
+    
+
+    
+
+  </div>
+
+
+   <!-- --------------------------------------------------- -->
+
+
+      <footer>
+        <div class="sections" id="sec1">
+
+          <h1>CHAPAR</h1>
+          <p>خدمات چاپ و فروش لوازم التحریر و جزوات</p>
+
+        </div>
+
+
+        <div class="sections" id="sec2">
+
+          <h3>لینک های مفید</h3>
+          <a href="">خدمات چاپ</a>
+          <a href="">جزوات</a>
+          <a href="">درباره ما</a>
+          <a href="">تماس با ما</a>
+
+        </div>
+
+
+        <div class="sections" id="sec3">
+          <h3>راه های ارتباطی</h3>
+          <p>شماره تماس :</p>
+          <p>021-25858000</p>
+          <p>ادرس :</p>
+          <p>تهران - صادقیه</p>
+          <div class="social">
+          <img src="files/instagram.png" alt="">
+          <img src="files/telegram.png" alt="">
+          <img src="files/whatsapp.png" alt="">
+        </div>
+        </div>
+
+
+
+        <div class="sections" id="sec4">
+          <h3>نماد های سایت</h3>
+          <img src="files/namad.png">
+        </div>
+
+
+      </footer>
+
+       <!-- java script -->
+ <script>
+  const userImg = document.getElementById('user-img');
+  const userMenu = document.getElementById('user-menu');
+
+  userImg.addEventListener('click', () => {
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!userImg.contains(event.target) && !userMenu.contains(event.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>

@@ -27,6 +27,8 @@ namespace MainChapar.Models
 
         public bool IsAvailable { get; set; }
 
+        public DateTime CreatedAt {  get; set; }= DateTime.Now;
+
         public virtual ICollection<ProductGallery> ProductGalleries { get; set; } = new List<ProductGallery>();
 
 

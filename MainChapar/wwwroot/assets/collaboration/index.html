@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>همکاری با چاپار</title>
+    
+</head>
+<body>
+
+    <header>
+        <div id="logo"><h1>CHAPAR</h1></div>
+        <div id="searchbar">
+            <input id="search-input" type="text" placeholder="جستجو">
+        </div>
+    </header>
+    <nav>
+        <div class="menu">
+        <a href="#">صفحه اصلی</a>
+        <a href="#">فروشگاه</a>
+        
+        <a href="#">درباره ما</a>
+        <a href="#">تماس با ما</a>
+        </div>
+        <div class="user">
+  <div class="user-icon-wrapper">
+    <img id="user-img" src="files/user-icon.png" alt="">
+    <div class="user-menu" id="user-menu">
+      <a href="#">سفارش‌ها</a>
+      <a href="#">اطلاعات کاربری</a>
+      <a href="#">خروج</a>
+    </div>
+  </div>
+  <a href="#"><img id="shop-cart" src="files/shopping-cart.png" alt=""></a>
+</div>
+
+      </nav>
+<section class="cooperation-form">
+  <h2>فرم همکاری با چاپار</h2>
+  <img class="vector" src="files/5120253.png" alt="تصویر فرم همکاری">
+  
+  <div class="description">
+    <p>ما تو چاپار به دانشجوها کمک می‌کنیم تا کاراشونو سریع‌تر، راحت‌تر و با برنامه مشخص انجام بدن</p>
+    <p>اگه گرافیستی، تایپیستی یا مهارت کار با پاورپوینت داری</p>
+    <p class="highlight">ما تو چاپار بهت نیاز داریم</p>
+  </div>
+
+  <p class="form-title">اطلاعاتتو اینجا وارد کن تا بتونیم باهم در ارتباط باشیم</p>
+</section>
+
+  <form action="#" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="fname">نام:</label>
+      <input type="text" id="fname" name="fname" placeholder="علی" required>
+    </div>
+
+    <div class="form-group">
+      <label for="lname">نام خانوادگی:</label>
+      <input type="text" id="lname" name="lname" placeholder="محمدی" required>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">شماره تلفن:</label>
+      <input type="tel" id="phone" name="phone" required placeholder="09123456789">
+    </div>
+
+    <div class="form-group">
+      <label for="major">رشته تحصیلی:</label>
+      <input type="text" id="major" name="major" placeholder="کامپیوتر">
+    </div>
+
+    <div class="form-group">
+      <label for="entry">ورودی :</label>
+      <input type="number" id="entry" name="entry" min="1300" max="1500" value="1400">
+    </div>
+
+    <div class="form-group">
+      <label for="level">مقطع:</label>
+      <select id="lev el" name="level">
+        <option placeholder="کاردانی">کاردانی</option>
+        <option placeholder="کارشناسی">کارشناسی</option>
+        <option placeholder="پیوسته">پیوسته</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="interest">فیلد مورد علاقه شما برای همکاری:</label>
+      <select id="interest" name="interest">
+        <option value="تایپیست">تایپیست</option>
+        <option value="طراح">طراح</option>
+        <option value="پاورپوینت">پاورپوینت</option>
+        
+      </select>
+    </div>
+
+    
+
+    <div class="form-group">
+      <label for="resume">رزومه (PDF یا Word):</label>
+      <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+    </div>
+
+    
+
+    <div class="form-group" id="skills">
+      <label   for="skills" >مهارت‌های شما:</label>
+      <textarea id="skills" name="skills" placeholder=" تایپ سریع، طراحی با فتوشاپ، ساخت پاورپوینت حرفه‌ای..."></textarea>
+    </div>
+
+    <div class="form-group" style="text-align: center;" id="skills">
+      <button type="submit">ارسال فرم</button>
+    </div>
+  </form>
+
+      
+      <footer>
+        <div class="sections" id="sec1">
+
+          <h1>CHAPAR</h1>
+          <p>خدمات چاپ و فروش لوازم التحریر و جزوات</p>
+
+        </div>
+
+
+        <div class="sections" id="sec2">
+
+          <h3>لینک های مفید</h3>
+          <a href="">خدمات چاپ</a>
+          <a href="">جزوات</a>
+          <a href="">درباره ما</a>
+          <a href="">تماس با ما</a>
+
+        </div>
+
+
+        <div class="sections" id="sec3">
+          <h3>راه های ارتباطی</h3>
+          <p>شماره تماس :</p>
+          <p>021-25858000</p>
+          <p>ادرس :</p>
+          <p>تهران - صادقیه</p>
+          <div class="social">
+          <img src="files/instagram.png" alt="">
+          <img src="files/telegram.png" alt="">
+          <img src="files/whatsapp.png" alt="">
+        </div>
+        </div>
+
+
+
+        <div class="sections" id="sec4">
+          <h3>نماد های سایت</h3>
+          <img src="files/namad.png">
+        </div>
+
+
+      </footer>
+
+
+      <!-- java script -->
+ <script>
+  const userImg = document.getElementById('user-img');
+  const userMenu = document.getElementById('user-menu');
+
+  userImg.addEventListener('click', () => {
+    userMenu.style.display = userMenu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!userImg.contains(event.target) && !userMenu.contains(event.target)) {
+      userMenu.style.display = 'none';
+    }
+  });
+</script>
+
+
+      
+</body>
+</html>

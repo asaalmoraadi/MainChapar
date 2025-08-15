@@ -16,7 +16,10 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
                 </ul>
             </nav>
         </aside>
@@ -29,19 +32,19 @@
 
             <section class="stats-cards">
                 <div class="stat-card" id="card-0">
-                    <span class="stat-value">۲۳۳</span>
+                    <span class="stat-value">@ViewBag.TotalServices</span>
                     <span class="stat-label">درخواست های ثبت شده</span>
                 </div>
                 <div class="stat-card" id="card-1">
-                    <span class="stat-value">۴</span>
-                    <span class="stat-label">سفارشات در حال انجام</span>
+                    <span class="stat-value">@ViewBag.CompletedServices</span>
+                    <span class="stat-label">درخواست های انجام شده</span>
                 </div>
                 <div class="stat-card" id="card-2">
-                    <span class="stat-value">۱۹</span>
-                    <span class="stat-label">سفارشات اتمام یافته</span>
+                    <span class="stat-value">@ViewBag.TotalOrders</span>
+                    <span class="stat-label">سفارشات ثبت شده</span>
                 </div>
                 <div class="stat-card total-revenue" id="card-3">
-                    <div id="total-revenue-box"> <span class="stat-value">۱,۵۰۰,۰۰۰ <span class="currency">تومان</span></span></div>
+                    <div id="total-revenue-box"> <span class="stat-value">@ViewBag.TotalRevenue<span class="currency">تومان</span></span></div>
                     <span class="stat-label">مجموع درآمد روز</span>
                 </div>
             </section>
@@ -49,12 +52,11 @@
             <section class="management-section">
                 <h2>مدیریت فعالیت ها</h2>
                 <div class="grid-container activity-management">
-                    <a href="" class="dashboard-card">
-
+                    <a href="Order/index" class="dashboard-card">
                         <h3>مدیریت سفارشات</h3>
                         <p>لیستی از سفارش های ثبت شده</p>
                     </a>
-                    <a href="#" class="dashboard-card">
+                    <a href="PrintRequests/index" class="dashboard-card">
 
                         <h3>درخواست های ثبت شده</h3>
                         <p>لیست کامل درخواست ها</p>
@@ -64,7 +66,7 @@
                         <h3>گزارش ها و آمار</h3>
                         <p>آماری از سفارشات انجام شده</p>
                     </a>
-                    <a href="#" class="dashboard-card">
+                    <a asp-area="" asp-controller="User" asp-action="index" class="dashboard-card">
 
                         <h3>لیست کاربران</h3>
                         <p>اطلاعات کاربران وبسایت</p>
@@ -83,9 +85,9 @@
                         <h3>مدیریت محصولات</h3>
                         <p>مدیریت حذف، اضافه، ویرایش محصول</p>
                     </a>
-                    <a href="#" class="dashboard-card">
-                        <h3>تنظیمات کلی سایت</h3>
-                        <p>تغییرات عناوین، دسته بندی، لوگو</p>
+                    <a href="Contact/Customer" class="dashboard-card">
+                        <h3>باشگاه مشتریان</h3>
+                        <p>پیام ها و درخواست های مشتریان</p>
                     </a>
                     <a href="Pricing/index" class="dashboard-card">
                         <h3>قیمت گذاری</h3>

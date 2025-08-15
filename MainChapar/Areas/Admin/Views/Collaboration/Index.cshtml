@@ -1,0 +1,99 @@
+﻿@model IEnumerable<MainChapar.Models.Collaboration>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد اصلی</title>
+    <link rel="stylesheet" href="/assets/category/styles -Contact.css">
+</head>
+<body>
+
+    <div class="category-container">
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
+                    <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
+                    <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+
+
+        <main class="main-content">
+            <div class="top-table">
+                <h1>درخواست کاربران</h1> 
+            </div>
+
+            <div id="taskList">
+                <table>
+                    <thead>
+                        <tr>
+
+                            <th>نام و نام خانوادگی</th>
+                            <th>شماره تماس</th>
+                            <th>رشته</th>
+                            <th>ورودی</th>
+                            <th>مقطع</th>
+                            <th>مهارت‌ها</th>
+                            <th> دسته بندی شغلی</th>
+                            <th>فایل رزومه</th>
+                            <th>تاریخ ثبت</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FirstName @item.LastName</td>
+                                <td>@item.Phone</td>
+                                <td>@item.Major</td>
+                                <td>@item.EntryYear</td>
+                                <td>@item.Level</td>
+                                <td>@item.Skills</td>
+                                <td>@item.Interest</td>
+                                <td>
+                                    @if (item.UploadedFiles?.Any() == true)
+                                    {
+                                        foreach (var file in item.UploadedFiles)
+                                        {
+                                            <a href="@file.FilePath" target="_blank">دانلود</a>
+
+                                            <br />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>ندارد</span>
+                                    }
+                                </td>
+                                <td>@item.SubmittedAt.ToShortDateString()</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
+
+        </main>
+
+    </div>
+
+</body>
+</html>
+
