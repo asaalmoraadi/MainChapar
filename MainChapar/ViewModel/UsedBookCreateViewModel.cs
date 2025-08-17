@@ -28,8 +28,11 @@ namespace MainChapar.ViewModel
         [Display(Name = "شماره تماس")]
         public string ContactNumber { get; set; }
 
-        [Required(ErrorMessage = "حداقل یک تصویر انتخاب کنید")]
-        [Display(Name = "تصاویر کتاب")]
+        
+
+        [Required(ErrorMessage = "عکس اصلی را انتخاب کنید")]
+        [Display(Name = "عکس اصلی کتاب")]
+        public IFormFile MainImage { get; set; }   //  عکس اصلی
         public List<IFormFile> Images { get; set; }
     }
 }

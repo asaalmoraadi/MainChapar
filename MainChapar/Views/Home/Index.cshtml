@@ -44,26 +44,8 @@
     <p id="info">
         چاپار سامانه آنلاین سفارش خدمات انتشاراتی ویژه دانشگاه ها است . از ثبت سفارش جزوه تا چاپ و تحویل همه چیز را سریع ، دقیق و بدون نیاز به مراجعه حضوری انجام دهید . همراه با بهترین قیمت و پشتیبانی و تضمین کیفیت !
     </p>
-    <!--samane ha-->
-   @*  <div class="systems">
-        <p id="systems-title">انجام امور دانشجویی به صورت کاملا آنلاین</p>
-        <p id="systems-des">تنها با آپلود اسکن مدارک خواسته شده با توجه به سامانه مورد نظر ثبت نام شما انجام خواهد شد</p>
-    </div> *@
-<div class="systems">
-    <p id="systems-title">خدمات دانشجویی</p>
-    <p id="systems-des">تنها با آپلود فایل مورد نظر ، سفارشتون به صورت آنلاین ثبت میشه</p>
-    <div class="service">
+    
 
-        <div class="serv-boxs">
-           
-            <a href="/Services/PowerPoint">  <p>سفارش پاورپوینت</p> </a>
-        </div>
-        <div class="serv-boxs">
-            
-           <a href="/Services/Typing"> <p>سفارش تایپ</p> </a>
-        </div>
-    </div>
-</div>
     <!-- vizhegi ha -->
     <div class="features">
         <div id="feature"><img src="~/assets/img/files/inclusion.png"> <h2>تضمین انجام سفارش</h2></div>
@@ -111,10 +93,27 @@
 
 </div>
 
+<div class="systems">
+    <p id="systems-title">خدمات دانشجویی</p>
+    <p id="systems-des">تنها با آپلود فایل مورد نظر ، سفارشتون به صورت آنلاین ثبت میشه</p>
+    <div class="service">
+
+        <div class="serv-boxs">
+
+            <a href="/Services/PowerPoint">  <p>سفارش پاورپوینت</p> </a>
+        </div>
+        <div class="serv-boxs">
+
+            <a href="/Services/Typing"> <p>سفارش تایپ</p> </a>
+        </div>
+    </div>
+</div>
 
 <!--banner 3-->
     <div class="banner">
-        <img src="~/assets/img/banner/chapar-03.jpg" alt="">
+        <a asp-controller="usedBook" asp-action="Index">
+            <img src="~/assets/img/banner/chapar-03.jpg" alt="">
+        </a>
     </div>
 
 <h2 id="slider-h2"> کتاب های دسته دوم</h2>
@@ -123,7 +122,7 @@
     <button class="arrow-btn arrow-left" onclick="scrollSlider('left')">&#10095;</button>
     <button class="arrow-btn arrow-right" onclick="scrollSlider('right')">&#10094;</button>
 
-    <div class="slider" style="background-color:white" id="slider">
+    <div class="slider"  id="slider">
         @foreach (var book in Model)
         {
             <div class="card">
@@ -139,64 +138,7 @@
     </div>
 </div>
 
-    @* <div class="slider-container">
-
-        <button class="arrow-btn arrow-left" onclick="scrollSlider('left')">&#10095;</button>
-        <button class="arrow-btn arrow-right" onclick="scrollSlider('right')">&#10094;</button>
-
-
-        <div class="slider" id="slider">
-
-            <!-- sakhtar har card -->
-            <div class="card">
-
-                <img id="card-photo" src="~/assets/img/files/1.png" alt="">
-                <div id="shop">
-                    <p>افزودن به سبد خرید</p>
-                    <img src="~/assets/img/files/button.png" alt="">
-                </div>
-            </div>
-
-            <div class="card">
-
-            <img id="card-photo" src="~/assets/img/files/2.png" alt="">
-                <div id="shop">
-                    <p>افزودن به سبد خرید</p>
-                    <img src="~/assets/img/files/button.png" alt="">
-                </div>
-            </div>
-            <!-- -------------------------------------------------- -->
-
-            <div class="card">
-
-                <img id="card-photo" src="~/assets/img/files/3.png" alt="">
-                <div id="shop">
-                    <p>افزودن به سبد خرید</p>
-                    <img src="~/assets/img/files/button.png" alt="">
-                </div>
-            </div>
-
-            <div class="card">
-
-                <img id="card-photo" src="~/assets/img/files/1.png" alt="">
-                <div id="shop">
-                    <p>افزودن به سبد خرید</p>
-                    <img src="~/assets/img/files/button.png" alt="">
-                </div>
-            </div>
-
-            <div class="card">
-
-            <img id="card-photo" src="~/assets/img/files/1.png" alt="">
-                <div id="shop">
-                    <p>افزودن به سبد خرید</p>
-                    <img src="~/assets/img/files/button.png" alt="">
-                </div>
-            </div>
-
-
-        </div>
-    </div> *@
+    
 
     @* <div class="part">
         <p>به زودی تکمیل خواهد شد !</p>

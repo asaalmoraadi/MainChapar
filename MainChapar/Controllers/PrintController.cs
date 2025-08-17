@@ -108,7 +108,7 @@ namespace MainChapar.Controllers
                 files.Add(new PrintFileViewModel
                 {
                     FileName = file.FileName,
-                    FilePath = "~/uploads/" + fileName,
+                    FilePath = "uploads/" + fileName,
                     PageCount = pageCount,
                     FilePrice = filePrice
                 });
@@ -141,13 +141,6 @@ namespace MainChapar.Controllers
         }
         public IActionResult BlackWhitePrintStep2()
         {
-            //if (TempData["PrintSummary"] == null)
-            //    return RedirectToAction("BlackWhitePrintForm");
-
-            //var json = TempData["PrintSummary"] as string;
-            //var vm = JsonConvert.DeserializeObject<BWPrintSummaryViewModel>(json);
-
-            //TempData["PrintSummary"] = json; // برای مراحل بعدی دوباره ست می‌کنیم
 
             //بخش جدید
             var json = HttpContext.Session.GetString("PrintSummary");
@@ -163,37 +156,27 @@ namespace MainChapar.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCartFromPrint()
         {
-            
-           
-            //بخش جدید
             var json = HttpContext.Session.GetString("PrintSummary");
             if (string.IsNullOrEmpty(json))
                 return RedirectToAction("BlackWhitePrintForm");
-            //
 
             var vm = JsonConvert.DeserializeObject<BWPrintSummaryViewModel>(json);
 
-            // گرفتن آی‌دی کاربر
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 return RedirectToAction("Login", "User");
 
-            //بخش جدید
             if (vm.TotalPrice == 0 || vm.TotalPrice == null)
             {
                 ModelState.AddModelError("", "قیمت نهایی سفارش مشخص نشده است.");
                 return RedirectToAction("BlackWhitePrintForm");
             }
-            //
 
-            // ساخت شی PrintRequest
             var printRequest = new PrintRequest
             {
                 CreatedAt = DateTime.Now,
-                //بخش جدید
-                Status = "Draft", // به جای Processing، وضعیت پیش‌فرض Draft
+                Status = "Draft",
                 IsFinalized = false,
-                //Status = "Processing",
                 ServiceType = "BlackWhite",
                 UserId = userId,
                 TotalPrice = vm.TotalPrice,
@@ -214,19 +197,32 @@ namespace MainChapar.Controllers
             _context.PrintRequests.Add(printRequest);
             await _context.SaveChangesAsync();
 
-            //بخش جدید
+            // اضافه کردن فایل‌ها جداگانه با Add (حلقه)
+            foreach (var f in vm.Files)
+            {
+                var printFile = new PrintFile
+                {
+                    PrintRequestId = printRequest.Id,
+                    FileName = f.FileName,
+                    FilePath = f.FilePath,
+                    PageCount = f.PageCount,
+                };
+                _context.PrintFiles.Add(printFile);
+            }
+
+            await _context.SaveChangesAsync();
+
+            // بررسی دوباره ذخیره شدن سفارش و قیمت‌ها
             var savedRequest = await _context.PrintRequests
-    .Include(p => p.BlackWhitePrintDetail)
-    .FirstOrDefaultAsync(p => p.Id == printRequest.Id);
+                .Include(p => p.BlackWhitePrintDetail)
+                .FirstOrDefaultAsync(p => p.Id == printRequest.Id);
 
             if (savedRequest == null || savedRequest.TotalPrice == 0 || savedRequest.BlackWhitePrintDetail.TotalPrice == 0)
             {
                 TempData["CartDebug"] = "خطا: قیمت در دیتابیس ذخیره نشده است.";
                 return RedirectToAction("BlackWhitePrintForm");
             }
-            //
 
-            // اضافه کردن به سبد خرید (CartPrintItems)
             var cartItem = new CartPrintItems
             {
                 PrintRequestId = printRequest.Id,
@@ -238,6 +234,83 @@ namespace MainChapar.Controllers
 
             return RedirectToAction("Index", "Cart");
         }
+
+        //    public async Task<IActionResult> AddToCartFromPrint()
+        //    {
+
+        //        //بخش جدید
+        //        var json = HttpContext.Session.GetString("PrintSummary");
+        //        if (string.IsNullOrEmpty(json))
+        //            return RedirectToAction("BlackWhitePrintForm");
+        //        //
+
+        //        var vm = JsonConvert.DeserializeObject<BWPrintSummaryViewModel>(json);
+
+        //        // گرفتن آی‌دی کاربر
+        //        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        //        if (string.IsNullOrEmpty(userId))
+        //            return RedirectToAction("Login", "User");
+
+        //        //بخش جدید
+        //        if (vm.TotalPrice == 0 || vm.TotalPrice == null)
+        //        {
+        //            ModelState.AddModelError("", "قیمت نهایی سفارش مشخص نشده است.");
+        //            return RedirectToAction("BlackWhitePrintForm");
+        //        }
+        //        //
+
+        //        // ساخت شی PrintRequest
+        //        var printRequest = new PrintRequest
+        //        {
+        //            CreatedAt = DateTime.Now,
+        //            //بخش جدید
+        //            Status = "Draft", // به جای Processing، وضعیت پیش‌فرض Draft
+        //            IsFinalized = false,
+        //            //Status = "Processing",
+        //            ServiceType = "BlackWhite",
+        //            UserId = userId,
+        //            TotalPrice = vm.TotalPrice,
+        //            BlackWhitePrintDetail = new BlackWhitePrintDetail
+        //            {
+        //                PaperType = vm.PaperType,
+        //                PaperSize = vm.PaperSize,
+        //                PrintSide = vm.PrintSide,
+        //                CopyCount = vm.CopyCount,
+        //                TotalPages = vm.TotalPages,
+        //                TotalPrice = vm.TotalPrice,
+        //                FilesJson = JsonConvert.SerializeObject(vm.Files),
+        //                Description = vm.Description,
+        //                BindingType = vm.BindingType,
+        //            }
+        //        };
+
+        //        _context.PrintRequests.Add(printRequest);
+        //        await _context.SaveChangesAsync();
+
+        //        //بخش جدید
+        //        var savedRequest = await _context.PrintRequests
+        //.Include(p => p.BlackWhitePrintDetail)
+        //.FirstOrDefaultAsync(p => p.Id == printRequest.Id);
+
+        //        if (savedRequest == null || savedRequest.TotalPrice == 0 || savedRequest.BlackWhitePrintDetail.TotalPrice == 0)
+        //        {
+        //            TempData["CartDebug"] = "خطا: قیمت در دیتابیس ذخیره نشده است.";
+        //            return RedirectToAction("BlackWhitePrintForm");
+        //        }
+        //        //
+
+        //        // اضافه کردن به سبد خرید (CartPrintItems)
+        //        var cartItem = new CartPrintItems
+        //        {
+        //            PrintRequestId = printRequest.Id,
+        //            UserId = userId
+        //        };
+
+        //        _context.CartPrintItems.Add(cartItem);
+        //        await _context.SaveChangesAsync();
+
+        //        return RedirectToAction("Index", "Cart");
+        //    }
         // GET: نمایش فرم چاپ رنگی
         [HttpGet]
         public IActionResult ColorPrintForm()
@@ -308,7 +381,7 @@ namespace MainChapar.Controllers
                 files.Add(new PrintFileViewModel
                 {
                     FileName = file.FileName,
-                    FilePath = "~/uploads/" + fileName,
+                    FilePath = "uploads/" + fileName,
                     PageCount = pageCount,
                     FilePrice = filePrice
                 });
@@ -457,7 +530,7 @@ namespace MainChapar.Controllers
                 files.Add(new PrintFileViewModel
                 {
                     FileName = file.FileName,
-                    FilePath = "~/uploads/" + fileName,
+                    FilePath = "uploads/" + fileName,
                     PageCount = 0, 
                     FilePrice = 0  // اگر قیمت رو هم نمی‌خوای محاسبه کنی
                 });
@@ -610,7 +683,7 @@ namespace MainChapar.Controllers
                 files.Add(new PrintFileViewModel
                 {
                     FileName = file.FileName,
-                    FilePath = "~/uploads/" + fileName,
+                    FilePath = "uploads/" + fileName,
                     PageCount = pageCount,
                     FilePrice = filePrice
                 });

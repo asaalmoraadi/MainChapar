@@ -61,6 +61,13 @@ namespace MainChapar.Areas.Admin.Controllers
             //    return RedirectToAction("Index");
             //}
 
+            // اینجا می‌توانیم تعداد فایل‌ها را چک کنیم
+            var files = await _context.PrintFiles
+                .Where(f => f.PrintRequestId == id)
+                .ToListAsync();
+
+            Console.WriteLine($"تعداد فایل‌های مرتبط: {files.Count}");
+
             return View(request);
         }
 
@@ -116,7 +123,7 @@ namespace MainChapar.Areas.Admin.Controllers
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FilePath);
 
             if (!System.IO.File.Exists(filePath))
-                return NotFound("فایل در سرور یافت نشد.");
+                return NotFound($"فایل در سرور یافت نشد: {filePath}");
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -126,8 +133,7 @@ namespace MainChapar.Areas.Admin.Controllers
             memory.Position = 0;
 
             var contentType = GetContentType(filePath);
-            var fileName = file.FileName ?? Path.GetFileName(filePath);
-            return File(memory, contentType, fileName);
+            return File(memory, contentType, file.FileName); // اینجا فقط اسم دانلودی
         }
 
         private string GetContentType(string path)

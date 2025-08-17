@@ -65,7 +65,8 @@ body {
 .dashboard-container {
     display: flex;
     width: 100%;
-    direction: ltr;
+  /*  direction: ltr;*/
+  flex-direction:row-reverse;
 }
 
 

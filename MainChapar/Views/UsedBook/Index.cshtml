@@ -1,151 +1,75 @@
-﻿@model IEnumerable<MainChapar.Models.UsedBook>
-@{
+﻿@{
     Layout = "~/Views/Shared/_newLayout1.cshtml";
 }
-@{
-    ViewData["Title"] = "Index";
-}
 
-<!DOCTYPE html>
-<html lang="fa">
+
 <head>
     <meta charset="UTF-8">
-    <title>لیست محصولات</title>
-    <link rel="stylesheet" href="~/assets/usedBook/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/categoryProd/styles.css">
+    <title>Home</title>
+
 </head>
-<body>
 
-
-
-
-    <h1>کتاب های شما</h1>
-    <div class="btn-box" style="align-items:center">
-    <a class="a-add" asp-action="Create"><button class="add-product">افزودن محصول</button></a>
+    <div class="banner">
+      
+            <img src="~/assets/img/banner/chapar-03.jpg" alt="">
+       
     </div>
 
 
-    <table>
-        <thead>
-            <tr>
-                <th>تصویر</th>
-                <th>عنوان</th>
-                <th>ناشر</th>
-                <th>قیمت</th>
-                <th>شماره همراه</th>
-                <th>وضعیت</th>
-                <th>عملیات</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
+<div class="tabs">
+    <div class="tab" data-sort="expensive">گران‌ترین</div>
+    <div class="tab" data-sort="cheap">ارزان‌ترین</div>
+    <div class="tab" data-sort="newest">جدیدترین</div>
+</div>
+<hr>
+    <div class="product-grid">
+        @{
+            await Html.RenderPartialAsync("_UsedBookListPartial", new List<UsedBook>()); // برای پر شدن بعد از Ajax
+        }
+    </div>
 
-                    <td style="width:100px; text-align:center;">
-                        @if (item.Images != null && item.Images.Any())
-                        {
-                            <img src="@item.Images.First().ImagePath" alt="تصویر کتاب" style="width:150px; height:150px; object-fit:cover;" />
-                        }
-                        else
-                        {
-                            <span>بدون عکس</span>
-                        }
-                    </td>
-                    <td>@item.Title</td>
-                    <td>@item.Author</td>
-                    <td><p>@item.Price</p><p>تومان</p></td>
-                    <td><p>@item.ContactNumber</p></td>
-                    <td>
-                        @if (item.IsApproved)
-                        {
-                            <span class="badge bg-success">تأیید شده</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-warning">در انتظار تأیید</span>
-                        }
-                    </td>
-                    <td class="actions">
-                        <a asp-action="Edit" asp-route-id="@item.Id"><button class="btn edit">ویرایش</button></a>
-                        <a asp-action="Details" asp-route-id="@item.Id"><button class="btn edit">جزئیات</button></a>
-                        <a asp-action="Delete" asp-route-id="@item.Id"><button class="btn delete">حذف</button></a>
-                    </td>
-                </tr>
+
+
+
+@section Scripts {
+    <script>
+        function filterUsedBooks(sortType) {
+            fetch(`/UsedBook/FilterUsedBooks?sort=${sortType}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.querySelector(".product-grid").innerHTML = html;
+                })
+                .catch(error => console.error("خطا در فیلتر:", error));
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const tabs = document.querySelectorAll(".tab");
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function () {
+                    // پاک کردن active از همه
+                    tabs.forEach(t => t.classList.remove("active"));
+
+                    // اضافه کردن active به تب کلیک شده
+                    this.classList.add("active");
+
+                    // گرفتن sortType از data-sort
+                    const sortType = this.getAttribute("data-sort");
+                    filterUsedBooks(sortType);
+                });
+            });
+
+            // پیش‌فرض: تب "جدیدترین" فعال و لود شود
+            const defaultTab = document.querySelector(".tab[data-sort='newest']");
+            if (defaultTab) {
+                defaultTab.classList.add("active");
+                filterUsedBooks("newest"); // یا defaultTab.getAttribute("data-sort")
             }
-        </tbody>
-    </table>
-    </div>
-    </main>
-
-    </div>
+        });
+    </script>
+}
 
 
-</body>
-</html>
-
-
-
-@* div class="category-container">
-
-
-
-    <main class="main-content">
-        <div class="top-table">
-            <h1>@ViewData["Title"]</h1>
-            <a asp-action="Create"><button class="btn" id="addProductButton">افزودن محصول</button></a>
-        </div>
-
-        <div id="taskList">
-            <table>
-                <thead>
-                    <tr>
-                        <th>تصویر</th>
-                        <th>عنوان</th>
-                        <th>ناشر</th>
-                        <th>قیمت</th>
-                        <th>شماره همراه</th>
-                        <th>وضعیت</th>
-                        <th>عملیات</th>
-
-                    </tr>
-                </thead>
-                <tbody id="taskItems">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-
-                            <td style="width:100px; text-align:center;">
-                                @if (item.Images != null && item.Images.Any())
-                                {
-                                    <img src="~/@item.Images.First().ImagePath" alt="تصویر کتاب" style="width:80px; height:100px; object-fit:cover;" />
-                                }
-                                else
-                                {
-                                    <span>بدون عکس</span>
-                                }
-                            </td>
-                            <td>@item.Title</td>
-                            <td>@item.Author</td>
-                            <td><p>@item.Price</p><p>تومان</p></td>
-                            <td><p>@item.ContactNumber</p></td>
-                            <td>@item.IsApproved </td>
-                            <td class="actions">
-                                <a asp-action="Edit" asp-route-id="@item.Id"><button class="edit-btn">ویرایش</button></a>
-                                <a asp-action="Details" asp-route-id="@item.Id"><button class="info-btn">جزئیات</button></a>
-                                <a asp-action="Delete" asp-route-id="@item.Id"><button class="delete-btn">حذف</button></a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-</div> *@
-
-
-
-
-
-    

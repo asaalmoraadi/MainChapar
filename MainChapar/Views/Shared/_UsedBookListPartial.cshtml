@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MainChapar.Models.UsedBook>
+
+<div class="product-grid">
+    @foreach (var book in Model)
+    {
+        <div class="product-card">
+            <a asp-controller="UsedBook" asp-action="Details" asp-route-id="@book.Id">
+                <img src="@(book.Images.FirstOrDefault()?.ImagePath ?? "/assets/img/files/no-image.png")"
+                     class="card-img-top"
+                     style="height:200px; object-fit:cover;"
+                     alt="@book.Title" />
+            </a>
+
+            <div class="card-body">
+                <div class="product-title">@book.Title</div>
+                <p class="card-text text-muted" style="font-size:0.9rem;">
+                    نویسنده: @book.Author <br />
+                    قیمت: <strong>@book.Price.ToString("N0") تومان</strong> <br />
+                    ثبت شده در: @book.CreatedAt.ToString("yyyy/MM/dd")
+                </p>
+            </div>
+        </div>
+    }
+</div>

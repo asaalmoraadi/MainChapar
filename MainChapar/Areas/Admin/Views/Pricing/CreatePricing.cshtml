@@ -20,13 +20,7 @@
     </div>
 
     <div class="mb-3">
-       @*  <label asp-for="PaperType" class="form-label fw-bold">نوع کاغذ</label>
-        <select asp-for="PaperType" class="form-select form-select-lg">
-            <option value="">انتخاب نوع کاغذ</option>
-            <option value="ساده">ساده</option>
-            <option value="گلاسه">گلاسه سبک</option>
-            <option value="گلاسه سنگین">گلاسه سنگین</option>
-        </select> *@
+     
         <label>جنس کاغذ</label>
         <select asp-for="PaperType" asp-items="@(new List<SelectListItem> {
                              new SelectListItem { Text = " ساده", Value="ساده" },

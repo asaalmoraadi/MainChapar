@@ -39,6 +39,7 @@
         <main class="main-content">
             <div class="top-table">
                 <h1>جزئیات درخواست چاپ</h1>
+                <p>تعداد فایل‌های مرتبط: @Model.Files.Count()</p>
             </div>
 
             <div id="taskList">
@@ -82,7 +83,7 @@
                                         @foreach (var file in Model.Files)
                                         {
                                             <li>
-                                                @file.FileName
+                                               
                                                 <a class="btn btn-sm btn-success" href="@Url.Action("DownloadFile", "PrintRequest", new { area = "Admin", fileId = file.Id })">
                                                     دانلود
                                                 </a>

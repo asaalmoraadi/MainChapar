@@ -24,7 +24,11 @@ namespace MainChapar.Controllers
         }
 
         // GET: UsedBook
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public async Task<IActionResult> MyBook()
         {
             var userId = _userManager.GetUserId(User);
 
@@ -35,6 +39,33 @@ namespace MainChapar.Controllers
                 .ToListAsync();
 
             return View(myBooks);
+        }
+
+        [HttpGet]
+        public IActionResult FilterUsedBooks(string sort)
+        {
+            var booksQuery = _context.usedBooks
+                .Where(b => b.IsApproved) // فقط کتاب‌های تایید شده
+                .Include(b => b.Images)
+                .AsQueryable();
+
+            switch (sort)
+            {
+                case "expensive":
+                    booksQuery = booksQuery.OrderByDescending(b => b.Price);
+                    break;
+                case "cheap":
+                    booksQuery = booksQuery.OrderBy(b => b.Price);
+                    break;
+                case "newest":
+                    booksQuery = booksQuery.OrderByDescending(b => b.CreatedAt);
+                    break;
+                default:
+                    booksQuery = booksQuery.OrderByDescending(b => b.Id);
+                    break;
+            }
+
+            return PartialView("_UsedBookListPartial", booksQuery.ToList());
         }
 
         // GET: UsedBook/Details/5
@@ -75,7 +106,8 @@ namespace MainChapar.Controllers
 
             if (!ModelState.IsValid)
                 return View(model);
-            var userId = _userManager.GetUserId(User); // آی‌دی کاربر لاگین‌شده
+
+            var userId = _userManager.GetUserId(User);
 
             var usedBook = new UsedBook
             {
@@ -85,35 +117,52 @@ namespace MainChapar.Controllers
                 Price = model.Price,
                 ContactNumber = model.ContactNumber,
                 CreatedAt = DateTime.Now,
-                IsApproved = false, // منتظر تایید ادمین
+                IsApproved = false,
                 UserId = userId,
                 Images = new List<UsedBookImage>()
             };
 
-            // ذخیره تصاویر
-            foreach (var file in model.Images)
+            //  ذخیره عکس اصلی
+            if (model.MainImage != null && model.MainImage.Length > 0)
             {
-                if (file.Length > 0)
+                var mainFileName = Guid.NewGuid() + Path.GetExtension(model.MainImage.FileName);
+                var mainFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/books", mainFileName);
+
+                using (var stream = new FileStream(mainFilePath, FileMode.Create))
                 {
-                    var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/books", fileName);
+                    await model.MainImage.CopyToAsync(stream);
+                }
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                usedBook.ImageName = "/uploads/books/" + mainFileName;
+            }
+
+            //  ذخیره سایر عکس‌ها
+            if (model.Images != null)
+            {
+                foreach (var file in model.Images)
+                {
+                    if (file.Length > 0)
                     {
-                        await file.CopyToAsync(stream);
+                        var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/books", fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        usedBook.Images.Add(new UsedBookImage
+                        {
+                            ImagePath = "/uploads/books/" + fileName
+                        });
                     }
-
-                    usedBook.Images.Add(new UsedBookImage
-                    {
-                        ImagePath = "/uploads/books/" + fileName
-                    });
                 }
             }
 
             _context.usedBooks.Add(usedBook);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index"); // یا هر صفحه‌ای که میخوای بعد از ثبت نمایش بدی
+            return RedirectToAction("Index");
         }
 
         // GET: UsedBook/Edit/5

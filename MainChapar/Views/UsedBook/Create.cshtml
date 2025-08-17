@@ -42,9 +42,14 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Images">تصاویر کتاب (چند فایل انتخاب کنید)</label>
-            <input asp-for="Images" type="file" multiple class="form-control" />
-            <span asp-validation-for="Images" class="text-danger"></span>
+            <label asp-for="MainImage"></label>
+            <input asp-for="MainImage" type="file" class="form-control" />
+            <span asp-validation-for="MainImage" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Images"></label>
+            <input asp-for="Images" type="file" class="form-control" multiple />
         </div>
 
         <button type="submit" class="btn btn-primary mt-2">ثبت کتاب</button>

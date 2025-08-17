@@ -16,7 +16,9 @@
         public string UserId { get; set; } // FK به Identity User کسی که کتاب رو گذاشته
         public virtual User User { get; set; } // Navigation Property
 
-        public virtual ICollection<UsedBookImage> Images { get; set; }
+        public string? ImageName { get; set; }
+
+        public virtual ICollection<UsedBookImage> Images { get; set; } = new List<UsedBookImage>();
     }
 
     public class UsedBookImage

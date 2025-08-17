@@ -23,12 +23,12 @@
 
 
 <div class="tabs">
-    <div class="tab" onclick="filterProducts('mostDiscount')">بیشترین تخفیف</div>
-    <div class="tab" onclick="filterProducts('mostStock')">محبوب ترین</div>
-    <div class="tab" onclick="filterProducts('expensive')">گران‌ترین</div>
-    <div class="tab" onclick="filterProducts('cheap')">ارزان‌ترین</div>
-    <div class="tab" onclick="filterProducts('newest')">جدیدترین</div> 
-</div>>
+    <div class="tab" data-sort="mostDiscount">بیشترین تخفیف</div>
+    <div class="tab" data-sort="mostStock">محبوب ترین</div>
+    <div class="tab" data-sort="expensive">گران‌ترین</div>
+    <div class="tab" data-sort="cheap">ارزان‌ترین</div>
+    <div class="tab" data-sort="newest">جدیدترین</div>
+</div>
 <hr>
 
 
@@ -48,14 +48,32 @@
                 .then(html => {
                     document.getElementById("product-container").innerHTML = html;
                 })
-                .catch(error => {
-                    console.error("خطا در فیلتر:", error);
-                });
+                .catch(error => console.error("خطا در فیلتر:", error));
         }
 
-        // فراخوانی اولیه
         window.addEventListener("DOMContentLoaded", () => {
-            filterProducts('newest');
+            const tabs = document.querySelectorAll(".tab");
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function () {
+                    // پاک کردن active از همه تب‌ها
+                    tabs.forEach(t => t.classList.remove("active"));
+
+                    // اضافه کردن active به تب کلیک شده
+                    this.classList.add("active");
+
+                    // گرفتن sortType از data-sort
+                    const sortType = this.getAttribute("data-sort");
+                    filterProducts(sortType);
+                });
+            });
+
+            // پیش‌فرض: آخرین تب (جدیدترین) فعال و لود شود
+            const defaultTab = document.querySelector(".tab[data-sort='newest']");
+            if (defaultTab) {
+                defaultTab.classList.add("active");
+                filterProducts("newest"); // یا defaultTab.getAttribute("data-sort")
+            }
         });
     </script>
 }
