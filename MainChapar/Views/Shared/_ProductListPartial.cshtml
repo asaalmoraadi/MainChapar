@@ -14,17 +14,6 @@
 
                 <div class="card-body">
                    
-                    <!-- گالری تصاویر کوچک -->
-                    @* <div class="d-flex gap-2 mb-2">
-                        @foreach (var gallery in item.ProductGalleries.Take(3))
-                        {
-                            <img src="~/assets/img/gallery/@gallery.ImageName"
-                                 width="50" height="50"
-                                 style="object-fit: cover; border-radius: 5px;"
-                                 alt="گالری @item.Title" />
-                        }
-                    </div> *@
-                    
                     <!-- مشخصات محصول -->
                     <div class="product-title">@item.Title</div>
                     <p class="card-text text-muted" style="font-size: 0.9rem;">

@@ -1,0 +1,249 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+
+
+
+
+
+
+
+.section-title {
+   font-size: 1.5rem;
+  color: #000000;
+  margin-bottom: 2rem;
+  text-align: center;
+  order: 1;
+  flex-grow: 1;
+  
+  }
+
+
+
+
+
+
+.main-content {
+    flex-grow: 1; /* nesbat fazayi ke mikhad ( age a=2 bashe va b = 1 => a 2barabar faza migire)*/
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Pinar-medium';
+
+}
+h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 1.8rem;
+      font-family: 'Pinar-semibold';
+      
+    }
+
+.product-info {
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px #e5c0c0;
+    background-color: #fef6f0;
+    font-family: 'Pinar-semibold';
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* چهار ستون مساوی */
+    gap: 1rem;
+    padding-right: 5rem;
+    padding-left: 5rem;
+    direction: rtl;
+}
+  
+
+  input , select{
+    margin: 0.5rem;
+    border: none;
+    width: 13rem;
+    border-radius: 10px;
+    padding: 8px;
+    font-family: 'Pinar-semibold';
+    background-color: rgb(255, 255, 255);
+    font-size: 13px;
+    padding-left: 0.5rem;
+  }
+  select{
+    background-color: white;
+    appearance: none; /* icon defaultesho hazf mikone ta icon jadid bezaram */
+    background-image: url(files/arrow.png);
+    background-repeat: no-repeat;
+    background-position: left 10px center;
+    background-size: 14px;
+    
+  }
+  
+  
+  #avail{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+  #available{
+
+    
+  }
+  .box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+  }
+
+  #available-input{
+    width: 30rem;
+    height: 6rem;
+    
+    
+  }
+
+  #available-box{
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: center;
+      padding-top: 1.5rem;
+    
+  }
+  #available-box input{
+    height: 1rem;
+    width: 1rem;
+  }
+  #info-box{
+    grid-column: span 3;
+    
+    align-items: self-start;
+    
+    
+  }
+  #first-info{
+    grid-column: span 3;
+    
+    align-items: self-start;
+
+    
+
+  }
+
+  #first-info input{
+    width: 30rem;
+    height: 3rem;
+
+  }
+  
+  
+  
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+          width: 30rem;
+    }
+.form-button {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    width: 30rem;
+    margin:auto;
+}
+
+.btn {
+    flex: 1;
+    margin: 0 0.5rem;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: white;
+    font-family: 'Pinar-semibold';
+    text-align: center;
+}
+
+.btn-confirm {
+    background-color: #FFDCCC;
+    color: #000000;
+}
+    .btn-confirm:hover {
+       background-color: #BFF0DB; 
+      color: rgb(0, 0, 0);
+    }
+
+
+.btn-continue {
+    background-color: #FFDCCC;
+    color: #000000;
+}
+    .btn-continue:hover {
+      background-color: #f87676;
+      color: rgb(0, 0, 0);
+    }
+
+a {
+    text-decoration: none;
+}
+
+.gallery-preview {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.gallery-thumb {
+    width: 150px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

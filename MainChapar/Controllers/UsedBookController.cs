@@ -16,11 +16,12 @@ namespace MainChapar.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-
-        public UsedBookController(ApplicationDbContext context, UserManager<User> userManager)
+        private readonly IWebHostEnvironment _env;
+        public UsedBookController(ApplicationDbContext context, UserManager<User> userManager, IWebHostEnvironment env)
         {
             _context = context;
             _userManager = userManager;
+            _env = env;
         }
 
         // GET: UsedBook
@@ -92,13 +93,13 @@ namespace MainChapar.Controllers
         // GET: UsedBook/Create
         public IActionResult Create()
         {
+            //select list: user
             ViewData["UserId"] = new SelectList(_context.users, "Id", "Id");
             return View();
         }
 
         // POST: UsedBook/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UsedBookCreateViewModel model)
@@ -132,7 +133,7 @@ namespace MainChapar.Controllers
                 {
                     await model.MainImage.CopyToAsync(stream);
                 }
-
+                
                 usedBook.ImageName = "/uploads/books/" + mainFileName;
             }
 
@@ -187,36 +188,85 @@ namespace MainChapar.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Author,Description,Price,ContactNumber,CreatedAt,IsApproved,UserId")] UsedBook usedBook)
+        [HttpPost]
+        public async Task<IActionResult> Edit(
+    int id,
+    [Bind("Id,Title,Author,Description,Price,ContactNumber,CreatedAt,IsApproved,UserId")] UsedBook usedBook,
+    IFormFile MainImage,
+    IFormFile[] GalleryImages)
         {
             if (id != usedBook.Id)
-            {
                 return NotFound();
-            }
+
+            var usedBookInDb = await _context.usedBooks
+                .Include(u => u.Images)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (usedBookInDb == null)
+                return NotFound();
 
             if (ModelState.IsValid)
             {
-                try
+                // ویرایش فیلدهای اصلی
+                usedBookInDb.Title = usedBook.Title;
+                usedBookInDb.Author = usedBook.Author;
+                usedBookInDb.Description = usedBook.Description;
+                usedBookInDb.Price = usedBook.Price;
+                usedBookInDb.ContactNumber = usedBook.ContactNumber;
+                usedBookInDb.IsApproved = usedBook.IsApproved;
+
+                // ذخیره عکس اصلی
+                if (MainImage != null && MainImage.Length > 0)
                 {
-                    _context.Update(usedBook);
-                    await _context.SaveChangesAsync();
+                    var newImageName = Guid.NewGuid().ToString() + Path.GetExtension(MainImage.FileName);
+                    var newImagePath = Path.Combine(_env.WebRootPath, "uploads/books", newImageName);
+
+                    using (var stream = new FileStream(newImagePath, FileMode.Create))
+                    {
+                        await MainImage.CopyToAsync(stream);
+                    }
+
+                    usedBookInDb.ImageName = newImageName;
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!UsedBookExists(usedBook.Id))
+                    // اگر عکس اصلی جدیدی نیومده، همان عکس قبلی را نگه دار
+                    usedBookInDb.ImageName = usedBookInDb.ImageName;
+                }
+
+                // ذخیره تصاویر گالری جدید
+                if (GalleryImages != null && GalleryImages.Length > 0)
+                {
+                    foreach (var file in GalleryImages)
                     {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
+                        if (file.Length > 0)
+                        {
+                            var galleryFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                            var galleryPath = Path.Combine(_env.WebRootPath, "uploads/usedbooks", galleryFileName);
+
+                            using (var stream = new FileStream(galleryPath, FileMode.Create))
+                            {
+                                await file.CopyToAsync(stream);
+                            }
+
+                            var usedBookImage = new UsedBookImage
+                            {
+                                UsedBookId = usedBookInDb.Id,
+                                ImagePath = galleryFileName
+                            };
+
+                            _context.usedBookImages.Add(usedBookImage);
+                        }
                     }
                 }
+
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.users, "Id", "Id", usedBook.UserId);
-            return View(usedBook);
+
+            return View(usedBookInDb);
         }
+
 
         // GET: UsedBook/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -252,9 +302,29 @@ namespace MainChapar.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsedBookExists(int id)
+        public IActionResult DeleteGallery(int id)
         {
-            return _context.usedBooks.Any(e => e.Id == id);
+            var gallery = _context.usedBookImages.FirstOrDefault(x => x.Id == id);
+            if (gallery == null)
+            {
+                return NotFound();
+            }
+            string d = Directory.GetCurrentDirectory();
+            string fn = d + "\\wwwroot\\uploads\\books\\" + gallery.ImagePath;
+            if (System.IO.File.Exists(fn))
+            {
+                System.IO.File.Delete(fn);
+            }
+            _context.usedBookImages.Remove(gallery);
+            _context.SaveChanges();
+            return Redirect("edit/" + gallery.UsedBookId);
         }
+
+
+            private bool UsedBookExists(int id)
+            {
+                return _context.usedBooks.Any(e => e.Id == id);
+            }
+        
     }
 }

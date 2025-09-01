@@ -3,61 +3,103 @@
 @{
     ViewData["Title"] = "ثبت کتاب دست دوم";
 }
-
-<html>
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/create product/CreateUsedBook.css">
+
 </head>
 <body>
-    <h2>@ViewData["Title"]</h2>
+    <main class="main-content">
 
-    <form asp-action="Create" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label asp-for="Title"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
+        <div id="top-container">
+
+            <h2 class="section-title">ثبت کتاب جدید</h2>
         </div>
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div class="product-info">
+              @*   <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="All" class="text-danger"></div> *@
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            <label asp-for="Author"></label>
-            <input asp-for="Author" class="form-control" />
-            <span asp-validation-for="Author" class="text-danger"></span>
-        </div>
+                <div class="box">
+                    <lable>عنوان :</lable>
+                    <input asp-for="Title" id=" tilte" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
 
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
 
-        <div class="form-group">
-            <label asp-for="Price"></label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
-        </div>
+                <div class="box">
+                    <label>ناشر  :</label>
+                    <input asp-for="Author" id=" tilte" />
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
 
-        <div class="form-group">
-            <label asp-for="ContactNumber"></label>
-            <input asp-for="ContactNumber" class="form-control" />
-            <span asp-validation-for="ContactNumber" class="text-danger"></span>
-        </div>
 
-        <div class="form-group">
-            <label asp-for="MainImage"></label>
-            <input asp-for="MainImage" type="file" class="form-control" />
-            <span asp-validation-for="MainImage" class="text-danger"></span>
-        </div>
+                <div class="box">
+                    <label> اطلاعات تماس شما :</label>
+                    <input asp-for="ContactNumber" id=" tilte" />
+                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                
+                </div>
 
-        <div class="form-group">
-            <label asp-for="Images"></label>
-            <input asp-for="Images" type="file" class="form-control" multiple />
-        </div>
 
-        <button type="submit" class="btn btn-primary mt-2">ثبت کتاب</button>
-        <a asp-action="MyBooks" class="btn btn-secondary mt-2">بازگشت به کتاب‌های من</a>
-    </form>
+
+                <div class="box">
+                    <label>تصویر اصلی :</label>
+                    <input asp-for="MainImage" type="file" id=" tilte" />
+                    <span asp-validation-for="MainImage" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="box">
+                    <label>تصاویر دیگر :</label>
+                    <input asp-for="Images" type="file" id=" tilte" multiple />
+                </div>
+
+              
+                <div class="box">
+                    <label>قیمت :</label>
+                    <input asp-for="Price" type="number"  placeholder="مثال : 20000">
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="box" id="info-box">
+                    <label>توضیحات تکمیلی :</label>
+                    <textarea asp-for="Description" class="form-control" rows="3" style="
+                             width: 50%;
+                             max-width: 100%;
+                             height: 120px;
+                             resize: none; /* جلوگیری از تغییر اندازه */
+                             padding: 10px;
+                             font-size: 14px;
+                             color: #000000;
+                             border: 1px solid #ffffff;
+                             margin-top:1rem;
+
+                             border-radius: 8px;
+                             background-color: #ffffff;
+                             box-shadow: inset 0 1px 3px #ffffff;
+                             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="form-button">
+                <a asp-action="Mybook" class="btn btn-continue">بازگشت به کتاب‌های من</a>
+                <button type="submit" class="btn btn-confirm">ثبت کتاب</button>
+            </div>
+
+        </form>
+
+    </main>
 </body>
-<footer></footer>
-</html>
 
 
 

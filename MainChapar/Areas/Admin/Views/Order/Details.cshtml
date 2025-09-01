@@ -1,58 +1,106 @@
 ﻿@model MainChapar.Models.PickupRequest
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات سفارش</title>
+    <link rel="stylesheet" href="~/assets/admin-order-details/styles.css">
+</head>
+<body>
+    <div class="category-container">
 
-<h2>جزئیات سفارش شماره @Model.Id</h2>
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>انتشارات دانشگاه</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"> داشبورد اصلی</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-<div>
-    <h4>اطلاعات کاربر</h4>
-    <p><strong>نام کامل:</strong> @Model.User?.UserName</p>
-    <p><strong>ایمیل:</strong> @Model.User?.Email</p>
-    <p><strong>تاریخ ثبت سفارش:</strong> @Model.CreatedAt.ToString("yyyy/MM/dd HH:mm")</p>
-    <p><strong>وضعیت تحویل:</strong> @(Model.IsDelivered ? "تحویل شده" : "تحویل نشده")</p>
-</div>
+        <main class="main-content">
 
-<hr />
+            <div class="top-table">
+                <h1>جزئیات سفارش شماره <p>@Model.Id</p></h1>
+            </div>
 
-<div>
-    <h4>محصولات سفارش داده شده</h4>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>نام محصول</th>
-                <th>تعداد</th>
-                <th>قیمت واحد</th>
-                <th>قیمت کل</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.ProductItems)
-            {
-                <tr>
-                    <td>@item.Product?.Title</td>
-                    <td>@item.Quantity</td>
-                    <td>@String.Format("{0:N0} تومان", item.Product?.Price)</td>
-                    <td>@String.Format("{0:N0} تومان", item.Product?.Price * item.Quantity)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+            <div id="taskList">
 
-    <h5 class="text-right">
-        مجموع کل: @String.Format("{0:N0} تومان",
-        Model.ProductItems.Where(od => od.Product != null)
-        .Sum(od => od.Product.Price * od.Quantity))
+                <h3>اطلاعات کاربر</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نام کاربری</th>
+                            <th>ایمیل</th>
+                            <th>تاریخ ثبت سفارش</th>
+                            <th>وضعیت تحویل</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskItems">
+                        <tr>
+                            <td>@Model.User?.UserName</td>
+                            <td>@Model.User?.Email</td>
+                            <td>
+                                <p>@Model.CreatedAt.ToString("HH:mm")</p>
+                                <p>@Model.CreatedAt.ToString("yyyy/MM/dd")</p>
+                            </td>
+                            <td>@(Model.IsDelivered ? "تحویل شده" : "تحویل نشده")</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    </h5>
-</div>
+                
+                <div class="cart-container">
 
-<hr />
+                    <h3>محصولات سفارش داده شده</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>نام محصول</th>
+                                <th>تعداد</th>
+                                <th>قیمت واحد</th>
+                                <th>قیمت کل</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskItems">
+                            @foreach (var item in Model.ProductItems)
+                            {
+                                <tr>
+                                    <td>@item.Product?.Title</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@String.Format("{0:N0} تومان", item.Product?.Price)</td>
+                                    <td>@String.Format("{0:N0} تومان", item.Product?.Price * item.Quantity)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
 
-<div>
-    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-secondary">بازگشت به لیست سفارش‌ها</a>
+                    <p class="total">
+                        جمع کل:
+                        <span id="total-price">
+                            @String.Format("{0:N0}", Model.ProductItems.Where(od => od.Product != null).Sum(od => od.Product.Price * od.Quantity))
+                        </span> تومان
+                    </p>
 
-    @if (Model.IsDelivered)
-    {
-        <form method="post" asp-area="Admin" asp-controller="Order" asp-action="MarkAsCollected" asp-route-id="@Model.Id" style="display:inline">
-            <button type="submit" class="btn btn-warning">علامت‌گذاری تحویل شده</button>
-        </form>
-    }
-</div>
+                    <div class="buttons">
+                        <a asp-area="Admin" asp-controller="Order" asp-action="Index" style="text-decoration:none; " class="btn btn-continue">بازگشت به لیست سفارش‌ها</a>
+
+                        @if (!Model.IsDelivered)
+                        {
+                            <form method="post" asp-area="Admin" asp-controller="Order" asp-action="MarkAsCollected" asp-route-id="@Model.Id" style="display:inline">
+                                <button type="submit" class="btn btn-confirm">علامت‌گذاری تحویل شده</button>
+                            </form>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>

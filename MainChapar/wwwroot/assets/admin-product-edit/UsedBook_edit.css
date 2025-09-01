@@ -1,0 +1,207 @@
+/* add fonts */
+@font-face {
+    font-family: 'IranSans';
+    src: url('/assets/fonts/iransans.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Far_Yekan';
+    src: url('/assets/fonts/Far_Yekan.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'RokhBold';
+    src: url('/assets/fonts/Rokh-Bold.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Rokh-ultra';
+    src: url('/assets/fonts/Rokh-UltraBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-medium';
+    src: url('/assets/fonts/Pinar-Medium.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-semibold';
+    src: url('/assets/fonts/Pinar-SemiBold.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-ds4-black';
+    src: url('/assets/fonts/Pinar-DS4-Black.woff2');
+}
+
+@font-face {
+    font-family: 'Pinar-DS3-ExtraBold';
+    src: url('/assets/fonts/Pinar-DS3-ExtraBold.woff2');
+}
+
+@font-face {
+    font-family: 'B-yekan';
+    src: url('/assets/fonts/Yekan.ttf');
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    background-color: #FCF8F5; 
+    color: #333;
+    
+    
+    
+    
+}
+
+
+.category-container {
+    display: flex;
+    width: 100%;
+    direction: ltr;
+}
+
+
+
+
+
+.main-content {
+    flex-grow: 1; /* nesbat fazayi ke mikhad ( age a=2 bashe va b = 1 => a 2barabar faza migire)*/
+    padding: 30px;
+    background-color: #FCF8F5;
+    font-family: 'Pinar-semibold';
+    direction: rtl;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main-header {
+    margin-bottom: 30px;
+}
+
+.main-header h1 {
+    font-size: 2.2rem;
+    color: #333;
+    font-weight: 700;
+}
+
+
+h1 {
+    color: rgb(0, 0, 0);
+    font-size: 32px;
+    margin: 1rem;
+}
+.top-table{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+button {
+    
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 5px;
+    font-family: 'Pinar-medium';
+    font: weight 70px;
+    
+    
+}
+
+
+#editButton {
+    background-color: #BFF0DB;
+    color: rgb(0, 0, 0);
+    height:2rem;
+    width: 5rem;
+    
+    
+}
+#editButton:hover {
+    background-color: #74dcaf;
+    color: rgb(255, 255, 255);
+}
+
+
+    .admin-container {
+      max-width: 1050px;
+      margin: 3rem auto;
+      background: #ffffff;
+      padding: 2.5rem 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      direction: rtl;
+    }
+
+   
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem 2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1px solid #d7d7d7;
+      border-radius: 10px;
+      background: #fafafa;
+      font-size: 0.95rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    /* گالری چندگانه */
+    input[type="file"][multiple] {
+      padding: 0.4rem 0.3rem;
+    }
+
+    #available-box{
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      padding-top: 1.5rem;
+      gap: 1rem;
+    }
+ #available-box input{
+    height: 1rem;
+    width: 1rem;
+  }
+
+.gallery-preview {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.gallery-thumb {
+  width: 150px;
+  
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+

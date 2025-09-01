@@ -1,0 +1,150 @@
+
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; 
+  margin-right: 20rem;
+}
+
+.user-icon-wrapper {
+  position: relative;
+}
+
+#user-img {
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  min-width: 140px;
+  z-index: 100;
+  text-align: right;
+  left: 10px;
+  
+}
+
+
+.user-menu a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  font-family: 'Pinar-medium';
+  font-size: 14px;
+}
+
+.user-menu a:last-child {
+  border-bottom: none;
+}
+
+.user-menu a:hover {
+  background-color: #f7f7f7;
+}
+#shop-cart{
+  height: 3rem;
+  width: 3rem;
+}
+
+.cooperation-form {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.cooperation-form h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-family: 'Pinar-semibold', sans-serif;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.circle-img {
+  margin: auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 1rem;
+  border: 4px solid #fff; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.circle-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.form-group{
+  display: flex;
+  flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.mainForm {
+    direction: rtl;
+    padding: 2rem;
+    width: 26rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #ffe5d9, #ffdccc);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    gap: 0.2rem;
+}
+
+
+label {
+  font-size: 1.1rem;
+  font-family: 'Pinar-medium';
+  color: #444;
+  margin-bottom: 0.3rem;
+}
+
+
+#info {
+  font-size: 1rem;
+  font-family: 'Pinar-medium';
+  color: #222;
+  background: #fff;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+
+button {
+  background: linear-gradient(90deg, #ff7e7e, #ff5252);
+  border: none;
+  padding: 10px 25px;
+  border-radius: 8px;
+  font-family: 'Pinar-medium';
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 82, 82, 0.4);
+}
+
+

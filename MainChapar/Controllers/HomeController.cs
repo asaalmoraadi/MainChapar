@@ -1,5 +1,6 @@
 using MainChapar.Data;
 using MainChapar.Models;
+using MainChapar.ViewModel.Admin;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -32,6 +33,20 @@ namespace MainChapar.Controllers
                 .ToListAsync();
 
             return View(books);
+        }
+        // ????? ??? ???????
+        public async Task<IActionResult> Pricing()
+        {
+            var printPricings = _context.printPricings.ToList();
+            var laminatePricings = _context.laminatePrintPricings.ToList();
+
+            var viewModel = new PricingIndexViewModel
+            {
+                PrintPricings = printPricings,
+                LaminatePricings = laminatePricings
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult AboutUs()

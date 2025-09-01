@@ -81,8 +81,9 @@
         <div class="form-button">
             <form asp-action="AddToCartLaminateFromPrint" method="post">
                 <button class="add-item" type="submit">تایید و ثبت سفارش</button>
-                <a asp-action="LaminatePrintForm"><button type="button" class="back">بازگشت</button></a>
+               
             </form>
+            <a asp-action="LaminatePrintForm"><button type="button" class="back">بازگشت</button></a>
         </div>
     </div>
 
@@ -90,18 +91,24 @@
     <div class="khadamat">
         <h2>خدمات مشابه</h2>
         <div class="khadamat-boxs">
-            <div class="boxs" id="box1">
-                <img src="files/print3.png">
-                <p>چاپ سیاه سفید</p>
-            </div>
-            <div class="boxs" id="box2">
-                <img src="files/print1.png">
+            <a href="/print/ColorPrintForm" class="boxs" id="box1" style="text-decoration:none; color: inherit; ">
+                <img src="/assets/print/files/pallte.png">
+                <p>چاپ  رنگی</p>
+            </a>
+
+        </div>
+        <div class="boxs" id="box2">
+            <a href="/print/PlanPrintForm" class="boxs" id="box2" style="text-decoration:none; color: inherit; ">
+                <img src="/assets/print/files/print1.png">
                 <p>چاپ پلان</p>
-            </div>
-            <div class="boxs" id="box3">
-                <img src="files/print2.png">
-                <p>چاپ ایکس</p>
-            </div>
+            </a>
+        </div>
+        <div class="boxs" id="box3">
+            <a href="/print/BlackWhitePrintForm" class="boxs" id="box3" style="text-decoration:none; color: inherit;">
+                <img src="/assets/print/files/print3.png">
+                <p>چاپ سیاه سفید</p>
+            </a>
+        </div>
         </div>
     </div>
 

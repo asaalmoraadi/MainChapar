@@ -38,8 +38,10 @@ namespace MainChapar.Data
 
         public DbSet<Contact> contacts { get; set; }
         public DbSet<Collaboration> collaborations { get; set; }
+        public DbSet<UploadedFile> uploadedFiles { get; set; }
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
         public DbSet<UsedBook> usedBooks { get; set; }
+        public DbSet<UsedBookImage> usedBookImages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

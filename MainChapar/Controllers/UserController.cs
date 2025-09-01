@@ -20,11 +20,13 @@ namespace MainChapar.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Index()
         {
+            //List of all users
             var users = _userManager.Users.ToList();
             var userRolesDTOs = new List<UserWithRolesDTO>();
 
             foreach (var user in users)
             {
+                //Get Role(user)
                 var roles = await _userManager.GetRolesAsync(user);
                 userRolesDTOs.Add(new UserWithRolesDTO
                 {

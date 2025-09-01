@@ -48,12 +48,12 @@ namespace MainChapar.Controllers
             ViewBag.Comments = comments;
 
             // دریافت محصولات مشابه (بر اساس CategoryId مثلاً)
-            var related = await _context.Products
-                .Where(p => p.CategoryId == product.CategoryId && p.Id != id)
-                .Take(3)
-                .ToListAsync();
+            //var related = await _context.Products
+            //    .Where(p => p.CategoryId == product.CategoryId && p.Id != id)
+            //    .Take(3)
+            //    .ToListAsync();
 
-            ViewBag.RelatedProducts = related ?? new List<Product>();
+            //ViewBag.RelatedProducts = related ?? new List<Product>();
 
             return View(product);
         }
@@ -163,7 +163,7 @@ namespace MainChapar.Controllers
             var existingItem = await _context.CartProductItems
                 .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == productId && !c.IsFinalized);
 
-
+            //اگر ایتم قبلا بوده فقط به تعدادش اضافه بشه
             if (existingItem != null)
             {
                 existingItem.Quantity += quantity;

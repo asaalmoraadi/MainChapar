@@ -146,38 +146,45 @@
                 <button class="btn btn-confirm" type="submit">تایید نهایی و ثبت سفارش</button>
                 <button class="btn btn-continue" type="button" onclick="location.href='/Product'">ادامه خرید</button>
             </div>
-        </form>
+    </form>
         
 </div>
 
 @section Scripts {
-        <script>
-        // دکمه‌های افزایش تعداد
+    <script>
+        // -----------------------------
+        // دکمه‌های افزایش تعداد محصول
+        // -----------------------------
         document.querySelectorAll('.qty-btn.plus').forEach(button => {
             button.addEventListener('click', function () {
-                const id = this.getAttribute('data-id');
+                const id = this.getAttribute('data-id'); // گرفتن آی‌دی محصول
                 const quantityDisplay = document.querySelector(`.quantity-display[data-id='${id}']`);
                 let quantity = parseInt(quantityDisplay.textContent);
 
-                const maxQty = parseInt(document.querySelector(`.product-stock[data-id='${id}']`)?.textContent || 1000); // fallback
+                // گرفتن حداکثر موجودی محصول، اگر نبود 1000 فرض می‌کنیم
+                const maxQty = parseInt(document.querySelector(`.product-stock[data-id='${id}']`)?.textContent || 1000);
+
                 if (quantity < maxQty) {
                     quantity++;
                     quantityDisplay.textContent = quantity;
 
+                    // فعال کردن دکمه منفی اگر تعداد بیشتر از 1 شد
                     const minusBtn = document.querySelector(`.qty-btn.minus[data-id='${id}']`);
                     if (quantity > 1) {
                         minusBtn.removeAttribute('disabled');
                     }
 
-                    updatePrice(id, quantity);
-                    updateTotal();
+                    updatePrice(id, quantity); // بروزرسانی قیمت محصول
+                    updateTotal(); // بروزرسانی جمع کل
                 } else {
                     alert("تعداد انتخاب‌شده بیشتر از موجودی انبار است.");
                 }
             });
         });
 
-        // دکمه‌های کاهش تعداد
+        // -----------------------------
+        // دکمه‌های کاهش تعداد محصول
+        // -----------------------------
         document.querySelectorAll('.qty-btn.minus').forEach(button => {
             button.addEventListener('click', function () {
                 const id = this.getAttribute('data-id');
@@ -188,6 +195,7 @@
                     quantity--;
                     quantityDisplay.textContent = quantity;
 
+                    // غیرفعال کردن دکمه منفی اگر تعداد به 1 رسید
                     if (quantity <= 1) {
                         this.setAttribute('disabled', 'disabled');
                     }
@@ -198,7 +206,9 @@
             });
         });
 
-        // به‌روزرسانی قیمت هر محصول
+        // -----------------------------
+        // به‌روزرسانی قیمت هر محصول بر اساس تعداد
+        // -----------------------------
         function updatePrice(id, quantity) {
             const priceElement = document.querySelector(`.price[data-id='${id}']`);
             const unitPrice = parseInt(priceElement.getAttribute('data-unit-price'));
@@ -207,11 +217,13 @@
             priceElement.textContent = total.toLocaleString() + " تومان";
         }
 
+        // -----------------------------
         // به‌روزرسانی جمع کل سبد خرید
+        // -----------------------------
         function updateTotal() {
             let total = 0;
             document.querySelectorAll('.price').forEach(el => {
-                const text = el.textContent.replace(/[^\d]/g, "");
+                const text = el.textContent.replace(/[^\d]/g, ""); // حذف کاراکترهای غیرعددی
                 if (text) {
                     total += parseInt(text);
                 }
@@ -223,5 +235,5 @@
             }
         }
     </script>
-
 }
+

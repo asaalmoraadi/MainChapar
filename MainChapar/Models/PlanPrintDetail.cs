@@ -11,7 +11,6 @@ namespace MainChapar.Models
         public string? AdditionalDescription { get; set; } //توضیحات اضافه مثل موقعیت نقشه، حاشیه، یا تنظیمات خاص
         public string PaperType { get; set; } // Glossy, Normal
         public string printType { get; set; } //  BW , color
-        public string Description { get; set; }
         public int CopyCount { get; set; }
         
         public string BindingType { get; set; } = "هیچ‌کدام"; //منگنه ، طلق و شیرازه ، هیچکدام ، سیمی

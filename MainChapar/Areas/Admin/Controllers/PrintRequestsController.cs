@@ -4,18 +4,24 @@ using Microsoft.EntityFrameworkCore;
 using MainChapar.Models;
 using MainChapar.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.IO.Compression;
 
 namespace MainChapar.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "admin")]
+    
     public class PrintRequestsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        
-        public PrintRequestsController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _env;
+        private readonly UserManager<User> _userManager;
+        public PrintRequestsController(ApplicationDbContext context, IWebHostEnvironment env, UserManager<User> userManager)
         {
-            _context = context;  
+            _context = context;
+            _env = env;
+            _userManager = userManager;
         }
 
         // GET: Admin/PrintRequests
@@ -43,33 +49,30 @@ namespace MainChapar.Areas.Admin.Controllers
         // GET: Admin/PrintRequests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (id == null)
+                return NotFound();
+
             var request = await _context.PrintRequests
-              .Include(r => r.User)
-              .Include(r => r.ColorPrintDetail)
-              .Include(r => r.BlackWhitePrintDetail)
-              .Include(r => r.PlanPrintDetail)
-              .Include(r => r.Files)
-              .FirstOrDefaultAsync(r => r.Id == id);
+                .Include(r => r.User)
+                .Include(r => r.ColorPrintDetail)
+                .Include(r => r.BlackWhitePrintDetail)
+                .Include(r => r.PlanPrintDetail)
+                .Include(r => r.LaminateDetail)
+                .Include(r => r.PickupPrintItems)
+                .Include(r => r.Files)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (request == null)
                 return NotFound();
 
-            // شرط جدید: اگر نهایی نشده، اجازه مشاهده نده
-            //if (!request.IsFinalized)
-            //{
-            //    TempData["Error"] = "این سفارش هنوز نهایی نشده و قابل بررسی نیست.";
-            //    return RedirectToAction("Index");
-            //}
-
-            // اینجا می‌توانیم تعداد فایل‌ها را چک کنیم
-            var files = await _context.PrintFiles
-                .Where(f => f.PrintRequestId == id)
-                .ToListAsync();
+            
+            var files = request.Files;
 
             Console.WriteLine($"تعداد فایل‌های مرتبط: {files.Count}");
 
             return View(request);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -92,67 +95,73 @@ namespace MainChapar.Areas.Admin.Controllers
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        // POST: Admin/PrintRequests/SetStatus
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SetStatus(int id, string status)
+
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DownloadPrintFiles(int id)
         {
-            var request = await _context.PrintRequests.FindAsync(id);
-            if (request == null) return NotFound();
+            var printRequest = await _context.PrintRequests
+                .Include(p => p.Files)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            request.Status = status;
-            await _context.SaveChangesAsync();
-            // آپدیت وضعیت PickupRequest مرتبط
-            // پیدا کردن PickupRequest های مرتبط با این PrintRequest
-            var pickupRequestIds = await _context.pickupPrintItems
-                .Where(pi => pi.PrintRequestId == id)
-                .Select(pi => pi.PickupRequestId)
-                .Distinct()
-                .ToListAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            if (printRequest == null || printRequest.Files == null || !printRequest.Files.Any())
+                return NotFound("هیچ فایلی برای این سفارش یافت نشد.");
 
-
-        [HttpGet]
-        public async Task<IActionResult> DownloadFile(int fileId)
-        {
-            var file = await _context.PrintFiles.FindAsync(fileId);
-            if (file == null)
-                return NotFound();
-
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", file.FilePath);
-
-            if (!System.IO.File.Exists(filePath))
-                return NotFound($"فایل در سرور یافت نشد: {filePath}");
-
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            // اگه فقط یک فایل باشه، مستقیم همون فایل رو برگردون
+            if (printRequest.Files.Count == 1)
             {
-                await stream.CopyToAsync(memory);
-            }
-            memory.Position = 0;
+                var singleFile = printRequest.Files.First();
+                var filePath = Path.Combine(_env.WebRootPath, singleFile.FilePath.Replace("/", Path.DirectorySeparatorChar.ToString()));
 
-            var contentType = GetContentType(filePath);
-            return File(memory, contentType, file.FileName); // اینجا فقط اسم دانلودی
+                if (!System.IO.File.Exists(filePath))
+                    return NotFound("فایل مورد نظر یافت نشد.");
+
+                // Generic binary content type (forces browser to download the file if type is unknown)
+                var contentType = "application/octet-stream";
+                return PhysicalFile(filePath, contentType, singleFile.FileName);
+            }
+
+            // اگه چند فایل باشه -> زیپ کن
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var zipArchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                {
+                    foreach (var file in printRequest.Files)
+                    {
+                        var filePath = Path.Combine(_env.WebRootPath, file.FilePath.Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+                        if (System.IO.File.Exists(filePath))
+                        {
+                            var entry = zipArchive.CreateEntry(file.FileName, CompressionLevel.Fastest);
+                            using (var entryStream = entry.Open())
+                            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                            {
+                                await fileStream.CopyToAsync(entryStream);
+                            }
+                        }
+                    }
+                }
+
+                return File(memoryStream.ToArray(), "application/zip", $"PrintRequest_{id}_Files.zip");
+            }
         }
 
         private string GetContentType(string path)
         {
             var types = new Dictionary<string, string>
-    {
-        {".pdf", "application/pdf"},
-        {".doc", "application/msword"},
-        {".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
-        {".png", "image/png"},
-        {".jpg", "image/jpeg"},
-        {".jpeg", "image/jpeg"},
-        {".bmp", "image/bmp"}
-    };
+        {
+            {".pdf", "application/pdf"},
+            {".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+            {".jpg", "image/jpeg"},
+            {".jpeg", "image/jpeg"},
+            {".png", "image/png"}
+        };
 
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types.ContainsKey(ext) ? types[ext] : "application/octet-stream";
         }
     }
+
+    
 
 
 }

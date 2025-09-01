@@ -1,0 +1,104 @@
+﻿@model MainChapar.ViewModel.Admin.PricingIndexViewModel
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+
+<!-------------------------------->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/assets/category/styles - Pricing - Copy.css">
+    <title>قیمت ها</title>
+
+</head>
+<main class="main-content">
+
+    <!-- جدول سیاه و سفید -->
+    <div class="top-table">
+        <h1>تعرفه چاپ سیاه و سفید</h1>
+    </div>
+    <div id="taskList">
+        <table>
+            <thead>
+                <tr>
+                    <th>نوع کاغذ</th>
+                    <th>سایز کاغذ</th>
+                    <th>دو رو</th>
+                    <th>قیمت هر صفحه</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PrintPricings.Where(p => p.PrintType == "BW"))
+                {
+                    <tr>
+                        <td>@item.PaperType</td>
+                        <td>@item.PaperSize</td>
+                        <td>@item.PrintSide</td>
+                        <td>@item.PricePerPage تومان</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- جدول رنگی -->
+    <div class="top-table mt-5">
+        <h1>تعرفه چاپ رنگی</h1>
+    </div>
+    <div id="taskList">
+        <table>
+            <thead>
+                <tr>
+                    <th>نوع کاغذ</th>
+                    <th>سایز کاغذ</th>
+                    <th>دو رو</th>
+                    <th>قیمت هر صفحه</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PrintPricings.Where(p => p.PrintType == "Color"))
+                {
+                    <tr>
+                        <td>@item.PaperType</td>
+                        <td>@item.PaperSize</td>
+                        <td>@item.PrintSide</td>
+                        <td>@item.PricePerPage تومان</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- جدول لمینیت -->
+    <div class="top-table mt-5">
+        <h1>تعرفه چاپ لمینیت</h1>
+    </div>
+    <div id="taskList">
+        <table>
+            <thead>
+                <tr>
+                    <th>نوع چاپ</th>
+                    <th>نوع کاغذ</th>
+                    <th>سایز کاغذ</th>
+                    <th>دو رو</th>
+                    <th>نوع لمینیت</th>
+                    <th>قیمت هر صفحه</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.LaminatePricings)
+                {
+                    <tr>
+                        <td>@(item.PrintType == "BW" ? "سیاه و سفید" : "رنگی")</td>
+                        <td>@item.PaperType</td>
+                        <td>@item.PaperSize</td>
+                        <td>@item.PrintSide</td>
+                        <td>@item.LaminateType</td>
+                        <td>@item.PricePerPage تومان</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</main>

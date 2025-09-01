@@ -186,12 +186,16 @@ nav a:hover {
       font-family: 'Pinar-semibold';
     }
 
-    h3 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      text-align: center;
-      font-family: 'Pinar-semibold';
-    }
+h3 {
+    margin-left: 1rem;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: 'Pinar-semibold';
+}
+h4 {
+    margin-left: 1rem;
+}
 
     .table-container {
       border-radius: 10px;

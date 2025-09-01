@@ -20,7 +20,17 @@
         <p>اطلاعات خود را وارد کنید</p>
         <form method="post" asp-controller="User" asp-action="Login">
             <a href="@Url.Action("Register", "User")" class="btn-add">هنوز ثبت نام نکردید؟</a>
-
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div style="background-color: #fff4f4; border: 1px solid #e44d4d; padding: 12px 16px; border-radius: 10px; margin: 20px auto; color: #c0392b; max-width: 600px; font-size: 14px;">
+                    <ul>
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
             <div class="input-group">
                 <input asp-for="UserName" type="text" placeholder="نام کاربری" />
                 <span asp-validation-for="UserName"></span>

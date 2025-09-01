@@ -61,12 +61,15 @@ h1 {
     font-size: 28px;
     margin-bottom: 20px;
 }
-.btn-box{
-    text-align:center;
-    font-family:
+.btn-box {
+    margin-top:10px;
+    text-align: center;
+    font-family: Tahoma, sans-serif;
 }
-.a-add{
-    margin:0
+.a-add {
+    margin-top: 10px;
+    margin: 0;
+    font-family: Tahoma, sans-serif;
 }
 
 .add-product {
@@ -80,13 +83,14 @@ h1 {
 }
 
 table {
-    width: 100%;
+    width: 80%;
     border-collapse: collapse;
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     direction: rtl;
+    margin: auto;
 }
 
 th, td {
@@ -104,7 +108,7 @@ tr:nth-child(even) {
 }
 
 img {
-    max-width: 60px;
+    max-width: 120px;
     border-radius: 5px;
 }
 

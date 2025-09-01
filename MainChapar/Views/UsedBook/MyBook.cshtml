@@ -18,12 +18,13 @@
 
 
 
-    <h1>کتاب های شما</h1>
+    
     <div class="btn-box" style="align-items:center">
+        <h1 style="margin:1rem">کتاب های شما</h1>
         <a class="a-add" asp-action="Create"><button class="add-product">افزودن محصول</button></a>
     </div>
 
-
+    
     <table>
         <thead>
             <tr>
@@ -42,10 +43,36 @@
             {
                 <tr>
 
-                    <td style="width:100px; text-align:center;">
+                    @* <td style="width:100px; text-align:center;">
                         @if (item.Images != null && item.Images.Any())
                         {
                             <img src="@item.Images.First().ImagePath" alt="تصویر کتاب" style="width:150px; height:150px; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <span>بدون عکس</span>
+                        }
+                    </td> *@
+                    <td @* style="width:100px; text-align:center;" *@>
+                        @* @if (!string.IsNullOrEmpty(item.ImageName))
+                        {
+                            <img src="@item.ImageName" alt="تصویر اصلی کتاب"
+                                 style="width:150px; height:150px; object-fit:cover;" />
+                        }
+                        else
+                        {
+                            <span>بدون عکس</span>
+                        } *@
+
+                        @if (!string.IsNullOrEmpty(item.ImageName))
+                        {
+                            <img src="@item.ImageName" alt="تصویر اصلی کتاب"
+                                 style="width:150px; height:150px; object-fit:cover;" />
+                        }
+                        else if (item.Images != null && item.Images.Any())
+                        {
+                            <img src="@item.Images.First().ImagePath" alt="تصویر کتاب"
+                                 style="width:150px; height:150px; object-fit:cover;" />
                         }
                         else
                         {
@@ -67,7 +94,7 @@
                         }
                     </td>
                     <td class="actions">
-                        <a asp-action="Edit" asp-route-id="@item.Id"><button class="btn edit">ویرایش</button></a>
+                        @* <a asp-action="Edit" asp-route-id="@item.Id"><button class="btn edit">ویرایش</button></a> *@
                         <a asp-action="Details" asp-route-id="@item.Id"><button class="btn edit">جزئیات</button></a>
                         <a asp-action="Delete" asp-route-id="@item.Id"><button class="btn delete">حذف</button></a>
                     </td>

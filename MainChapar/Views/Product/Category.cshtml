@@ -1,4 +1,4 @@
-﻿@* @model IEnumerable<Product> *@
+﻿
 @{
     Layout = "~/Views/Shared/_newLayout1.cshtml";
 }
@@ -37,44 +37,52 @@
         await Html.RenderPartialAsync("_ProductListPartial", new List<Product>()); // برای پر شدن بعد از Ajax
     }
 </div>
-
 @section Scripts {
     <script>
+        // -----------------------------
+        // فیلتر محصولات بر اساس نوع مرتب‌سازی
+        // -----------------------------
         function filterProducts(sortType) {
-            const categorySlug = '@ViewBag.CategorySlug';
+            const categorySlug = '@ViewBag.CategorySlug'; // گرفتن شناسه دسته‌بندی از ویوبگ
 
+            // درخواست به اکشن فیلتر سمت سرور
             fetch(`/Product/FilterProducts?categorySlug=${categorySlug}&sort=${sortType}`)
                 .then(response => response.text())
                 .then(html => {
+                    // نمایش نتایج فیلتر شده داخل div مشخص
                     document.getElementById("product-container").innerHTML = html;
                 })
                 .catch(error => console.error("خطا در فیلتر:", error));
         }
 
+        // -----------------------------
+        // تنظیم تب‌ها و فعال‌سازی پیش‌فرض
+        // -----------------------------
         window.addEventListener("DOMContentLoaded", () => {
             const tabs = document.querySelectorAll(".tab");
 
             tabs.forEach(tab => {
                 tab.addEventListener("click", function () {
-                    // پاک کردن active از همه تب‌ها
+                    // حذف کلاس active از همه تب‌ها
                     tabs.forEach(t => t.classList.remove("active"));
 
-                    // اضافه کردن active به تب کلیک شده
+                    // اضافه کردن کلاس active به تب کلیک شده
                     this.classList.add("active");
 
-                    // گرفتن sortType از data-sort
+                    // گرفتن نوع مرتب‌سازی از data-sort
                     const sortType = this.getAttribute("data-sort");
-                    filterProducts(sortType);
+                    filterProducts(sortType); // فراخوانی فیلتر
                 });
             });
 
-            // پیش‌فرض: آخرین تب (جدیدترین) فعال و لود شود
+            // پیش‌فرض: تب "جدیدترین" فعال و لود شود
             const defaultTab = document.querySelector(".tab[data-sort='newest']");
             if (defaultTab) {
                 defaultTab.classList.add("active");
-                filterProducts("newest"); // یا defaultTab.getAttribute("data-sort")
+                filterProducts("newest"); // لود پیش‌فرض
             }
         });
     </script>
 }
+
 

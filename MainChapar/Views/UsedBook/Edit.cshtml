@@ -2,68 +2,122 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var galleries = ViewData["gallery"] as List<MainChapar.Models.UsedBookImage>;
 }
 
-<h1>Edit</h1>
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
 
-<h4>UsedBook</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/admin-product-edit/UsedBook_edit.css">
+</head>
+<body>
+ 
+        <main class="main-content">
+            <div class="top-table">
+                <h1>ویرایش محصول</h1>
+                <div id="top-buttons">
+                    <button type="submit" form="editForm" id="editButton">ذخیره</button>
+                    <a href="/UsedBook/delete/@Model.Id"><button type="button" id="editButton">حذف</button></a>
+                <a asp-action="Mybook"> <button type="button" id="editButton">بازگشت</button></a>
+                
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContactNumber" class="control-label"></label>
-                <input asp-for="ContactNumber" class="form-control" />
-                <span asp-validation-for="ContactNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedAt" class="control-label"></label>
-                <input asp-for="CreatedAt" class="form-control" />
-                <span asp-validation-for="CreatedAt" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsApproved" /> @Html.DisplayNameFor(model => model.IsApproved)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <div class="admin-container">
+                <form id="editForm" asp-action="Edit" asp-controller="UsedBook"  enctype="multipart/form-data" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ImageName" />
+
+                    <!-- عنوان -->
+                    <div>
+                        <label>عنوان </label>
+                        <input asp-for="Title" type="text" id="Title" name="Title" value="@Model.Title" />
+                    </div>
+                <div >
+                    <label>ناشر  :</label>
+                    <input asp-for="Author" id=" tilte" />
+                    <span asp-validation-for="Author" class="text-danger" value="@Model.Author"></span>
+                </div>
+                <div >
+                    <label> اطلاعات تماس شما :</label>
+                    <input asp-for="ContactNumber" id=" tilte" value="@Model.ContactNumber" />
+                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+
+                </div>
+                    <!-- عکس اصلی -->
+                <div class="form-section">
+                        <label>عکس اصلی فعلی:</label>
+                        <div>
+                            <img src="~/uploads/books/@Model." alt="Main Image" style="max-width: 150px; border: 1px solid #ccc;" />
+                            <img src="@Model.Images.First().ImagePath" alt="تصویر کتاب" style="max-width: 150px; border: 1px solid #ccc;" />
+                        </div>
+                        <label>تغییر عکس اصلی:</label>
+                        <input type="file" name="MainImage" id="mainImage" />
+                    </div>
+
+                    <!-- گالری تصاویر -->
+                <div class="form-section">
+                        <label>گالری تصاویر فعلی:</label>
+                        <div class="gallery-preview d-flex gap-2 flex-wrap">
+                            @if (galleries != null && galleries.Any())
+                        {
+                            foreach (var item in galleries)
+                            {
+                                <div class="gallery-thumb" style="text-align: center;">
+                                    <img src="~/uploads/books/@item.ImagePath" alt="Gallery Image" class="gallery-thumb" />
+                                    <a href="/UsedBook/DeleteGallery?id=@item.Id">
+                                        <button type="button" id="editButton">حذف</button>
+                                    </a>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>گالری عکس وجود ندارد</p>
+                        }
+                    </div>
+                        <label>افزودن تصاویر جدید به گالری:</label>
+                        <input type="file" id="galleryImages" name="GalleryImage" multiple />
+                </div>
+
+                    <!-- قیمت -->
+                    <div>
+                        <label>قیمت (تومان)</label>
+                        <input asp-for="Price" type="number" id="Price" name="Price" value="@Model.Price" min="0" step="100" required />
+                    </div>
+
+
+                    <!-- توضیح تکمیلی -->
+                    <div class="full-col">
+                        <label>توضیحات تکمیلی :</label>
+                        <textarea asp-for="Description" value="@Model.Description" class="form-control" rows="3" style="
+                             width: 80%;
+                             max-width: 100%;
+                             height: 120px;
+                             resize: none; /* جلوگیری از تغییر اندازه */
+                             padding: 10px;
+                             font-size: 14px;
+                             color: #000000;
+                             border: 1px solid #000000;
+                             margin-top:1rem;
+
+                             border-radius: 8px;
+                             background-color: #ffffff;
+                             box-shadow: inset 0 1px 3px #ffffff;
+                             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"></textarea>
+                    </div>
+                 
+                </form>
+            </div>
+        </main>
+</body>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

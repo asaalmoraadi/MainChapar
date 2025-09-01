@@ -83,8 +83,11 @@
                                         @foreach (var file in Model.Files)
                                         {
                                             <li>
-                                               
-                                                <a class="btn btn-sm btn-success" href="@Url.Action("DownloadFile", "PrintRequest", new { area = "Admin", fileId = file.Id })">
+
+                                                <a asp-area="Admin"
+                                                   asp-controller="PrintRequests"
+                                                   asp-action="DownloadPrintFiles"
+                                                   asp-route-id="@Model.Id">
                                                     دانلود
                                                 </a>
                                             </li>
@@ -195,7 +198,7 @@
                                 <td>@Model.PlanPrintDetail.printType</td>
                                 <td>@Model.PlanPrintDetail.CopyCount</td>
                                 <td>@Model.PlanPrintDetail.BindingType</td>
-                                <td>@Model.PlanPrintDetail.Description</td>
+                                <td>@Model.PlanPrintDetail.SizeOrScaleDescription</td>
                                 <td>@Model.PlanPrintDetail.AdditionalDescription</td>
                             </tr>
                         </tbody>

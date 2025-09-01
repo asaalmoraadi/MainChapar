@@ -19,7 +19,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="index" class="active"> صفحه اصلی فروشگاه</a></li>
                     <li><a asp-area="Admin" asp-controller="Dashboard" asp-action="index" class="active"> داشبورد اصلی</a></li>
                     <li><a asp-area="Admin" asp-controller="PrintRequests" asp-action="index" class="active"> درخواست های ثبت شده</a></li>
-                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیت سفارشات</a></li>
+                    <li><a asp-area="Admin" asp-controller="order" asp-action="index" class="active"> مدیریت سفارشات</a></li>
                 </ul>
             </nav>
         </aside>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="stat-card total-revenue" id="card-3">
                     <div id="total-revenue-box"> <span class="stat-value">@ViewBag.TotalRevenue<span class="currency">تومان</span></span></div>
-                    <span class="stat-label">مجموع درآمد روز</span>
+                    <span class="stat-label">مجموع درآمد کل</span>
                 </div>
             </section>
 
@@ -79,7 +79,7 @@
                 <div class="grid-container website-management">
                     <a href="Category/index" class="dashboard-card">
                         <h3>دسته بندی ها</h3>
-                        <p>مدیریت بنرها و پوسترها</p>
+                        <p>مدیریت دسته بندی محصولات</p>
                     </a>
                     <a href="Products/index" class="dashboard-card">
                         <h3>مدیریت محصولات</h3>
@@ -87,7 +87,7 @@
                     </a>
                     <a href="Contact/Customer" class="dashboard-card">
                         <h3>باشگاه مشتریان</h3>
-                        <p>پیام ها و درخواست های مشتریان</p>
+                        <p> درخواست همکاری، خدمات دانشجویی، کتاب های دسته دوم ، پیام کاربران</p>
                     </a>
                     <a href="Pricing/index" class="dashboard-card">
                         <h3>قیمت گذاری</h3>

@@ -3,17 +3,59 @@
     Layout = "~/Views/Shared/_newLayout1.cshtml";
 }
 
-<h2>اطلاعات کاربری</h2>
 
-<div class="profile-container">
-    <p><strong>نام :</strong> @Model.Name</p>
-    <p><strong>نام خانوادگی :</strong> @Model.LName</p>
-    <p><strong>نام کاربری:</strong> @Model.UserName</p>
-    <p><strong>ایمیل:</strong> @Model.Email</p>
-    <p><strong>شماره تلفن:</strong> @Model.PhoneNumber</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/user information/styles.css">
 
-    @if (User.IsInRole("Admin"))
+    <title>اطلاعات کاربری</title>
+</head>
+<body>
+
+   
+        <h2>اطلاعات کاربری</h2>
+  
+
+    <form class="mainForm" method="post" enctype="multipart/form-data">
+        <img src="~/assets/img/files/user-icon.png" class="circle-img" />
+
+        <div class="form-group">
+            <label>نام:</label>
+            <p id="info">@Model.Name</p>
+        </div>
+
+        <div class="form-group">
+            <label>نام خانوادگی:</label>
+            <p id="info">@Model.LName</p>
+        </div>
+
+        <div class="form-group">
+            <label>نام کاربری:</label>
+            <p id="info">@Model.UserName</p>
+        </div>
+
+        <div class="form-group">
+            <label>آدرس ایمیل:</label>
+            <p id="info">@Model.Email</p>
+        </div>
+
+        <div class="form-group">
+            <label>شماره تماس:</label>
+            <p id="info">@Model.PhoneNumber</p>
+        </div>
+
+        <div class="form-group" style="text-align: center;" id="skills">
+            <button type="submit">ویرایش</button>
+        </div>
+    </form>
+
+    @if (User.IsInRole("admin"))
     {
-        <a href="/Admin/Dashboard/Index" class="btn btn-warning">ورود به داشبورد ادمین</a>
+        <div class="form-group" style="text-align: center;" id="skills">
+            <a href="/Admin/Dashboard/Index" class="btn btn-warning"><button>ورود به داشبورد ادمین</button></a>
+        </div>
     }
-</div>
+
+ 
+</body>

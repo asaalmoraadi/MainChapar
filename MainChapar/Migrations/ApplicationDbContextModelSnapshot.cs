@@ -592,10 +592,6 @@ namespace MainChapar.Migrations
                     b.Property<int>("CopyCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FilesJson")
                         .HasColumnType("nvarchar(max)");
 
@@ -849,7 +845,7 @@ namespace MainChapar.Migrations
 
                     b.HasIndex("CollaborationId");
 
-                    b.ToTable("UploadedFile");
+                    b.ToTable("uploadedFiles");
                 });
 
             modelBuilder.Entity("MainChapar.Models.UsedBook", b =>
@@ -918,7 +914,7 @@ namespace MainChapar.Migrations
 
                     b.HasIndex("UsedBookId");
 
-                    b.ToTable("UsedBookImage");
+                    b.ToTable("usedBookImages");
                 });
 
             modelBuilder.Entity("MainChapar.Models.User", b =>

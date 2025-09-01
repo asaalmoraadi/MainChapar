@@ -1,4 +1,5 @@
-﻿using MainChapar.Data;
+﻿using Azure.Core;
+using MainChapar.Data;
 using MainChapar.Models;
 using MainChapar.ViewModel;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ namespace MainChapar.Controllers
             if (string.IsNullOrEmpty(userId))
             {
                 TempData["Error"] = "ابتدا وارد حساب کاربری شوید.";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "User");
             }
 
             // دریافت آیتم‌های چاپی در سبد خرید که هنوز ثبت نشده‌اند
@@ -43,6 +44,7 @@ namespace MainChapar.Controllers
                 .Include(c => c.Product)
                 .ToListAsync();
 
+            // ViewModel for displaying print services + products
             var cartVM = new CartViewModel();
 
             cartVM.PrintRequests = cartPrints.Select(c => new CartPrintItemViewModel
@@ -63,6 +65,7 @@ namespace MainChapar.Controllers
                 Quantity = c.Quantity,
                 UnitPrice = (c.Product.Price - (c.Product.Discount ?? 0)),
                 TotalPrice = (c.Product.Price - (c.Product.Discount ?? 0)) * c.Quantity,
+                //موجودی انبار محصول
                 AvailableStock = c.Product.Qty
             }).ToList();
 
@@ -70,25 +73,21 @@ namespace MainChapar.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult TestSubmit()
-        {
-            return Content("Submit reached!");
-        }
-
         // به‌روزرسانی تعداد محصول در سبد
         [HttpPost]
         public IActionResult UpdateQuantity(int productId, int quantity)
         {
             if (quantity < 1)
                 quantity = 1;
-
+            // Current cart value (JSON)
             var productJson = HttpContext.Session.GetString("CartProducts");
             Dictionary<int, int> cartDict = new Dictionary<int, int>();
 
+            // Build dictionary of productId and quantity
             if (!string.IsNullOrEmpty(productJson))
                 cartDict = JsonConvert.DeserializeObject<Dictionary<int, int>>(productJson);
 
+            // Update product quantity in DB
             if (cartDict.ContainsKey(productId))
                 cartDict[productId] = quantity;
 
@@ -98,106 +97,7 @@ namespace MainChapar.Controllers
         }
 
 
-        //[HttpPost]
-        //[Authorize]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Submit()
-        //{
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    if (string.IsNullOrEmpty(userId))
-        //    {
-        //        TempData["Error"] = "کاربر شناسایی نشد. لطفاً دوباره وارد شوید.";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    // دریافت آیتم‌های سبد خرید (چاپ‌ها بدون IsFinalized، محصولات با شرط IsFinalized == false)
-        //    var cartPrints = await _context.CartPrintItems
-        //        .Where(x => x.UserId == userId)
-        //        .ToListAsync();
-
-        //    var cartProducts = await _context.CartProductItems
-        //        .Where(x => x.UserId == userId && !x.IsFinalized)
-        //        .Include(x => x.Product)
-        //        .ToListAsync();
-
-        //    if (!cartPrints.Any() && !cartProducts.Any())
-        //    {
-        //        TempData["Error"] = "سبد خرید خالی است!";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    // شروع تراکنش برای جلوگیری از ذخیره ناقص
-        //    using var transaction = await _context.Database.BeginTransactionAsync();
-
-        //    try
-        //    {
-        //        // اگر سفارش شامل چاپ باشد باید تأیید شود، در غیر این‌صورت مستقیم تایید می‌شود
-        //        var status = cartPrints.Any() ? "Processing" : "Approved";
-
-        //        var pickupRequest = new PickupRequest
-        //        {
-        //            CreatedAt = DateTime.Now,
-        //            QrCodeToken = Guid.NewGuid().ToString(),
-        //            UserId = userId,
-        //            PickupCode = Guid.NewGuid().ToString()
-        //        };
-
-        //        _context.pickupRequests.Add(pickupRequest);
-        //        await _context.SaveChangesAsync();
-
-        //        // ذخیره چاپ‌ها
-        //        foreach (var item in cartPrints)
-        //        {
-        //            _context.pickupPrintItems.Add(new PickupPrintItem
-        //            {
-        //                PrintRequestId = item.PrintRequestId,
-        //                PickupRequestId = pickupRequest.Id
-        //            });
-        //        }
-
-        //        // ذخیره محصولات و کاهش موجودی، و علامت‌گذاری به عنوان نهایی شده
-        //        foreach (var item in cartProducts)
-        //        {
-        //            if (item.Quantity <= 0 || item.Product == null) continue;
-
-        //            if (item.Product.Qty < item.Quantity)
-        //            {
-        //                TempData["Error"] = $"موجودی محصول «{item.Product.Title}» کافی نیست.";
-        //                return RedirectToAction("Index");
-        //            }
-
-        //            item.Product.Qty -= item.Quantity;
-        //            if (item.Product.Qty <= 0)
-        //                item.Product.IsAvailable = false;
-
-        //            _context.pickupProducts.Add(new PickupProductItem
-        //            {
-        //                ProductId = item.ProductId,
-        //                Quantity = item.Quantity,
-        //                PickupRequestId = pickupRequest.Id
-        //            });
-
-        //            // علامت‌گذاری آیتم به عنوان نهایی شده
-        //            item.IsFinalized = true;
-        //        }
-
-        //        // حذف آیتم‌های چاپ از CartPrintItems پس از ثبت سفارش
-        //        _context.CartPrintItems.RemoveRange(cartPrints);
-
-        //        // ذخیره همه تغییرات (محصولات، موجودی، حذف چاپ‌ها، نهایی‌سازی محصولات)
-        //        await _context.SaveChangesAsync();
-
-        //        await transaction.CommitAsync();
-
-        //        return RedirectToAction("Index", "UserOrder");
-        //    }
-        //    catch (Exception)
-        //    {
-        //        await transaction.RollbackAsync();
-        //        TempData["Error"] = "خطایی در ثبت سبد خرید رخ داد.";
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+        
 
         [HttpPost]
         [Authorize]
@@ -208,26 +108,25 @@ namespace MainChapar.Controllers
             if (string.IsNullOrEmpty(userId))
             {
                 TempData["Error"] = "کاربر شناسایی نشد. لطفاً دوباره وارد شوید.";
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "User");
             }
 
-            //var cartPrints = await _context.CartPrintItems
-            //    .Where(x => x.UserId == userId)
-            //    .ToListAsync();
 
-            //بخش جدید
+
+            // Get print items from cart and handle printReq
             var cartPrints = await _context.CartPrintItems
                 .Where(x => x.UserId == userId)
                 .Include(x => x.PrintRequest)
                  .ToListAsync();
-            //
+            // Get all non-finalized cart items for the user, including product details
             var cartProducts = await _context.CartProductItems
+                //محصولات نهایی نشده
                 .Where(x => x.UserId == userId && !x.IsFinalized)
                 .Include(x => x.Product)
                 .ToListAsync();
 
-            TempData["DebugCartPrintsCount"] = cartPrints.Count;
-            TempData["DebugCartProductsCount"] = cartProducts.Count;
+            //TempData["DebugCartPrintsCount"] = cartPrints.Count;
+            //TempData["DebugCartProductsCount"] = cartProducts.Count;
 
             if (!cartPrints.Any() && !cartProducts.Any())
             {
@@ -235,14 +134,18 @@ namespace MainChapar.Controllers
                 return RedirectToAction("Index");
             }
 
+            //تراکنش دیتابیس برای جلوگیری از ذخیره ناقص
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
+                //ساخت سفارش تحویل
                 var pickupRequest = new PickupRequest
                 {
                     CreatedAt = DateTime.Now,
+                    //qr یکتا
                     QrCodeToken = Guid.NewGuid().ToString(),
+                    //کد تحویل یکتا
                     PickupCode = Guid.NewGuid().ToString(),
                     UserId = userId
                 };
@@ -251,16 +154,17 @@ namespace MainChapar.Controllers
                 await _context.SaveChangesAsync();
 
                 
-
+                //ثبت آیتم های چاپ
                 foreach (var item in cartPrints)
                 {
+                    // Insert new record into pickupPrintItems
                     _context.pickupPrintItems.Add(new PickupPrintItem
                     {
                         PickupRequestId = pickupRequest.Id,
                         PrintRequestId = item.PrintRequestId
                     });
 
-                    //بخش جدید
+                    
                     // تغییر وضعیت و نهایی‌سازی
                     if (item.PrintRequest != null)
                     {
@@ -269,6 +173,7 @@ namespace MainChapar.Controllers
                     }
                 }
 
+                //ثبت آیتم های محصول
                 foreach (var item in cartProducts)
                 {
                     if (item.Quantity <= 0 || item.Product == null)
@@ -284,6 +189,7 @@ namespace MainChapar.Controllers
                     if (item.Product.Qty <= 0)
                         item.Product.IsAvailable = false;
 
+                    // Insert new record into PickupProductItem
                     _context.pickupProducts.Add(new PickupProductItem
                     {
                         ProductId = item.ProductId,
@@ -294,10 +200,13 @@ namespace MainChapar.Controllers
                     item.IsFinalized = true;
                     Console.WriteLine($"ItemId: {item.Id}, IsFinalized: {item.IsFinalized}");
                 }
-
+                //حذف آیتم های چاپی ثبت شده
                 _context.CartPrintItems.RemoveRange(cartPrints);
+
+
                 if (cartProducts.Any())
                 {
+                    //سفارش محصولات فیزیکی در پایگاه داده ثبت میشود
                     var order = new Order
                     {
                         CreatedAt = DateTime.Now,
@@ -337,7 +246,7 @@ namespace MainChapar.Controllers
             if (string.IsNullOrEmpty(userId))
             {
                 TempData["Error"] = "کاربر شناسایی نشد. لطفاً وارد شوید.";
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "User");
             }
 
             var orders = await _context.pickupRequests
@@ -391,16 +300,23 @@ namespace MainChapar.Controllers
                 .ToList() ?? new List<PrintRequest>();
 
             // بررسی آمادگی تحویل
+            //آیا سفارش شامل خدمات چاپ است
             bool hasPrints = order.PickupPrintItems?.Any() == true;
+            //آیا سفارش شامل محصولات است
             bool hasProducts = order.ProductItems?.Any() == true;
 
+            // فقط درخواست‌هایی که رد نشده‌اند بررسی شوند
             var notRejectedPrints = order.PickupPrintItems?
                 .Where(p => p.PrintRequest.Status != "Rejected")
                 .ToList();
-
+            // اگر همه‌ی موارد غیرردشده Completed باشند، آنگاه آماده تحویل است
             bool allNonRejectedPrintsCompleted = notRejectedPrints?
                 .All(p => p.PrintRequest.Status == "Completed") ?? true;
 
+           
+            // شرایط آماده بودن سفارش:
+            // - اگر فقط محصول باشد
+            // - اگر چاپ هم باشد ولی همه نهایی شده باشند (تکمیل برای موارد تأییدشده)
             bool isReady = (!hasPrints && hasProducts) || (hasPrints && allNonRejectedPrintsCompleted);
 
             // ساخت ViewModel
@@ -426,7 +342,9 @@ namespace MainChapar.Controllers
             if (request == null)
                 return NotFound();
 
+            //آیا سفارش شامل خدمات چاپ است
             bool hasPrints = request.PickupPrintItems?.Any() == true;
+            //آیا سفارش شامل محصولات است
             bool hasProducts = request.ProductItems?.Any() == true;
 
             // فقط درخواست‌هایی که رد نشده‌اند بررسی شوند
@@ -449,14 +367,21 @@ namespace MainChapar.Controllers
                 return RedirectToAction("UserOrder", "User");
             }
 
+            //اگر آماده است:
+            //اگر هنوز کد یکتایی ندارد
             if (string.IsNullOrEmpty(request.QrCodeToken))
             {
                 request.QrCodeToken = Guid.NewGuid().ToString();
                 await _context.SaveChangesAsync();
             }
 
+            //ایجاد رشته متنی qr
             string qrText = $"PickupRequest:{request.QrCodeToken}";
 
+            /// یک شی از نوع QRCodeGenerator ساخته میشود
+            /// کد با تحمل خطای متوسط ایجاد می شود
+            /// با استفاده از SvgQRCode تصویر ساخته میشود
+            /// تصویر نهایی در ویو بگ قرار میگیرد جهت ارسال به ویو
             using (var qrGenerator = new QRCodeGenerator())
             using (var qrData = qrGenerator.CreateQrCode(qrText, QRCodeGenerator.ECCLevel.Q))
             {

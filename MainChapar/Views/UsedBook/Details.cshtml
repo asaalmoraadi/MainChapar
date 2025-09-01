@@ -24,11 +24,8 @@
                     {
                         <img src="@img.ImagePath" onclick="changeMainImg(this.src)" />
                     }
-                </div>
-            }
-            else
-            {
-                <img src="~/assets/img/no-image.png" class="main-img" alt="بدون تصویر" />
+
+                  </div>
             }
         </div>
 
@@ -74,15 +71,23 @@
 
 @section Scripts {
     <script>
+        // تابع برای تغییر تصویر اصلی وقتی روی یک تصویر کوچک کلیک شد
         function changeMainImg(src) {
             document.getElementById("mainImg").src = src;
         }
 
+        // تابع برای نمایش تب‌ها (توضیحات / مشخصات)
         function showTab(index) {
+            // گرفتن همه محتویات تب
             const tabs = document.querySelectorAll('.tab-content');
+            // گرفتن همه دکمه‌های تب
             const buttons = document.querySelectorAll('.tab-buttons button');
+
+            // برای هر تب و دکمه، بررسی می‌کنیم که آیا ایندکسش با ایندکس انتخاب شده برابر است
             tabs.forEach((tab, i) => {
+                // اگر تب فعلی همون ایندکس بود، فعال می‌شود؛ بقیه غیرفعال
                 tab.classList.toggle('active', i === index);
+                // دکمه متناظر هم فعال یا غیرفعال می‌شود
                 buttons[i].classList.toggle('active', i === index);
             });
         }

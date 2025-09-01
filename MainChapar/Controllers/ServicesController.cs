@@ -29,7 +29,7 @@ namespace MainChapar.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
-
+            //فایل اپلود شده کاربر را ذخیره و مسیر را برمیگرداند
             var filePath = await SaveUploadedFileAsync(model.UploadedFile);
 
             var request = new ServiceRequest
@@ -100,6 +100,7 @@ namespace MainChapar.Controllers
             // اطمینان از وجود پوشه
             if (!Directory.Exists(uploadsFolder))
             {
+                //ایجاد پوشه
                 Directory.CreateDirectory(uploadsFolder);
             }
 

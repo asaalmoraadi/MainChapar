@@ -1,6 +1,14 @@
 ﻿@model List<MainChapar.Models.Product>
+@{
+    Layout = "~/Views/Shared/_newLayout1.cshtml";
+}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/assets/categoryProd/styles.css">
+    <title>search</title>
 
-<h2>نتایج جستجو</h2>
+</head>
 
 @if (Model.Count == 0)
 {
@@ -8,10 +16,63 @@
 }
 else
 {
-    <ul>
-        @foreach (var product in Model)
-        {
-            <li>@product.Title - قیمت: @product.Price تومان</li>
-        }
-    </ul>
+    <div class="box-title">
+        <img src="~/assets/img/files/colorpaint.png" alt="">
+        <div id="title">
+            <h1>نتایج جستجو</h1>
+            <p>محصولات مرتبط با جستجوی شما</p>
+            <div class="page_amount">
+                <p> <span>@Model.Count()</span>تعداد:</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab" data-sort="mostDiscount">بیشترین تخفیف</div>
+        <div class="tab" data-sort="mostStock">محبوب‌ترین</div>
+        <div class="tab" data-sort="expensive">گران‌ترین</div>
+        <div class="tab" data-sort="cheap">ارزان‌ترین</div>
+        <div class="tab" data-sort="newest">جدیدترین</div>
+    </div>
+    <hr />
+
+    <div id="product-container">
+        @await Html.PartialAsync("_ProductListPartial", Model)
+    </div>
 }
+
+
+
+@section Scripts {
+    <script>
+        // -----------------------------
+        // مدیریت کلیک روی تب‌های فیلتر محصولات
+        // -----------------------------
+        window.addEventListener("DOMContentLoaded", () => {
+            const tabs = document.querySelectorAll(".tab"); // گرفتن همه تب‌ها
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", function () {
+                    // پاک کردن کلاس active از همه تب‌ها
+                    tabs.forEach(t => t.classList.remove("active"));
+
+                    // اضافه کردن کلاس active به تب کلیک شده
+                    this.classList.add("active");
+
+                    // گرفتن نوع مرتب‌سازی از data-sort
+                    const sortType = this.getAttribute("data-sort");
+                    filterProducts(sortType); // فراخوانی تابع فیلتر محصولات
+                });
+            });
+
+            // پیش‌فرض: فعال کردن و لود کردن تب "جدیدترین"
+            const defaultTab = document.querySelector(".tab[data-sort='newest']");
+            if (defaultTab) {
+                defaultTab.classList.add("active");
+                filterProducts("newest"); // یا defaultTab.getAttribute("data-sort")
+            }
+        });
+    </script>
+}
+   
+

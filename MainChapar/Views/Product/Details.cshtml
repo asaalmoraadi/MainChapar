@@ -138,25 +138,37 @@
 
 @section Scripts {
     <script>
+        // -----------------------------
+        // افزایش یا کاهش تعداد محصول
+        // delta: +1 یا -1
+        // -----------------------------
         function changeQty(delta) {
-            const qty = document.getElementById("qty");
+            const qty = document.getElementById("qty"); // گرفتن input تعداد
             let current = parseInt(qty.value);
-            if (isNaN(current)) current = 1;
+            if (isNaN(current)) current = 1; // اگر مقدار نامعتبر بود، 1 در نظر بگیر
             current += delta;
-            if (current < 1) current = 1;
+            if (current < 1) current = 1; // حداقل تعداد 1
             qty.value = current;
         }
 
+        // -----------------------------
+        // تغییر تصویر اصلی محصول با کلیک روی عکس کوچک
+        // src: مسیر تصویر کوچک انتخاب شده
+        // -----------------------------
         function changeMainImg(src) {
             document.getElementById("mainImg").src = src;
         }
 
+        // -----------------------------
+        // نمایش تب‌های توضیحات و مشخصات
+        // index: شماره تب (0, 1, ...)
+        // -----------------------------
         function showTab(index) {
             const tabs = document.querySelectorAll('.tab-content');
             const buttons = document.querySelectorAll('.tab-buttons button');
             tabs.forEach((tab, i) => {
-                tab.classList.toggle('active', i === index);
-                buttons[i].classList.toggle('active', i === index);
+                tab.classList.toggle('active', i === index); // فعال کردن یا غیرفعال کردن تب
+                buttons[i].classList.toggle('active', i === index); // تغییر کلاس دکمه مربوطه
             });
         }
     </script>

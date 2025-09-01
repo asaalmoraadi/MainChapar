@@ -32,6 +32,6 @@ namespace MainChapar.Models
 
         public DateTime SubmittedAt { get; set; } = DateTime.Now;
 
-        public ICollection<UploadedFile> UploadedFiles { get; set; }
+        public List<UploadedFile> UploadedFiles { get; set; } = new();
     }
 }

@@ -37,20 +37,32 @@
 
 <!------------------------------------------------------->
 
- <script>
+<script>
+    // -----------------------------
+    // دانلود QR Code به صورت فایل SVG
+    // -----------------------------
     function downloadQR() {
+        // گرفتن عنصر SVG داخل کانتینر QR
         const svgElement = document.querySelector('#qr-container svg');
+
+        // تبدیل عنصر SVG به رشته متنی (Text)
         const svgData = new XMLSerializer().serializeToString(svgElement);
+
+        // ایجاد Blob موقتی برای نگه‌داری داده در مرورگر
         const blob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
         const url = URL.createObjectURL(blob);
 
+        // ساخت لینک موقتی و دانلود خودکار فایل
         const link = document.createElement('a');
         link.href = url;
-        link.download = "QRCode.svg";
+        link.download = "QRCode.svg"; // نام فایل دانلودی
         document.body.appendChild(link);
-        link.click();
+        link.click(); // شبیه‌سازی کلیک روی لینک
         document.body.removeChild(link);
+
+        // آزاد کردن حافظه موقت ایجاد شده برای URL
         URL.revokeObjectURL(url);
     }
-</script> 
-   
+</script>
+
+

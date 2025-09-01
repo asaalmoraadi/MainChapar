@@ -331,6 +331,7 @@ namespace MainChapar.Areas.Admin.Controllers
             }
             _context.ProductGallerys.Remove(gallery);
             _context.SaveChanges();
+            //Go to edit: ProductId
             return Redirect("edit/" + gallery.ProductId);
 
         }
